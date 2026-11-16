@@ -1,7 +1,7 @@
 """User-approved high cruise; terminal YOPO parameters remain separate."""
 CRUISE_SPEED=20.
 CLIMB_SPEED_LIMIT=16.
-STAR_ENTRY_SPEED=6.5
+STAR_ENTRY_SPEED=4. # Retain stopping room before opening the relay's lateral lanes.
 # Phase 3 requires sustained measured horizontal speed above 15 m/s.
 CRUISE_MINIMUM=15.
 CRUISE_SECONDS=60.

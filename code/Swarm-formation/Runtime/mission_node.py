@@ -152,6 +152,7 @@ class Mission:
             from formation_follower import FormationFollower
             self.five=FormationFollower(self) if self.count==5 else __import__('ten_follower').TenFollower(self)
             rospy.Subscriber('/swarm10/relay',String,self.on_relay,queue_size=1)
+            rospy.Subscriber(self.ns+'/pos_cmd',PositionCommand,self.observe_relay_command,queue_size=1,tcp_nodelay=True)
         self.cloud_planner=None;self.handoff=None;self.terminal_client=None
         if self.cloud_mission:
             from yopo_handoff import YopoHandoff
@@ -211,6 +212,23 @@ class Mission:
         self.policy=policy
         self.yopo_ready=True
 
+    def observe_relay_command(self,msg):
+        # Relay owns /pos_cmd while this Mission stops publishing. Observe that
+        # real stream rather than reporting the frozen pre-relay reference.
+        if not getattr(self,'relay_active',False):return
+        from relay_core import validated_control_reference
+        reference=dict(stamp=msg.header.stamp.to_sec(),
+            position=[msg.position.x,msg.position.y,msg.position.z],
+            velocity=[msg.velocity.x,msg.velocity.y,msg.velocity.z],
+            acceleration=[msg.acceleration.x,msg.acceleration.y,msg.acceleration.z])
+        try:reference=validated_control_reference(reference,rospy.Time.now().to_sec())
+        except ValueError:return
+        with self.lock:
+            if not self.relay_active:return
+            previous=getattr(self,'last_relay_reference',None)
+            if previous is not None and reference['stamp']<=previous['stamp']:return
+            self.last_relay_reference=reference;self.last_control_reference=reference
+
     def on_relay(self,msg):
         # Phase 2: the follower stops planning/commanding from its hop start
         # until its cut time; the relay node owns /pos_cmd in that window.
@@ -229,6 +247,7 @@ class Mission:
         active=now>=float(start) and (cut is None or now<float(cut))
         self.relay_state=dict(entry)
         if active and not self.relay_active:
+            self.last_relay_reference=None
             self.relay_active=True;self.relay_end=None if cut is None else float(cut)
             if self.p is not None:self.hold=self.p.copy()
             self.desired[:]=0.;self.refv[:]=0.;self.refa[:]=0.
@@ -239,6 +258,18 @@ class Mission:
     def finish_relay(self):
         self.relay_active=False;self.relay_end=None
         self.refp=self.p.copy();self.refv=self.v.copy();self.refa[:]=0.
+        from relay_core import validated_control_reference
+        now=rospy.Time.now().to_sec()
+        try:
+            reference=validated_control_reference(getattr(self,'last_relay_reference',None),now)
+            position_error=float(np.linalg.norm(np.asarray(reference['position'])-self.p))
+            velocity_error=float(np.linalg.norm(np.asarray(reference['velocity'])-self.v))
+            if max(position_error,velocity_error)>2.:raise ValueError('Relay boundary tracking error exceeds 2')
+        except ValueError as exc:
+            self.fail('Relay actual command boundary: '+str(exc));return
+        self.refa=np.asarray(reference['acceleration'],float).copy()
+        self.relay_boundary=dict(stamp=now,command_stamp=reference['stamp'],position_error_m=position_error,
+            velocity_error_mps=velocity_error,acceleration=reference['acceleration'])
         self.desired=self.refv.copy()
         self.relay_finished_at=time.monotonic()
         self.set_phase('TERMINAL_FOLLOW','Leader relay finished; own controller')
@@ -1493,7 +1524,7 @@ class Mission:
             reason=self.reason,failure=self.failure,cruise_seconds=self.cruise.best,speed_1s=self.cruise.mean,band_active=self.band,
             pair_distance=self.distance,rendezvous_ready=self.rendezvous_ready,network_inferences=self.inferences,rejections=dict(self.rejects),map=stats,
             plan_seconds=getattr(self,'plan_seconds',0.),swarm_calls=self.swarm_calls,swarm_reason=getattr(self,'swarm_reason',None),
-            relay=dict(active=bool(getattr(self,'relay_active',False)),end=getattr(self,'relay_end',None),plan=getattr(self,'relay_state',None)),
+            relay=dict(active=bool(getattr(self,'relay_active',False)),end=getattr(self,'relay_end',None),plan=getattr(self,'relay_state',None),boundary=getattr(self,'relay_boundary',None)),
             controller_fault=self.controller_fault,swarm_action=(self.swarm_result or {}).get('action'),
             safety_failure=(self.swarm_result or {}).get('safety_failure',False),peer_commitment_assumed=(self.swarm_result or {}).get('peer_commitment_assumed',False))
         if self.five:

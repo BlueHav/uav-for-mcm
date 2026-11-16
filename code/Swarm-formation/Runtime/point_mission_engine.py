@@ -149,8 +149,8 @@ class GroupFlight:
                 return result
         cut=getattr(self,'relay_cut',None)
         if remaining<=1100. or cut is not None:
-            acceleration=getattr(self,'merge_entry_acceleration',np.zeros_like(v))
-            settled=(not blocked and not hold_leader and np.max(np.linalg.norm(v,axis=1))<=STAR_ENTRY_SPEED+.25
+            acceleration=getattr(self,'merge_entry_acceleration',None)
+            settled=(acceleration is not None and not blocked and not hold_leader and np.max(np.linalg.norm(v,axis=1))<=STAR_ENTRY_SPEED+.25
                      and relay_entry_stop_clear(p,v,acceleration))
             if cut is None:
                 # One low-speed sample during braking is insufficient for all
@@ -159,6 +159,7 @@ class GroupFlight:
                 elif getattr(self,'relay_entry_since',None) is None:self.relay_entry_since=now
                 elif now-self.relay_entry_since>=1.:self.relay_cut=now+.7
             elif now>=cut and not settled:
+                if acceleration is None:raise ValueError('Relay star takeover missing fresh controller command boundary')
                 raise ValueError('Relay star takeover lost measured stopping clearance')
         if cut is not None and now>=cut:
             self.merge_plan=RelayStarMerge(self.model,self.group,p,v,getattr(self,'merge_entry_acceleration',None))

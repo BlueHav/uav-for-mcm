@@ -97,12 +97,15 @@ class RelayStarMerge(MovingMerge):
         wide_star = STAR * 8.
         lateral = (p[:,:2]-p[2,:2]) @ normal
         lane = p.copy()
-        lane[:,:2] += 78.*direction + ((wide_star @ normal)-lateral)[:,None]*normal
+        # Keep the approach speed until the lateral lanes are open. Accelerating
+        # while still in the compact delayed line removes its stopping reserve.
+        lane_distance=12.*STAR_ENTRY_SPEED
+        lane[:,:2] += lane_distance*direction + ((wide_star @ normal)-lateral)[:,None]*normal
         lane[:,2] -= 4.
         near_xy = anchor - 100.*direction + wide_star
         near = np.c_[near_xy, model.ground(near_xy)+25.]
         end = model.descent(group)[1]
-        self.durations = np.array([12., (remaining-178.)/9.5, 60.])
+        self.durations = np.array([12., (remaining-lane_distance-100.)/9.5, 60.])
         self.duration = float(self.durations.sum())
         self.coefficients = []
         for q, speed, vz, duration in zip((lane,near,end),(STAR_ENTRY_SPEED,3.,0.),(-.35,-.4,0.),self.durations):

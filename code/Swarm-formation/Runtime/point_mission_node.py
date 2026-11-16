@@ -315,7 +315,16 @@ class Coordinator(LegacyCoordinator):
                     engine.distance_sample_stamps=[leader_sample_time(self.states[i],now) for i in range(g*5,g*5+5)]
                     engine.distance_observations_fresh=all(-.1<=now-stamp<=.3 for stamp in engine.distance_sample_stamps)
                     engine.leader_sample_stamp=engine.distance_sample_stamps[2]
-                    engine.merge_entry_acceleration=np.array([self.states[i].get('control_reference',{}).get('acceleration',[0.,0.,0.]) for i in range(g*5,g*5+5)])
+                    # Missing/stale relay commands are not a zero-acceleration
+                    # boundary. The entry gate waits for the actual P/V/A stream.
+                    from relay_core import validated_control_reference
+                    try:
+                        command_states=[validated_control_reference(self.states[i].get('control_reference'),now) for i in range(g*5,g*5+5)]
+                        if any(np.linalg.norm(np.asarray(c['position'])-p[5*g+j])>2. or
+                               np.linalg.norm(np.asarray(c['velocity'])-v[5*g+j])>2. for j,c in enumerate(command_states)):
+                            raise ValueError('Relay command/state tracking mismatch')
+                        engine.merge_entry_acceleration=np.array([c['acceleration'] for c in command_states])
+                    except ValueError:engine.merge_entry_acceleration=None
                     blocked=any(self.states[i].get('formation',{}).get('blocked',False) for i in range(g*5,g*5+5))
                     ahead=False
                     # Moving merge must finish its certified moving segment;

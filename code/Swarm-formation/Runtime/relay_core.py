@@ -8,6 +8,20 @@ MAX_SPAN_S = 30.0
 MAX_GAP_S = 0.5
 
 
+def validated_control_reference(reference,now):
+    """A complete, fresh P/V/A sample actually published to a controller."""
+    import math
+    if not isinstance(reference,dict):raise ValueError('Missing actual controller command')
+    try:
+        stamp=float(reference['stamp']);current=float(now)
+        values={key:[float(x) for x in reference[key]] for key in ('position','velocity','acceleration')}
+    except (KeyError,TypeError,ValueError,OverflowError):raise ValueError('Invalid actual controller command')
+    if (not math.isfinite(stamp) or not math.isfinite(current) or not -.1<=current-stamp<=.3
+            or any(len(v)!=3 or not all(math.isfinite(x) for x in v) for v in values.values())):
+        raise ValueError('Expired/future/nonfinite actual controller command')
+    return dict(stamp=stamp,**values)
+
+
 def group_of(drone_id):
     if isinstance(drone_id, bool) or not isinstance(drone_id, int) or not 0 <= drone_id < 10:
         raise ValueError('Drone id outside 0..9')
