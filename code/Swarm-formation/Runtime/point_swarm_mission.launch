@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<launch>
+  <arg name="direct_terminal" default="$(optenv YOPO_DIRECT_TERMINAL 0)" />
+  <arg name="mode" default="" />
+  <arg name="point" default="$(env UAV_PROJECT_ROOT)/config/point.json" />
+  <arg name="scene_root" default="$(env YOPO_SCENE_ROOT)" />
+  <arg name="planner_python" default="$(env YOPO_PYTHON)" />
+  <arg name="rviz" default="true" />
+  <env name="YOPO_TERMINAL_EXECUTOR" value="1" />
+  <env name="YOPO_POINT_MISSION" value="1" />
+  <env name="YOPO_CLOUD_MISSION" value="1" />
+  <include file="$(arg scene_root)/Runtime/point_controller.launch">
+    <arg name="count" value="10" />
+  </include>
+  <node pkg="yopo_ten_mission" type="central_sensor_service.py" name="central_sensor_service" launch-prefix="/usr/bin/python3 -u" required="true" output="screen" />
+  <node pkg="ros_tcp_endpoint" type="default_server_endpoint.py" name="unity_tcp_endpoint" output="screen" required="true" launch-prefix="/usr/bin/python3 -u">
+    <param name="tcp_ip" value="127.0.0.1" />
+    <param name="tcp_port" value="10012" />
+  </node>
+  <node pkg="yopo_ten_mission" type="mission_node.py" name="mission" ns="drone_0" output="screen" required="true" launch-prefix="/usr/bin/python3 $(arg scene_root)/Runtime/wait_for_unity.py $(arg planner_python) -u">
+    <param name="drone_id" value="0" />
+    <param name="count" value="10" />
+  </node>
+  <node pkg="yopo_ten_mission" type="mission_node.py" name="mission" ns="drone_1" output="screen" required="true" launch-prefix="/usr/bin/python3 $(arg scene_root)/Runtime/wait_for_unity.py $(arg planner_python) -u">
+    <param name="drone_id" value="1" />
+    <param name="count" value="10" />
+  </node>
+  <node pkg="yopo_ten_mission" type="mission_node.py" name="mission" ns="drone_2" output="screen" required="true" launch-prefix="/usr/bin/python3 $(arg scene_root)/Runtime/wait_for_unity.py $(arg planner_python) -u">
+    <param name="drone_id" value="2" />
+    <param name="count" value="10" />
+  </node>
+  <node pkg="yopo_ten_mission" type="mission_node.py" name="mission" ns="drone_3" output="screen" required="true" launch-prefix="/usr/bin/python3 $(arg scene_root)/Runtime/wait_for_unity.py $(arg planner_python) -u">
+    <param name="drone_id" value="3" />
+    <param name="count" value="10" />
+  </node>
+  <node pkg="yopo_ten_mission" type="mission_node.py" name="mission" ns="drone_4" output="screen" required="true" launch-prefix="/usr/bin/python3 $(arg scene_root)/Runtime/wait_for_unity.py $(arg planner_python) -u">
+    <param name="drone_id" value="4" />
+    <param name="count" value="10" />
+  </node>
+  <node pkg="yopo_ten_mission" type="mission_node.py" name="mission" ns="drone_5" output="screen" required="true" launch-prefix="/usr/bin/python3 $(arg scene_root)/Runtime/wait_for_unity.py $(arg planner_python) -u">
+    <param name="drone_id" value="5" />
+    <param name="count" value="10" />
+  </node>
+  <node pkg="yopo_ten_mission" type="mission_node.py" name="mission" ns="drone_6" output="screen" required="true" launch-prefix="/usr/bin/python3 $(arg scene_root)/Runtime/wait_for_unity.py $(arg planner_python) -u">
+    <param name="drone_id" value="6" />
+    <param name="count" value="10" />
+  </node>
+  <node pkg="yopo_ten_mission" type="mission_node.py" name="mission" ns="drone_7" output="screen" required="true" launch-prefix="/usr/bin/python3 $(arg scene_root)/Runtime/wait_for_unity.py $(arg planner_python) -u">
+    <param name="drone_id" value="7" />
+    <param name="count" value="10" />
+  </node>
+  <node pkg="yopo_ten_mission" type="mission_node.py" name="mission" ns="drone_8" output="screen" required="true" launch-prefix="/usr/bin/python3 $(arg scene_root)/Runtime/wait_for_unity.py $(arg planner_python) -u">
+    <param name="drone_id" value="8" />
+    <param name="count" value="10" />
+  </node>
+  <node pkg="yopo_ten_mission" type="mission_node.py" name="mission" ns="drone_9" output="screen" required="true" launch-prefix="/usr/bin/python3 $(arg scene_root)/Runtime/wait_for_unity.py $(arg planner_python) -u">
+    <param name="drone_id" value="9" />
+    <param name="count" value="10" />
+  </node>
+  <node pkg="yopo_ten_mission" type="trajectory_executor_node.py" name="trajectory_executor" unless="$(arg direct_terminal)" ns="drone_0" output="screen" required="true" launch-prefix="/usr/bin/python3 -u">
+    <param name="drone_id" value="0" />
+    <param name="terminal_only" value="true" />
+  </node>
+  <node pkg="yopo_ten_mission" type="trajectory_executor_node.py" name="trajectory_executor" unless="$(arg direct_terminal)" ns="drone_1" output="screen" required="true" launch-prefix="/usr/bin/python3 -u">
+    <param name="drone_id" value="1" />
+    <param name="terminal_only" value="true" />
+  </node>
+  <node pkg="yopo_ten_mission" type="trajectory_executor_node.py" name="trajectory_executor" unless="$(arg direct_terminal)" ns="drone_2" output="screen" required="true" launch-prefix="/usr/bin/python3 -u">
+    <param name="drone_id" value="2" />
+    <param name="terminal_only" value="true" />
+  </node>
+  <node pkg="yopo_ten_mission" type="trajectory_executor_node.py" name="trajectory_executor" unless="$(arg direct_terminal)" ns="drone_3" output="screen" required="true" launch-prefix="/usr/bin/python3 -u">
+    <param name="drone_id" value="3" />
+    <param name="terminal_only" value="true" />
+  </node>
+  <node pkg="yopo_ten_mission" type="trajectory_executor_node.py" name="trajectory_executor" unless="$(arg direct_terminal)" ns="drone_4" output="screen" required="true" launch-prefix="/usr/bin/python3 -u">
+    <param name="drone_id" value="4" />
+    <param name="terminal_only" value="true" />
+  </node>
+  <node pkg="yopo_ten_mission" type="trajectory_executor_node.py" name="trajectory_executor" unless="$(arg direct_terminal)" ns="drone_5" output="screen" required="true" launch-prefix="/usr/bin/python3 -u">
+    <param name="drone_id" value="5" />
+    <param name="terminal_only" value="true" />
+  </node>
+  <node pkg="yopo_ten_mission" type="trajectory_executor_node.py" name="trajectory_executor" unless="$(arg direct_terminal)" ns="drone_6" output="screen" required="true" launch-prefix="/usr/bin/python3 -u">
+    <param name="drone_id" value="6" />
+    <param name="terminal_only" value="true" />
+  </node>
+  <node pkg="yopo_ten_mission" type="trajectory_executor_node.py" name="trajectory_executor" unless="$(arg direct_terminal)" ns="drone_7" output="screen" required="true" launch-prefix="/usr/bin/python3 -u">
+    <param name="drone_id" value="7" />
+    <param name="terminal_only" value="true" />
+  </node>
+  <node pkg="yopo_ten_mission" type="trajectory_executor_node.py" name="trajectory_executor" unless="$(arg direct_terminal)" ns="drone_8" output="screen" required="true" launch-prefix="/usr/bin/python3 -u">
+    <param name="drone_id" value="8" />
+    <param name="terminal_only" value="true" />
+  </node>
+  <node pkg="yopo_ten_mission" type="trajectory_executor_node.py" name="trajectory_executor" unless="$(arg direct_terminal)" ns="drone_9" output="screen" required="true" launch-prefix="/usr/bin/python3 -u">
+    <param name="drone_id" value="9" />
+    <param name="terminal_only" value="true" />
+  </node>
+  <node pkg="yopo_ten_mission" type="ten_cloud.py" name="ten_cloud" output="screen" required="true" launch-prefix="/usr/bin/python3 $(arg scene_root)/Runtime/wait_for_unity.py /usr/bin/python3 -u" />
+  <node pkg="yopo_ten_mission" type="rviz_text_filter.py" name="rviz_text_filter" output="screen" required="true" launch-prefix="/usr/bin/python3 -u" />
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(arg scene_root)/Runtime/ten.rviz" output="screen" if="$(arg rviz)" launch-prefix="/bin/bash $(arg scene_root)/Runtime/rviz_render.sh">
+    <env name="QT_X11_NO_MITSHM" value="1" />
+  </node>
+  <node pkg="yopo_ten_mission" type="relay_node.py" name="relay" output="screen" required="true" launch-prefix="/usr/bin/python3 -u">
+    <param name="delay" value="3.0" />
+  </node>
+  <node pkg="yopo_ten_mission" type="point_mission_node.py" name="point_coordinator" required="true" output="screen" launch-prefix="/usr/bin/python3 $(arg scene_root)/Runtime/wait_for_unity.py /usr/bin/python3 -u">
+    <param name="mode" value="$(arg mode)" />
+    <param name="point" value="$(arg point)" />
+  </node>
+  <node pkg="yopo_ten_mission" type="cloud_context_node.py" name="cloud_context" required="true" output="screen" launch-prefix="/usr/bin/python3 $(arg scene_root)/Runtime/wait_for_unity.py /usr/bin/python3 -u" />
+  <node pkg="yopo_ten_mission" type="terrain_display_node.py" name="terrain_context" required="true" output="screen" launch-prefix="/usr/bin/python3 $(arg scene_root)/Runtime/wait_for_unity.py /usr/bin/python3 -u" />
+  <node pkg="yopo_ten_mission" type="record_sensor_health.py" name="sensor_health" required="true" output="screen" launch-prefix="/usr/bin/python3 $(arg scene_root)/Runtime/wait_for_unity.py /usr/bin/python3 -u" />
+</launch>
