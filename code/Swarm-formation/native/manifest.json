@@ -1,0 +1,13 @@
+{
+  "source_commit": "967a4bdfae949e994691f8ffc87dbb0147cbebb7",
+  "adaptations": [
+    "terrain-only GridMap API",
+    "explicit optimizer settings",
+    "bounded A* pool",
+    "cruise altitude gradient lock",
+    "checked AStarSearch + own finite initialization, bypass unsafe upstream simple-path convenience"
+  ],
+  "binary_sha256": "4100acc008724c102fb206c485e476e9958451f286437acc24d0511ab46baf0c",
+  "high_speed_squared_variance_weight": 0.0,
+  "planning_xy_frame": "leader-relative; map, boundaries and peers translated together; output world frame"
+}

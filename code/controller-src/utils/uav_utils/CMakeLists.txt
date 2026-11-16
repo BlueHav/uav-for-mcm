@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.10)
+project(uav_utils)
+find_package(catkin REQUIRED COMPONENTS nav_msgs geometry_msgs)
+find_package(Eigen3 REQUIRED)
+catkin_package(INCLUDE_DIRS include CATKIN_DEPENDS nav_msgs geometry_msgs DEPENDS Eigen3)
+install(DIRECTORY include/ DESTINATION ${CATKIN_GLOBAL_INCLUDE_DESTINATION})

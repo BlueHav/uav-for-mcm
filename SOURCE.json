@@ -1,0 +1,15 @@
+{
+  "branch": "swarm-uav",
+  "source_commit": "4b47e5d65ee543e6df22458fa309e036d2190e46",
+  "source": "current working tree; not HEAD only",
+  "unity_build": "/root/gpufree-data/builds/heartbeat-20261109-1645",
+  "system_env": "/root/gpufree-data/yopo-portable/env.sh",
+  "execution": "Linux server only",
+  "excluded": [
+    "old runs and reports",
+    "duplicate code/Runtime",
+    "Unity editor cache and historical builds",
+    "training entry points",
+    "SSH credentials"
+  ]
+}

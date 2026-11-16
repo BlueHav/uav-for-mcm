@@ -1,0 +1,282 @@
+<?xml version="1.0" ?>
+<launch>
+  <!--ROS-only entry. Use start_unity.sh to prepare the environment.-->
+  <arg name="scene_root" default="$(env YOPO_SCENE_ROOT)"/>
+  <node pkg="yopo_ten_mission" type="central_sensor_service.py" name="central_sensor_service" launch-prefix="/usr/bin/python3 -u" required="true" output="screen"/>
+  <arg name="planner_python" default="$(env YOPO_PYTHON)"/>
+  <arg name="ascent_speed" default="6.0"/>
+  <arg name="descent_speed" default="6.0"/>
+  <arg name="continue_to_terminal" default="true"/>
+  <arg name="descent_x" default="-5189.375"/>
+  <arg name="descent_y" default="-4581.25"/>
+  <arg name="terminal_x" default="-5619.0625"/>
+  <arg name="terminal_y" default="-4698.4375"/>
+  <arg name="low_speed" default="2.0"/>
+  <arg name="diagnostic_start_low" default="false"/>
+  <arg name="rviz" default="true"/>
+  <arg name="spawn_x" default="-736.25"/>
+  <arg name="spawn_y" default="-2003.125"/>
+  <arg name="spawn_spacing" default="2.0"/>
+  <arg name="ground_z" default="204.55010986328125"/>
+  <arg name="body_ground_offset" default="0.083263099193573"/>
+  <group ns="drone_0">
+    <node pkg="so3_quadrotor_simulator" type="quadrotor_simulator_so3" name="dynamics" output="screen" required="true">
+      <param name="ground_contact" value="true"/>
+      <param name="initial_ground_z" value="$(arg ground_z)"/>
+      <param name="body_ground_offset" value="$(arg body_ground_offset)"/>
+      <param name="quadrotor_name" value="drone_0"/>
+      <param name="rate/odom" value="50.0"/>
+      <param name="simulator/init_state_x" value="$(eval float(arg('spawn_x')) + (0 if arg('diagnostic_start_low') else 0))"/>
+      <param name="simulator/init_state_y" value="$(eval float(arg('spawn_y')) + (-8.2 if arg('diagnostic_start_low') else (-4.5) * float(arg('spawn_spacing'))))"/>
+      <remap from="cmd" to="so3_cmd"/>
+    </node>
+    <node pkg="so3_control" type="network_control_node" name="controller" output="screen" required="true">
+      <param name="is_simulation" value="true"/>
+      <param name="use_disturbance_observer" value="true"/>
+      <param name="disturbance_observer_type" value="HGDO"/>
+      <param name="hover_thrust" value="0.375"/>
+      <remap from="position_cmd" to="pos_cmd"/>
+    </node>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="camera_tf" args="0 0 0 -0.5 0.5 -0.5 0.5 drone_0/base_link drone_0/camera_frame"/>
+  </group>
+  <group ns="drone_1">
+    <node pkg="so3_quadrotor_simulator" type="quadrotor_simulator_so3" name="dynamics" output="screen" required="true">
+      <param name="ground_contact" value="true"/>
+      <param name="initial_ground_z" value="$(arg ground_z)"/>
+      <param name="body_ground_offset" value="$(arg body_ground_offset)"/>
+      <param name="quadrotor_name" value="drone_1"/>
+      <param name="rate/odom" value="50.0"/>
+      <param name="simulator/init_state_x" value="$(eval float(arg('spawn_x')) + (-3.3 if arg('diagnostic_start_low') else 0))"/>
+      <param name="simulator/init_state_y" value="$(eval float(arg('spawn_y')) + (-4.9 if arg('diagnostic_start_low') else (-3.5) * float(arg('spawn_spacing'))))"/>
+      <remap from="cmd" to="so3_cmd"/>
+    </node>
+    <node pkg="so3_control" type="network_control_node" name="controller" output="screen" required="true">
+      <param name="is_simulation" value="true"/>
+      <param name="use_disturbance_observer" value="true"/>
+      <param name="disturbance_observer_type" value="HGDO"/>
+      <param name="hover_thrust" value="0.375"/>
+      <remap from="position_cmd" to="pos_cmd"/>
+    </node>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="camera_tf" args="0 0 0 -0.5 0.5 -0.5 0.5 drone_1/base_link drone_1/camera_frame"/>
+  </group>
+  <group ns="drone_2">
+    <node pkg="so3_quadrotor_simulator" type="quadrotor_simulator_so3" name="dynamics" output="screen" required="true">
+      <param name="ground_contact" value="true"/>
+      <param name="initial_ground_z" value="$(arg ground_z)"/>
+      <param name="body_ground_offset" value="$(arg body_ground_offset)"/>
+      <param name="quadrotor_name" value="drone_2"/>
+      <param name="rate/odom" value="50.0"/>
+      <param name="simulator/init_state_x" value="$(eval float(arg('spawn_x')) + (0 if arg('diagnostic_start_low') else 0))"/>
+      <param name="simulator/init_state_y" value="$(eval float(arg('spawn_y')) + (-4.9 if arg('diagnostic_start_low') else (-2.5) * float(arg('spawn_spacing'))))"/>
+      <remap from="cmd" to="so3_cmd"/>
+    </node>
+    <node pkg="so3_control" type="network_control_node" name="controller" output="screen" required="true">
+      <param name="is_simulation" value="true"/>
+      <param name="use_disturbance_observer" value="true"/>
+      <param name="disturbance_observer_type" value="HGDO"/>
+      <param name="hover_thrust" value="0.375"/>
+      <remap from="position_cmd" to="pos_cmd"/>
+    </node>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="camera_tf" args="0 0 0 -0.5 0.5 -0.5 0.5 drone_2/base_link drone_2/camera_frame"/>
+  </group>
+  <group ns="drone_3">
+    <node pkg="so3_quadrotor_simulator" type="quadrotor_simulator_so3" name="dynamics" output="screen" required="true">
+      <param name="ground_contact" value="true"/>
+      <param name="initial_ground_z" value="$(arg ground_z)"/>
+      <param name="body_ground_offset" value="$(arg body_ground_offset)"/>
+      <param name="quadrotor_name" value="drone_3"/>
+      <param name="rate/odom" value="50.0"/>
+      <param name="simulator/init_state_x" value="$(eval float(arg('spawn_x')) + (3.3 if arg('diagnostic_start_low') else 0))"/>
+      <param name="simulator/init_state_y" value="$(eval float(arg('spawn_y')) + (-4.9 if arg('diagnostic_start_low') else (-1.5) * float(arg('spawn_spacing'))))"/>
+      <remap from="cmd" to="so3_cmd"/>
+    </node>
+    <node pkg="so3_control" type="network_control_node" name="controller" output="screen" required="true">
+      <param name="is_simulation" value="true"/>
+      <param name="use_disturbance_observer" value="true"/>
+      <param name="disturbance_observer_type" value="HGDO"/>
+      <param name="hover_thrust" value="0.375"/>
+      <remap from="position_cmd" to="pos_cmd"/>
+    </node>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="camera_tf" args="0 0 0 -0.5 0.5 -0.5 0.5 drone_3/base_link drone_3/camera_frame"/>
+  </group>
+  <group ns="drone_4">
+    <node pkg="so3_quadrotor_simulator" type="quadrotor_simulator_so3" name="dynamics" output="screen" required="true">
+      <param name="ground_contact" value="true"/>
+      <param name="initial_ground_z" value="$(arg ground_z)"/>
+      <param name="body_ground_offset" value="$(arg body_ground_offset)"/>
+      <param name="quadrotor_name" value="drone_4"/>
+      <param name="rate/odom" value="50.0"/>
+      <param name="simulator/init_state_x" value="$(eval float(arg('spawn_x')) + (0 if arg('diagnostic_start_low') else 0))"/>
+      <param name="simulator/init_state_y" value="$(eval float(arg('spawn_y')) + (-1.6000000000000005 if arg('diagnostic_start_low') else (-0.5) * float(arg('spawn_spacing'))))"/>
+      <remap from="cmd" to="so3_cmd"/>
+    </node>
+    <node pkg="so3_control" type="network_control_node" name="controller" output="screen" required="true">
+      <param name="is_simulation" value="true"/>
+      <param name="use_disturbance_observer" value="true"/>
+      <param name="disturbance_observer_type" value="HGDO"/>
+      <param name="hover_thrust" value="0.375"/>
+      <remap from="position_cmd" to="pos_cmd"/>
+    </node>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="camera_tf" args="0 0 0 -0.5 0.5 -0.5 0.5 drone_4/base_link drone_4/camera_frame"/>
+  </group>
+  <group ns="drone_5">
+    <node pkg="so3_quadrotor_simulator" type="quadrotor_simulator_so3" name="dynamics" output="screen" required="true">
+      <param name="ground_contact" value="true"/>
+      <param name="initial_ground_z" value="$(arg ground_z)"/>
+      <param name="body_ground_offset" value="$(arg body_ground_offset)"/>
+      <param name="quadrotor_name" value="drone_5"/>
+      <param name="rate/odom" value="50.0"/>
+      <param name="simulator/init_state_x" value="$(eval float(arg('spawn_x')) + (0 if arg('diagnostic_start_low') else 0))"/>
+      <param name="simulator/init_state_y" value="$(eval float(arg('spawn_y')) + (1.6000000000000005 if arg('diagnostic_start_low') else (0.5) * float(arg('spawn_spacing'))))"/>
+      <remap from="cmd" to="so3_cmd"/>
+    </node>
+    <node pkg="so3_control" type="network_control_node" name="controller" output="screen" required="true">
+      <param name="is_simulation" value="true"/>
+      <param name="use_disturbance_observer" value="true"/>
+      <param name="disturbance_observer_type" value="HGDO"/>
+      <param name="hover_thrust" value="0.375"/>
+      <remap from="position_cmd" to="pos_cmd"/>
+    </node>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="camera_tf" args="0 0 0 -0.5 0.5 -0.5 0.5 drone_5/base_link drone_5/camera_frame"/>
+  </group>
+  <group ns="drone_6">
+    <node pkg="so3_quadrotor_simulator" type="quadrotor_simulator_so3" name="dynamics" output="screen" required="true">
+      <param name="ground_contact" value="true"/>
+      <param name="initial_ground_z" value="$(arg ground_z)"/>
+      <param name="body_ground_offset" value="$(arg body_ground_offset)"/>
+      <param name="quadrotor_name" value="drone_6"/>
+      <param name="rate/odom" value="50.0"/>
+      <param name="simulator/init_state_x" value="$(eval float(arg('spawn_x')) + (-3.3 if arg('diagnostic_start_low') else 0))"/>
+      <param name="simulator/init_state_y" value="$(eval float(arg('spawn_y')) + (4.9 if arg('diagnostic_start_low') else (1.5) * float(arg('spawn_spacing'))))"/>
+      <remap from="cmd" to="so3_cmd"/>
+    </node>
+    <node pkg="so3_control" type="network_control_node" name="controller" output="screen" required="true">
+      <param name="is_simulation" value="true"/>
+      <param name="use_disturbance_observer" value="true"/>
+      <param name="disturbance_observer_type" value="HGDO"/>
+      <param name="hover_thrust" value="0.375"/>
+      <remap from="position_cmd" to="pos_cmd"/>
+    </node>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="camera_tf" args="0 0 0 -0.5 0.5 -0.5 0.5 drone_6/base_link drone_6/camera_frame"/>
+  </group>
+  <group ns="drone_7">
+    <node pkg="so3_quadrotor_simulator" type="quadrotor_simulator_so3" name="dynamics" output="screen" required="true">
+      <param name="ground_contact" value="true"/>
+      <param name="initial_ground_z" value="$(arg ground_z)"/>
+      <param name="body_ground_offset" value="$(arg body_ground_offset)"/>
+      <param name="quadrotor_name" value="drone_7"/>
+      <param name="rate/odom" value="50.0"/>
+      <param name="simulator/init_state_x" value="$(eval float(arg('spawn_x')) + (0 if arg('diagnostic_start_low') else 0))"/>
+      <param name="simulator/init_state_y" value="$(eval float(arg('spawn_y')) + (4.9 if arg('diagnostic_start_low') else (2.5) * float(arg('spawn_spacing'))))"/>
+      <remap from="cmd" to="so3_cmd"/>
+    </node>
+    <node pkg="so3_control" type="network_control_node" name="controller" output="screen" required="true">
+      <param name="is_simulation" value="true"/>
+      <param name="use_disturbance_observer" value="true"/>
+      <param name="disturbance_observer_type" value="HGDO"/>
+      <param name="hover_thrust" value="0.375"/>
+      <remap from="position_cmd" to="pos_cmd"/>
+    </node>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="camera_tf" args="0 0 0 -0.5 0.5 -0.5 0.5 drone_7/base_link drone_7/camera_frame"/>
+  </group>
+  <group ns="drone_8">
+    <node pkg="so3_quadrotor_simulator" type="quadrotor_simulator_so3" name="dynamics" output="screen" required="true">
+      <param name="ground_contact" value="true"/>
+      <param name="initial_ground_z" value="$(arg ground_z)"/>
+      <param name="body_ground_offset" value="$(arg body_ground_offset)"/>
+      <param name="quadrotor_name" value="drone_8"/>
+      <param name="rate/odom" value="50.0"/>
+      <param name="simulator/init_state_x" value="$(eval float(arg('spawn_x')) + (3.3 if arg('diagnostic_start_low') else 0))"/>
+      <param name="simulator/init_state_y" value="$(eval float(arg('spawn_y')) + (4.9 if arg('diagnostic_start_low') else (3.5) * float(arg('spawn_spacing'))))"/>
+      <remap from="cmd" to="so3_cmd"/>
+    </node>
+    <node pkg="so3_control" type="network_control_node" name="controller" output="screen" required="true">
+      <param name="is_simulation" value="true"/>
+      <param name="use_disturbance_observer" value="true"/>
+      <param name="disturbance_observer_type" value="HGDO"/>
+      <param name="hover_thrust" value="0.375"/>
+      <remap from="position_cmd" to="pos_cmd"/>
+    </node>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="camera_tf" args="0 0 0 -0.5 0.5 -0.5 0.5 drone_8/base_link drone_8/camera_frame"/>
+  </group>
+  <group ns="drone_9">
+    <node pkg="so3_quadrotor_simulator" type="quadrotor_simulator_so3" name="dynamics" output="screen" required="true">
+      <param name="ground_contact" value="true"/>
+      <param name="initial_ground_z" value="$(arg ground_z)"/>
+      <param name="body_ground_offset" value="$(arg body_ground_offset)"/>
+      <param name="quadrotor_name" value="drone_9"/>
+      <param name="rate/odom" value="50.0"/>
+      <param name="simulator/init_state_x" value="$(eval float(arg('spawn_x')) + (0 if arg('diagnostic_start_low') else 0))"/>
+      <param name="simulator/init_state_y" value="$(eval float(arg('spawn_y')) + (8.2 if arg('diagnostic_start_low') else (4.5) * float(arg('spawn_spacing'))))"/>
+      <remap from="cmd" to="so3_cmd"/>
+    </node>
+    <node pkg="so3_control" type="network_control_node" name="controller" output="screen" required="true">
+      <param name="is_simulation" value="true"/>
+      <param name="use_disturbance_observer" value="true"/>
+      <param name="disturbance_observer_type" value="HGDO"/>
+      <param name="hover_thrust" value="0.375"/>
+      <remap from="position_cmd" to="pos_cmd"/>
+    </node>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="camera_tf" args="0 0 0 -0.5 0.5 -0.5 0.5 drone_9/base_link drone_9/camera_frame"/>
+  </group>
+  <node pkg="ros_tcp_endpoint" type="default_server_endpoint.py" name="unity_tcp_endpoint" output="screen" required="true" launch-prefix="/usr/bin/python3 -u">
+    <param name="tcp_ip" value="127.0.0.1"/>
+    <param name="tcp_port" value="10012"/>
+  </node>
+  <node pkg="yopo_ten_mission" type="mission_node.py" name="mission" ns="drone_0" output="screen" required="true" launch-prefix="/usr/bin/python3 $(arg scene_root)/Runtime/wait_for_unity.py $(arg planner_python) -u">
+    <param name="drone_id" value="0"/>
+    <param name="count" value="10"/>
+  </node>
+  <node pkg="yopo_ten_mission" type="mission_node.py" name="mission" ns="drone_1" output="screen" required="true" launch-prefix="/usr/bin/python3 $(arg scene_root)/Runtime/wait_for_unity.py $(arg planner_python) -u">
+    <param name="drone_id" value="1"/>
+    <param name="count" value="10"/>
+  </node>
+  <node pkg="yopo_ten_mission" type="mission_node.py" name="mission" ns="drone_2" output="screen" required="true" launch-prefix="/usr/bin/python3 $(arg scene_root)/Runtime/wait_for_unity.py $(arg planner_python) -u">
+    <param name="drone_id" value="2"/>
+    <param name="count" value="10"/>
+  </node>
+  <node pkg="yopo_ten_mission" type="mission_node.py" name="mission" ns="drone_3" output="screen" required="true" launch-prefix="/usr/bin/python3 $(arg scene_root)/Runtime/wait_for_unity.py $(arg planner_python) -u">
+    <param name="drone_id" value="3"/>
+    <param name="count" value="10"/>
+  </node>
+  <node pkg="yopo_ten_mission" type="mission_node.py" name="mission" ns="drone_4" output="screen" required="true" launch-prefix="/usr/bin/python3 $(arg scene_root)/Runtime/wait_for_unity.py $(arg planner_python) -u">
+    <param name="drone_id" value="4"/>
+    <param name="count" value="10"/>
+  </node>
+  <node pkg="yopo_ten_mission" type="mission_node.py" name="mission" ns="drone_5" output="screen" required="true" launch-prefix="/usr/bin/python3 $(arg scene_root)/Runtime/wait_for_unity.py $(arg planner_python) -u">
+    <param name="drone_id" value="5"/>
+    <param name="count" value="10"/>
+  </node>
+  <node pkg="yopo_ten_mission" type="mission_node.py" name="mission" ns="drone_6" output="screen" required="true" launch-prefix="/usr/bin/python3 $(arg scene_root)/Runtime/wait_for_unity.py $(arg planner_python) -u">
+    <param name="drone_id" value="6"/>
+    <param name="count" value="10"/>
+  </node>
+  <node pkg="yopo_ten_mission" type="mission_node.py" name="mission" ns="drone_7" output="screen" required="true" launch-prefix="/usr/bin/python3 $(arg scene_root)/Runtime/wait_for_unity.py $(arg planner_python) -u">
+    <param name="drone_id" value="7"/>
+    <param name="count" value="10"/>
+  </node>
+  <node pkg="yopo_ten_mission" type="mission_node.py" name="mission" ns="drone_8" output="screen" required="true" launch-prefix="/usr/bin/python3 $(arg scene_root)/Runtime/wait_for_unity.py $(arg planner_python) -u">
+    <param name="drone_id" value="8"/>
+    <param name="count" value="10"/>
+  </node>
+  <node pkg="yopo_ten_mission" type="mission_node.py" name="mission" ns="drone_9" output="screen" required="true" launch-prefix="/usr/bin/python3 $(arg scene_root)/Runtime/wait_for_unity.py $(arg planner_python) -u">
+    <param name="drone_id" value="9"/>
+    <param name="count" value="10"/>
+  </node>
+  <node pkg="yopo_ten_mission" type="ten_node.py" name="ten_coordinator" output="screen" required="true" launch-prefix="/usr/bin/python3 $(arg scene_root)/Runtime/wait_for_unity.py /usr/bin/python3 -u">
+    <param name="ascent_speed" value="$(arg ascent_speed)"/>
+    <param name="descent_speed" value="$(arg descent_speed)"/>
+    <param name="continue_to_terminal" value="$(arg continue_to_terminal)"/>
+    <param name="descent_x" value="$(arg descent_x)"/>
+    <param name="descent_y" value="$(arg descent_y)"/>
+    <param name="terminal_x" value="$(arg terminal_x)"/>
+    <param name="terminal_y" value="$(arg terminal_y)"/>
+    <param name="low_speed" value="$(arg low_speed)"/>
+    <param name="diagnostic_start_low" value="$(arg diagnostic_start_low)"/>
+  </node>
+  <node pkg="yopo_ten_mission" type="ten_cloud.py" name="ten_cloud" output="screen" required="true" launch-prefix="/usr/bin/python3 $(arg scene_root)/Runtime/wait_for_unity.py /usr/bin/python3 -u"/>
+  <node pkg="yopo_ten_mission" type="rviz_text_filter.py" name="rviz_text_filter" output="screen" required="true" launch-prefix="/usr/bin/python3 -u"/>
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(arg scene_root)/Runtime/ten.rviz" output="screen" if="$(arg rviz)" launch-prefix="/bin/bash $(arg scene_root)/Runtime/rviz_render.sh">
+    <env name="QT_X11_NO_MITSHM" value="1"/>
+  </node>
+</launch>

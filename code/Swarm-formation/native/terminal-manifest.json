@@ -1,0 +1,10 @@
+{
+  "source_commit": "967a4bdfae949e994691f8ffc87dbb0147cbebb7",
+  "components": [
+    "MinJerkOpt",
+    "lbfgs",
+    "SwarmGraph"
+  ],
+  "adapter": "five-body joint midpoint optimization; fixed rest endpoints; metric seed cost plus actual SNL graph cost",
+  "binary_sha256": "3520d68bbace723a65f1d0b1e79e8e162ea5a09c8307a35437654c6ffcc86b71"
+}
