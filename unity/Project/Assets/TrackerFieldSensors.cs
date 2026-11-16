@@ -104,14 +104,13 @@ namespace Yopo.TrackerTest {
     foreach(var d in drones)if(d.haveOdom)PublishGround(d);
     return;
    }
-   for(int g=0;g<2;g++){
-    int leaderId=2+5*g;
-    if(leaderId>=drones.Count)continue;
-    var leader=drones[leaderId];
-    if(!leader.haveOdom)continue;
-    // PublishGround also emits the per-leader pair used by RViz and the
-    // group-shared raw pair every member subscribes to.
-    PublishGround(leader,"/sensors/raw/swarm10/group_"+g);
+   // Independent obstacle avoidance can separate a member from its leader's
+   // 60 m crop. Every member needs its own measured terrain domain at handoff.
+   bool ownCrops=!cloudMission||planningEpoch>=1;
+   foreach(var d in drones){
+    if(!d.haveOdom)continue;
+    bool leader=d.id==2||d.id==7;
+    if(leader||ownCrops)PublishGround(d,leader?"/sensors/raw/swarm10/group_"+(d.id/5):null);
    }
   }
 

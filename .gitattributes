@@ -1,0 +1,11 @@
+* text=auto eol=lf
+*.sh text eol=lf
+*.py text eol=lf
+*.launch text eol=lf
+*.cu text eol=lf
+*.cpp text eol=lf
+*.cs text eol=lf
+*.dll binary
+*.so binary
+*.pth binary
+*.part* binary

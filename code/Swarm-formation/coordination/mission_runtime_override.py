@@ -39,7 +39,7 @@ class Mission:
         self.cloud_mission=self.count==10 and os.environ.get('YOPO_CLOUD_MISSION')=='1'
         self.planning_mode='CLOUD' if self.cloud_mission else 'YOPO'
         self.planner_epoch=0;self.image_callbacks=0;self.image_received=0;self.preview_images={};self.yopo_ready=False;self.image_subscriptions=[]
-        if self.count==10 and _carve is None:raise RuntimeError('Ten-agent mode requires ray_carve.so; start with Runtime/start_unity.sh to build it')
+        if self.count==10 and _carve is None:raise RuntimeError('Ten-agent mode requires ray_carve.so; run setup.sh in the project root')
         if self.count==10:rospy.loginfo('Native sensor ray carving loaded')
         self.ns='/drone_'+str(self.id);self.lock=threading.RLock();self.maplock=threading.RLock()
         from yopo_input_preview import YopoInputPreview

@@ -147,9 +147,10 @@ class Coordinator(LegacyCoordinator):
                     self.altitude=self.model.altitude;self.landing_center=self.model.arrival.copy()
                     self.run_id=time.strftime('%Y%m%dT%H%M%S')+'-'+uuid.uuid4().hex[:6]
                     if self.cloud_mission:self.planning_gate=ModeGate(self.run_id)
-                    self.directory=self.model.path.parent/'runs'/self.run_id;self.directory.mkdir(parents=True)
-                    (self.model.path.parent/'last-run').write_text(str(self.directory))
-                    Path(__file__).with_name('ten-last-run').write_text(str(self.directory))
+                    scene=Path(os.environ['YOPO_SCENE_ROOT'])
+                    self.directory=scene/'Reports/ten-runs'/self.run_id;self.directory.mkdir(parents=True)
+                    from ten_core import register_failure_directory
+                    register_failure_directory(scene,self.run_id,self.directory)
                     self.report=dict(run_id=self.run_id,workflow='point-v1',hashes=self.model.hashes,stages=[],errors=[],passed=False,
                                      inference_devices=sorted({s.get('inference_device','unknown') for s in self.states.values()}),
                                      active_ids=list(self.active),active_mode=self.model.layout.mode,
@@ -311,7 +312,9 @@ class Coordinator(LegacyCoordinator):
                         self.publish_execution_commit(g,dict(terminal_joint=command),now)
                 for g in self.active_groups:
                     engine=self.groups[g];sl=slice(g*5,g*5+5)
-                    engine.leader_sample_stamp=leader_sample_time(self.states[2+5*g],now)
+                    engine.distance_sample_stamps=[leader_sample_time(self.states[i],now) for i in range(g*5,g*5+5)]
+                    engine.distance_observations_fresh=all(-.1<=now-stamp<=.3 for stamp in engine.distance_sample_stamps)
+                    engine.leader_sample_stamp=engine.distance_sample_stamps[2]
                     engine.merge_entry_acceleration=np.array([self.states[i].get('control_reference',{}).get('acceleration',[0.,0.,0.]) for i in range(g*5,g*5+5)])
                     blocked=any(self.states[i].get('formation',{}).get('blocked',False) for i in range(g*5,g*5+5))
                     ahead=False
@@ -403,11 +406,13 @@ class Coordinator(LegacyCoordinator):
         status.update(self.flight_clock.update(self.states,now,self.run_id))
         if self.stage=='RUNNING' and hasattr(self,'relay_start'):status['relay_start']=self.relay_start
         status['relay_cuts']=[getattr(e,'relay_cut',None) for e in self.groups]
+        status['terminal_cohesion']=[e.cohesion for e in self.groups]
         status['group_modes']=formation_modes(self.stage,status['group_phases'],status.get('planner_mode'))
         self.status.publish(String(json.dumps(status)))
         if p is not None:self.pending_visual=(p.copy(),status.copy())
         if self.report is not None and p is not None:
             self.report['group_events']=[e.events for e in self.groups]
+            self.report['terminal_cohesion']=[e.cohesion for e in self.groups]
             self.report['collision_events']=self.scene.get('collision_events');self.report['bounds_events']=self.scene.get('bounds_events')
             if self.log and (self.terminal_tick_count%2==0 or self.stage=='FAILED'):
                 self.log.write(json.dumps(dict(status=status,states=self.states,scene=self.scene,targets=[None if e.reference is None else e.reference.tolist() for e in self.groups]))+'\n')

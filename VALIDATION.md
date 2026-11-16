@@ -1,21 +1,43 @@
-# Validation 2026-11-16
+# 验证记录 — 2026-11-16
 
-Executed on the SSH Linux server from this exported directory:
+所有 Runtime 导入、原生库构建/加载、回归、重放与仿真均在 SSH Linux 服务器执行。Windows 本机仅作源码读写、Git 和传输。
 
-- Python production sources compile successfully.
-- setup.sh checks Unity part SHA-256, extracts the player, and passes dependency/mode checks.
-- Unity actually emits TRACKER_FIELD_READY drones=10.
-- ROS control remains running for 35 seconds; /drone_0/odom publishes an actual message.
-- No takeoff was dispatched. This is startup verification, not full mission/landing acceptance.
+## 最新结果
 
-Full mission can be requested with bash bash/run_mode.sh ten RUN_DIRECTORY.
-Server system dependencies remain required as documented in README.md.
+**独立运行、十机星型落地和最低 2 m/s 编队调速已验证；严格 50 m 距离验收未通过。** 最新正式十字入口飞行 `phase6-min2-formation-cross-02` 完成约 1.2 km 末段、触地和停桨，耗时约 744 s；严格审计为失败，不能用到达 LANDED 代替距离验收。
 
-Mode regression:
-```text
-....
-----------------------------------------------------------------------
-Ran 4 tests in 0.000s
+- 十机各有 4461–5340 次真实网络推理，联合 Swarm 规划调用为零，各机均使用自身地形观测。
+- 垂直落地开始前，两组最大星型 XY 误差约 0.323/0.324 m；最终全员触地停桨。Unity 碰撞、越界事件均为零。
+- 十机的距离/队形软权限均未低于 2 m/s：producer 和 consumer 下限违反计数均为零。局部绕障仍允许 1.5 m/s，末端收拢、感知与碰撞保护保留独立速度权限。
+- 实测相邻距离最大约 **116.068 m**，50 m 严格验收失败。真实输入确认：前机已按距离限制以 2 m/s 前进，后机绕障约 1.5 m/s，径向间距仍会增加。另有成员路径恢复期间实际减速/停车，使这种差异扩大。
+- 每条观测到的超前边均记录了新鲜消费者最低限速及实际减速，并最终恢复顺序；不代表全程没有超前。初始正式入口为十字，末段落地为前导星型。
+- 测试注入的 2 m/s 慢飞被消费，随后观测到追近、25 m 内恢复与重新加速。但注入窗口内未观察到指定父机的限速响应，`--require-lag` 验收不完整；不能宣称本次夹具完整验证了注入因果响应。
 
-OK
-```
+配置上限仍为 6 m/s；本轮动力学实测水平峰值约 6.332 m/s。所有距离峰值为日志及 20 Hz 门控采样证据，不是连续时间保证。
+
+严格审计见 `docs/validation/min2-formation-cross-audit.json`，其中 `passed` 为 false 并保留失败原因；实际到达落地的任务结果、Runtime/config/DLL 指纹另存同目录。源码与本轮指纹一致。仅调速且距离调节最低 2 m/s 时，无法同时保证后机安全速度低于 2 m/s 期间严格维持 50 m 上界；本版本保留用户指定的速度下限，如实报告超距。
+
+## 独立安装与回归
+
+独立目录 `/root/gpufree-data/uav-combine-install-check` 完成 Unity 分包及覆盖包校验、自有 controller/TCP catkin 构建、CPU 地图库构建和 ten 入口检查。`rospack` 与 `ldd` 指向该目录自己的包和动力学库，最新 83 项服务器回归通过。
+
+回归覆盖历史故障地图、边界退离、重启进展、扫描方向记忆、短绕行点、自身地形来源、真实星型落地、CLOUD 并队净距、50/25 滞回、径向限速、2 m/s 下限、队形系数与归因、实际航向顺序、真实优先级冲突及消费端审计。
+
+`MapMarkers.cs` 的旧项目回退路径改为相对当前 Player 的配置路径。29 个 C# 源文件与交付构建清单原始字节 SHA 一致，独立目录重复编译得到相同 DLL：`1172d079e68ebd4bd031a9b1ca57fc6e822dc2c00ab072b867dc85b82078501c`。
+
+Unity 编辑器许可证失效，未进行完整场景重建；场景/资源来自分支自带 Player，脚本程序集通过发行包自带 Roslyn 重编译，运行不读取另一项目。
+
+## 历史结果
+
+| 验证 | 范围 | 结果及限制 |
+| --- | --- | --- |
+| `phase6-own-ground-01` | 无距离控制、十机独立 YOPO 与星型落地 | 通过；独立性基线 |
+| `phase6-cohesion-lag-04` | 前导星型入口、旧允许零速策略、末排零速注入 | 通过；不代表最新最低 2 m/s 策略 |
+| `phase6-cross-entry-lag-01` | 正式十字入口、旧平均航向距离控制 | 距离失败，峰值约 51.92/51.21 m |
+| `phase6-directional-cross-lag-01` | 径向控制、仍允许零速 | Member 2 local ground stale；不作通过证据 |
+| `phase6-min2-formation-cross-01` | 最低 2 m/s、队形恢复优先级短路 | 星型落地，距离失败，峰值约 217.35 m；已修复短路并加真实输入回归 |
+| `phase6-min2-formation-cross-02` | 修复短路、正式入口与慢飞干预 | 星型落地及下限消费验证完成；严格 50 m 与完整注入响应验收未通过 |
+
+原始遥测保留在服务器独立 `.runs` 目录。本次聚焦低空地面起飞、CLOUD→YOPO 暖机/交接、约 1.2 km 末段、收拢及星型落地；前五阶段没有完整真实飞行回归。`startup-validation.json` 为原发布基线的历史启动记录。
+
+完整 Git 索引导出到全新目录 `/root/gpufree-data/uav-combine-export-20261116` 后，736 个交付文件 SHA 全部通过；从该导出包重新运行 setup，自己的 controller/TCP/dynamics 路径正确，83 项回归再次通过，安装后的 Player DLL 与 29 个 C# 源文件清单匹配。该检查验证交付内容可独立安装，不改变上述严格距离验收失败的结论。

@@ -37,6 +37,14 @@ class TenFollower(FormationFollower):
    if not point or ref.get('planner_mode')!='CLOUD' or ref.get('stage')!='DESCEND' or ref.get('leader_speed')!=16.:
     raise ValueError('Invalid moving merge ownership or leader speed')
   points=validate_reference(ref,now,clearance=1.9 if ref.get('stage') in ('ASSEMBLE','REFORM') else 2.,max_speed=limit)
+  if 'member_speed_caps' in ref:
+   from tree_distance import member_speed_limit
+   if not ref.get('independent_terminal') or ref.get('stage')!='TERRAIN':raise ValueError('Member speed caps outside independent terminal')
+   member_speed_limit(ref,self.member_id)
+  if ref.get('cohesion_required') or ref.get('cohesion') is not None:
+   from tree_distance import validate_cohesion_reference
+   if not ref.get('independent_terminal') or ref.get('stage')!='TERRAIN':raise ValueError('Cohesion outside independent terminal')
+   validate_cohesion_reference(ref,now)
   velocity=np.asarray(ref.get('velocity',np.zeros((5,3))),float)
   if velocity.shape!=(5,3) or not np.isfinite(velocity).all() or np.max(np.linalg.norm(velocity[:,:2],axis=1))>(limit+.01 if point else 4.01) or np.max(np.abs(velocity[:,2]))>6.01:raise ValueError('Invalid reference velocity')
   if point and 'trail_directions' in ref:
@@ -94,7 +102,10 @@ class TenFollower(FormationFollower):
     m.fail('Cruise peer state missing/stale: '+','.join(map(str,missing)));return
    cruise_peers=np.array([s['position'] for s in snapshot.values()],float).reshape(-1,3)
   if ref.get('stage')=='TERRAIN':
-   m.goal=points[self.member_id].copy();m.mode='AGL';m.height=float(ref.get('agl',2.));m.speed=float(ref['speed'])
+   from tree_distance import member_speed_limit
+   m.goal=points[self.member_id].copy();m.mode='AGL';m.height=float(ref.get('agl',2.));m.speed=member_speed_limit(ref,self.member_id)
+   self.member_speed_cap=m.speed
+   self.cohesion_limited=bool(ref.get('independent_terminal') and m.speed<.05)
    self.applied_terminal_reference=ref
    endpoint=np.asarray(ref.get('fixed_endpoints',points),float)[self.member_id]
    terminal_near=np.linalg.norm(endpoint[:2]-m.p[:2])<15.
@@ -255,7 +266,7 @@ class TenFollower(FormationFollower):
   ref=self.reference or {}
   if ref.get('independent_terminal'):
    self.safety_paused=(not self.active or getattr(self,'suspended',False)
-                       or m.planning_mode!='YOPO' or ref.get('safety_pause',False))
+                       or m.planning_mode!='YOPO' or ref.get('safety_pause',False) or m.speed<=.001)
    if self.safety_paused:m.desired[:]=0.
    elif np.linalg.norm(m.goal[:2]-p[:2])<.5:
     m.hold=p.copy()
@@ -378,6 +389,12 @@ class TenFollower(FormationFollower):
   self.note='Ten bodies checked; distance band uses group centers only'
  def status(self):
   s=super().status();s.update(group_id=self.group_id,member_id=self.member_id)
+  if (self.reference or {}).get('independent_terminal'):
+   s.update(member_speed_cap=getattr(self,'member_speed_cap',None),cohesion_wait=bool(self.safety_paused or getattr(self,'cohesion_limited',False)),cohesion_limited=bool(getattr(self,'cohesion_limited',False)),direction_limit=getattr(self,'direction_limit',None))
+   formation=((self.reference or {}).get('cohesion') or {}).get('formation')
+   if formation:
+    i=self.member_id%5
+    s['formation_speed']=dict(coefficient=formation['graph_cost'],row_contribution=formation['row_contributions'][i],repair_gain=formation['repair_improvements'][i],culprit_members=formation['culprit_global_members'],speed_cap=formation['speed_caps'][i],reasons=formation['speed_reasons'][i])
   if getattr(self,'peer_check_failure',None) is not None:s['peer_check_failure']=self.peer_check_failure
   # Final swept-volume checks run after plan(), so their brake must also
   # reach the shared coordinator before it advances another reference.

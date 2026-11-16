@@ -50,11 +50,13 @@ class GroupFlight:
         self.queue=[];self.events=[];self.guide=None;self.guide_stamp=-1e9;self.note='waiting for second RViz command'
         self.waypoint=0;self.last_progress=None;self.last_position=None;self.dwell=None;self.hint={}
         self.descent_braking=False
+        self.distance_gate=None;self.formation_governor=None;self.cohesion=None
 
     def event(self,phase,now):
         self.phase=phase;self.events.append(dict(phase=phase,stamp=now));self.dwell=None
 
     def release(self,p,now):
+        self.distance_gate=None;self.formation_governor=None;self.cohesion=None
         self.reference=p.copy();self.queue=self.model.departure(self.group,p)
         self.release_time=now+self.group*self.model.group_delay;self.event('WAIT',now)
         self.last_progress=now;self.last_position=p.copy()
@@ -414,6 +416,28 @@ class GroupFlight:
             self.note='Independent YOPO to fixed star slots'
             ref=self.output(now,stage='TERRAIN',pause=hold_leader,agl=agl)
             ref.update(independent_terminal=True,fixed_endpoints=final.tolist(),moving_slots=False)
+            cohesion=self.model.config.get('terminal_cohesion',{})
+            if cohesion.get('enabled',False):
+                if self.distance_gate is None:
+                    from tree_distance import TreeDistanceGate
+                    from formation_speed_governor import FormationSpeedGovernor
+                    minimum=cohesion.get('minimum_speed_mps',2.)
+                    self.formation_governor=FormationSpeedGovernor(self.model.star_offsets(self.group),
+                        minimum_speed=minimum,nominal_speed=float(ref['speed']),
+                        coefficient_tolerance=cohesion.get('coefficient_tolerance',.02))
+                    self.distance_gate=TreeDistanceGate(self.model.star_offsets(self.group),
+                        trigger=cohesion.get('trigger_m',50.),resume=cohesion.get('resume_m',25.),
+                        slow_factor=cohesion.get('slow_factor',.35),max_speed=float(ref['speed']),
+                        lookahead=cohesion.get('lookahead_s',3.5),braking_margin=cohesion.get('braking_margin_m',22.),
+                        minimum_speed=minimum)
+                formation=self.formation_governor.update(p,v,now,
+                    forward=self.formation_governor.initial_axis if remaining<40. else None)
+                formation['culprit_global_members']=[5*self.group+i for i in formation['culprit_members']]
+                self.cohesion=self.distance_gate.update(p,v,fresh=getattr(self,'distance_observations_fresh',True),formation=formation)
+                self.cohesion['stamp']=now
+                self.cohesion['sample_stamps']=list(getattr(self,'distance_sample_stamps',[now]*5))
+                ref.update(cohesion_required=True,cohesion=self.cohesion,
+                           member_speed_caps=[float(ref['speed'])]*5)
             if not self.model.star_settled(self.group,p,v):
                 self.dwell=None
                 if self.phase=='FINAL':self.event('TERRAIN',now)

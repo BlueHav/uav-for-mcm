@@ -1,15 +1,12 @@
 {
   "branch": "swarm-uav-combine",
-  "source_commit": "eec6ca751593c21796fe515947c120a65722fa36",
-  "source": "current working tree; not HEAD only",
-  "unity_build": "/root/swarm-uav/unity/Project/BuildOptimized",
-  "system_env": "/root/gpufree-data/yopo-portable/env.sh",
-  "execution": "Linux server only",
-  "excluded": [
-    "old runs and reports",
-    "duplicate code/Runtime",
-    "Unity editor cache and historical builds",
-    "training entry points",
-    "SSH credentials"
-  ]
+  "published_base_commit": "216c21abf1590bbe56b3210402aa4bb86c713478",
+  "original_source_commit": "eec6ca751593c21796fe515947c120a65722fa36",
+  "execution": "Linux SSH server only; never load Runtime/native libraries on the local computer",
+  "runtime": "code/Swarm-formation/Runtime",
+  "inference": "code/YOPO policy/config/weights; duplicate Runtime files removed",
+  "unity": "bundled base Player parts plus assets/unity-managed script overlay; no sibling project at runtime",
+  "unity_script_build": "assets/unity-managed/build.json",
+  "system_dependencies": "ROS Noetic, Python inference environment, compiler and Linux graphics stack; see README.md",
+  "excluded": ["old flight outputs", "duplicate Runtime files", "editor cache and full art assets", "training entry points", "SSH credentials"]
 }

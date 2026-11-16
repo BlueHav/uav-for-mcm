@@ -43,7 +43,7 @@ class Mission:
         self.cloud_mission=self.count==10 and os.environ.get('YOPO_CLOUD_MISSION')=='1'
         self.planning_mode='CLOUD' if self.cloud_mission else 'YOPO'
         self.planner_epoch=0;self.image_callbacks=0;self.image_received=0;self.preview_images={};self.yopo_ready=False;self.image_subscriptions=[]
-        if self.count==10 and _carve is None:raise RuntimeError('Ten-agent mode requires ray_carve.so; start with Runtime/start_unity.sh to build it')
+        if self.count==10 and _carve is None:raise RuntimeError('Ten-agent mode requires ray_carve.so; run setup.sh in the project root')
         if self.count==10:rospy.loginfo('Native sensor ray carving loaded')
         self.ns='/drone_'+str(self.id);self.lock=threading.RLock();self.maplock=threading.RLock()
         from yopo_input_preview import YopoInputPreview
@@ -116,7 +116,7 @@ class Mission:
         rospy.Subscriber(self.ns+'/ground',PointStamped,self.on_ground,queue_size=1)
         # Keep the per-aircraft cloud as a fallback for builds that predate the
         # group-shared producer; the newest valid 121-square wins.
-        rospy.Subscriber(self.ns+'/local_ground',PointCloud2,self.on_ground_cloud,queue_size=1)
+        rospy.Subscriber(self.ns+'/local_ground',PointCloud2,lambda m:self.on_ground_cloud(m,own=True),queue_size=1)
         if group_cloud:
             rospy.Subscriber(group_cloud_topic(self.id//5),PointCloud2,self.on_ground_cloud,queue_size=1)
         if self.cloud_mission:
@@ -348,8 +348,12 @@ class Mission:
     def on_ground(self,m):
         self.ground_stamp=m.header.stamp.to_sec()
         if self.map.origin is None:self.ground=float(m.point.z)
-    def on_ground_cloud(self,m):
+    def on_ground_cloud(self,m,own=False):
+        if (getattr(self,'independent_terminal',False)
+                and self.planning_mode in ('YOPO_WARMUP','YOPO') and not own):
+            return
         self.ground_cloud.put(m)
+        self.ground_cloud_source='own' if own else 'group'
         if getattr(self,'trace_control_stalls',False):
             self.ground_receive_trace=dict(header=m.header.stamp.to_sec(),received=rospy.Time.now().to_sec(),monotonic=time.monotonic())
     def on_context_source(self,m):
@@ -417,6 +421,8 @@ class Mission:
         if phase!=self.phase:rospy.loginfo('%s %s -> %s: %s',self.ns,self.phase,phase,reason)
         self.phase=phase;self.reason=reason;self.phase_start=time.monotonic();self.dwell=None;self.progress_stamp=time.monotonic()
         self.progress_p=None if self.p is None else self.p.copy()
+        if phase not in ('TERRAIN_FOLLOW','END_HOLD'):
+            self.cohesion_recovery=False;self.cohesion_wait_active=False;self.cohesion_resume_stamp=-1e9
     def fail(self,reason):
         if self.failure:return
         self.failure=reason;self.auto=False;self.hold=self.p.copy();self.set_phase('FAULT_HOLD',reason)
@@ -429,7 +435,13 @@ class Mission:
             depth=self.frames.get('front',(None,np.empty(0)))[1]
             if hasattr(depth,'cuda_pixels'):depth=depth.preview(self.width,self.height_px).cpu().numpy()
             np.savez_compressed(os.path.join(directory,'drone_%d_failure_input.npz'%self.id),state=self.map.state,origin=self.map.origin,
-                ground=self.map.ground,position=self.p,velocity=self.v,goal=self.goal,depth=depth)
+                ground=self.map.ground,position=self.p,velocity=self.v,goal=self.goal,depth=depth,
+                resolution=self.map.resolution,desired=self.desired,reference_velocity=self.refv,reference_acceleration=self.refa,
+                yaw=self.yaw,heading=self.heading,scan_step=getattr(self,'detour_scan_step',-1),rotation_body_to_world=self.rot,
+                yopo_world=getattr(self,'last_yopo_world',np.empty(0)),yopo_scores=getattr(self,'last_yopo_scores',np.empty(0)),
+                yopo_position=getattr(self,'last_yopo_position',np.empty(0)),yopo_goal=getattr(self,'last_yopo_goal',np.empty(0)),
+                detour=np.empty(0) if self.detour is None else self.detour,
+                cohesion_reference=json.dumps((getattr(self.five,'reference',None) or {}).get('cohesion')))
         except (OSError,ValueError):pass
     def legacy_goal(self,m):
         if m.header.frame_id not in ('','world','map'):
@@ -636,18 +648,34 @@ class Mission:
         if self.detour is not None:
             self.failed_detour_endpoint=self.detour[-1].copy()
             self.detour=None
+            anchor=getattr(self,'detour_scan_anchor',None)
+            if anchor is not None and np.linalg.norm(p-anchor)<=.5:
+                # A rejected continuation must not alternate 12/8 m along the
+                # same ray forever. Observe the next direction at this pose.
+                self.detour_scan_step=(getattr(self,'detour_scan_step',0)+1)%6
+                self.detour_scan_observed=None
         return self.scan_independent_detour(p,v,now)
 
     def scan_independent_detour(self,p,v,now):
         if not (getattr(self.five,'reference',None) or {}).get('independent_terminal'):
             return False
+        if getattr(self,'cohesion_recovery',False):
+            c=(self.five.reference or {}).get('cohesion') or {}
+            incident=[e for e in c.get('edges',[]) if e['active'] and self.id%5 in (e['parent'],e['child'])]
+            if incident:self.five.cohesion_limited=True
+            else:self.cohesion_recovery=False
         if not brake_settled(v,self.refv,self.refa,full_3d=True):
             return False
         angles=(0.,np.pi/3.,2.*np.pi/3.,np.pi,-2.*np.pi/3.,-np.pi/3.)
+        anchor=getattr(self,'detour_scan_anchor',None)
+        if anchor is None or np.linalg.norm(p-anchor)>.5:
+            self.detour_scan_anchor=np.asarray(p,float).copy()
+            self.detour_scan_step=0
+            self.detour_scan_observed=None
+            self.failed_detour_endpoint=None
         started=getattr(self,'detour_scan_start',None)
         if started is None:
             started=self.detour_scan_start=now
-            self.detour_scan_step=0
         bearing=math.atan2(self.goal[1]-p[1],self.goal[0]-p[0])
         heading=bearing+angles[self.detour_scan_step]
         yaw_error=math.atan2(math.sin(heading-self.yaw),math.cos(heading-self.yaw))
@@ -687,6 +715,9 @@ class Mission:
         for distance in (12.,8.,5.,3.,2.,1.25):
             xy=p[:2]+distance*direction
             point=np.r_[xy,self.map.ground_at(*xy)+self.height]
+            if not np.isfinite(point).all():continue
+            if np.linalg.norm(self.cohesion_velocity(point-p,position=p)[:2])<=.02:
+                continue
             failed=getattr(self,'failed_detour_endpoint',None)
             if failed is not None and np.linalg.norm(point[:2]-failed[:2])<2.:
                 continue
@@ -707,24 +738,28 @@ class Mission:
     def horizontal_plan(self,p,v):
         checkpoint=getattr(self,'terminal_checkpoint',lambda:True)
         if not checkpoint():return
-        if getattr(self,'detour_scan_start',None) is not None and self.scan_independent_detour(p,v,time.monotonic()):
-            return
         escaping=getattr(self,'buffer_escape_active',False);self.buffer_escape_active=False
         if self.count==10 and self.mode=='AGL' and self.phase=='TERRAIN_FOLLOW' and not self.map.points_clear([p],radius=.35)[0]:
             settled=brake_settled(v,self.refv,self.refa,full_3d=True)
             if settled or escaping and max(np.linalg.norm(v),np.linalg.norm(self.refv))<.4:
                 target=self.map.buffer_escape_target(p,self.goal,agl=self.height)
                 if target is not None:
+                    self.detour_scan_start=None
                     self.desired=limit_norm((target-p)*1.2,.3);self.buffer_escape_active=True
                     self.chosen=np.linspace(p,target,21);self.reason='Measured low-speed retreat from voxel margin'
                     self.heading=math.atan2(self.desired[1],self.desired[0]);return
+        if getattr(self,'detour_scan_start',None) is not None and self.scan_independent_detour(p,v,time.monotonic()):
+            return
         route_radius=.5 if self.count==10 and self.mode=='AGL' else .35
         navigation_goal=self.goal.copy()
         if self.mode=='AGL':
             goal_ground=self.map.ground_at(*self.goal[:2])
             navigation_goal[2]=goal_ground+self.height if np.isfinite(goal_ground) else p[2]
             if np.isfinite(goal_ground):self.goal[2]=navigation_goal[2]
-        if self.detour is not None and np.linalg.norm(self.goal[:2]-p[:2])<28. and np.isfinite(navigation_goal).all() and route_corridor_clear(self.map,p,navigation_goal,radius=route_radius):
+        if (self.detour is not None and np.linalg.norm(self.goal[:2]-p[:2])<28.
+                and np.isfinite(navigation_goal).all()
+                and route_corridor_clear(self.map,p,navigation_goal,radius=route_radius)
+                and np.linalg.norm(self.cohesion_velocity(navigation_goal-p,position=p)[:2])>.02):
             self.detour=None
         if self.detour is not None:
             if np.linalg.norm(p[:2]-self.detour[-1,:2])<.8:self.detour=None
@@ -742,13 +777,25 @@ class Mission:
         if self.count==2 and self.phase=='END_APPROACH' and self.id==1 and self.peer and self.peer.get('phase')!='LANDED' and p[0]>1690:
             self.desired[:]=0;self.reason='Waiting for drone_0 terminal landing';return
         independent_bypass=(self.detour is not None and (getattr(self.five,'reference',None) or {}).get('independent_terminal'))
-        if remaining<3. and not independent_bypass:
-            target=np.r_[navigation_goal[:2],self.height if self.mode=='ABS' else self.map.ground_at(*navigation_goal[:2])+self.height]
+        if remaining<3.:
+            # A visible local A* vertex can be shorter than two neural ray
+            # samples. Track that measured corridor with the same bounded
+            # approach used at the final goal; the outer stopping/peer proofs
+            # still certify every command before it reaches the controller.
+            target=(navigation_goal.copy() if independent_bypass else
+                    np.r_[navigation_goal[:2],self.height if self.mode=='ABS' else self.map.ground_at(*navigation_goal[:2])+self.height])
             samples=np.linspace(p,target,max(3,int(remaining/.15)+1))[1:]
             if route_corridor_clear(self.map,p,target,radius=route_radius):
-                self.desired[:2]=direct*min(self.speed,1.,remaining*.8)
+                self.desired[:2]=direct*min(self.speed,.6 if independent_bypass else 1.,remaining*.8)
                 self.desired[2]=np.clip((target[2]-p[2])*1.2,-VERTICAL_SPEED,VERTICAL_SPEED)
-                self.chosen=samples;self.reason='Observed terminal approach';self.last_safe=time.monotonic();return
+                request=self.desired.copy()
+                self.desired=self.cohesion_velocity(request,position=p,record=True)
+                if np.linalg.norm(request[:2])>.02 and np.linalg.norm(self.desired[:2])<=.02:
+                    self.cohesion_recovery=True
+                    self.desired[:]=0.;self.reason='Cohesion blocks outward short route; observing inward continuation'
+                    self.recover_independent_route(p,v,time.monotonic())
+                    return
+                self.chosen=samples;self.reason='Observed short bypass' if independent_bypass else 'Observed terminal approach';self.last_safe=time.monotonic();return
             self.desired[:]=0;self.reason='Terminal corridor unobserved/occupied'
             if (getattr(self.five,'reference',None) or {}).get('independent_terminal'):
                 self.recover_independent_route(p,v,time.monotonic())
@@ -758,6 +805,8 @@ class Mission:
         if abs(yaw_error)>.65:
             self.desired[:]=0;self.reason='Turning sensor toward local route';return
         frame=self.frames['front'];world,scores=self.infer(frame[1],p,v,self.rot,navigation_goal,source_stamp=frame[0])
+        self.last_yopo_world=world.copy();self.last_yopo_scores=scores.copy()
+        self.last_yopo_position=p.copy();self.last_yopo_goal=navigation_goal.copy()
         if not checkpoint():return
         directions=[]
         for idx in np.argsort(scores):
@@ -768,6 +817,9 @@ class Mission:
         candidates=[];best=None
         independent=(getattr(self.five,'reference',None) or {}).get('independent_terminal')
         ranked=[]
+        diagnostics=dict(stamp=frame[0],directions=len(directions),observed_routes=0,peer_rejected=0,
+                         waypoint_distance=float(remaining),bypass=bool(independent_bypass),cohesion_rejected=0)
+        cohesion_blocked_demand=None
         for direction,score,index in directions:
             if not checkpoint():return
             if independent_bypass:
@@ -805,8 +857,15 @@ class Mission:
                 safe_speed=min(safe_speed,float(np.min(future_limit,initial=self.speed)))
             if independent_bypass:
                 safe_speed=min(safe_speed,1.5)
+            if independent:
+                request=np.r_[direction*safe_speed,0.]
+                admitted=self.cohesion_velocity(request,position=p)
+                if safe_speed>.02 and np.linalg.norm(admitted[:2])<=.02:
+                    diagnostics['cohesion_rejected']+=1;cohesion_blocked_demand=request
+                safe_speed=float(np.linalg.norm(admitted[:2]))
             if independent and safe_speed<=.02:
                 continue
+            diagnostics['observed_routes']+=1
             candidates.append(usable)
             alignment=float(np.dot(direction,direct))
             metric=safe_speed*max(0,alignment)-.03*score-.25*(1-alignment)
@@ -825,9 +884,16 @@ class Mission:
                 if self.five.independent_peer_clear(p,v,np.r_[direction*speed,vz]):
                     best=candidate
                     break
+                diagnostics['peer_rejected']+=1
+        diagnostics['selected']=best is not None
+        self.candidate_diagnostics=diagnostics
         self.last_candidates=candidates
         if best is None:
-            self.desired[:]=0;self.reason='No observed safe YOPO corridor'
+            if cohesion_blocked_demand is not None:
+                self.cohesion_recovery=True
+                self.cohesion_velocity(cohesion_blocked_demand,position=p,record=True)
+            self.desired[:]=0;self.reason=('Cohesion blocks outward candidates; observing inward continuation'
+                                         if cohesion_blocked_demand is not None else 'No observed safe YOPO corridor')
             if independent and self.recover_independent_route(p,v,time.monotonic()):
                 return
             self.try_detour(p)
@@ -912,6 +978,53 @@ class Mission:
         if not np.isfinite(here+ahead):return 0.
         feed=(ahead-here)/.25*speed
         return float(np.clip(feed+2.*(here+self.height-p[2]),-VERTICAL_SPEED,VERTICAL_SPEED))
+
+    def cohesion_velocity(self,desired,position=None,record=False):
+        desired=np.asarray(desired,float).copy()
+        reference=getattr(getattr(self,'five',None),'reference',None) or {}
+        if (reference.get('independent_terminal') and self.phase in ('TERRAIN_FOLLOW','END_HOLD')):
+            from tree_distance import directional_speed_limit,member_speed_limit,validate_cohesion_reference
+            c=reference.get('cohesion')
+            clock=rospy.Time.now().to_sec() if c is not None else None
+            here=getattr(self,'p',None) if position is None else position
+            request=desired.copy()
+            policy_cap=directional_speed_limit(reference,self.id%5,here,desired,now=clock)
+            cap=min(self.speed,policy_cap)
+            desired[:2]=limit_norm(desired[:2],cap)
+            if record:
+                # Keep the rejection that caused an intentional zero command;
+                # zero itself carries no direction to classify.
+                incident=[e for e in (c or {}).get('edges',[]) if e['active'] and self.id%5 in (e['parent'],e['child'])]
+                hard_cap=member_speed_limit(reference,self.id%5)
+                keep=np.linalg.norm(request[:2])<1e-9 and getattr(self.five,'cohesion_limited',False) and hard_cap<.05
+                if not keep:
+                    policy_limited=bool(policy_cap<float(reference['speed'])-1e-6)
+                    # Positive speed regulation is still expected to make
+                    # progress. Only an explicit hard pause suspends the
+                    # failure deadline; a 2 m/s cap must not hide path stalls.
+                    self.five.cohesion_limited=bool(hard_cap<.05)
+                    if self.five.cohesion_limited:self.cohesion_wait_active=True
+                    elif getattr(self,'cohesion_wait_active',False) and (np.linalg.norm(desired[:2])>.02 or not incident):
+                        self.cohesion_resume_stamp=time.monotonic();self.cohesion_wait_active=False
+                    if not self.five.cohesion_limited and np.linalg.norm(desired[:2])>.02:
+                        self.cohesion_recovery=False
+                    if c is not None:
+                        observation_fresh=validate_cohesion_reference(reference,clock)[3]
+                        self.five.direction_limit=dict(stamp=clock,source_stamp=c['stamp'],
+                            requested_xy=request[:2].tolist(),limited_xy=desired[:2].tolist(),
+                            cap_mps=cap,limited=policy_limited,hard_pause=self.five.cohesion_limited,
+                            policy_cap_mps=policy_cap,planner_speed_limit_mps=self.speed,
+                            observation_fresh=observation_fresh,
+                            minimum_policy_mps=(c or {}).get('minimum_speed_mps',2.),
+                            actual_command_xy_mps=float(np.linalg.norm(desired[:2])),
+                            position_xy=np.asarray(here)[:2].tolist())
+        return desired
+
+    def local_progress_age(self,now):
+        # A legitimate wait does not erase scan history, but restored motion
+        # gets a fresh termination deadline before measured progress can exist.
+        origin=max(self.progress_stamp,getattr(self,'cohesion_resume_stamp',-1e9))
+        return max(0.,float(now)-origin)
 
     def final_sweep(self,p,v):
         """Certify a complete delayed stop from measured velocity."""
@@ -1188,12 +1301,14 @@ class Mission:
                         elif self.phase=='FAULT_HOLD':self.desired[:]=0
                         elif self.phase in ('HOLD','BRAKE','END_HOLD'):
                             self.desired=limit_norm((self.hold-p)*1.2,1.5)
+                        self.desired=self.cohesion_velocity(self.desired,position=p,record=True)
                         if self.phase in ('CRUISE','TERRAIN_FOLLOW','GOTO') and not joint:
                             if self.count==10 and getattr(self.five,'active',False) and getattr(self.five,'safety_paused',False):
                                 self.progress_p=p.copy();self.progress_stamp=time.monotonic()
-                            if self.progress_p is None or np.linalg.norm(p-self.progress_p)>.5:
+                            independent=bool((getattr(self.five,'reference',None) or {}).get('independent_terminal'))
+                            if self.progress_p is None or made_local_progress(self.progress_p,p,v,self.desired,independent):
                                 self.progress_p=p.copy();self.progress_stamp=time.monotonic()
-                            stagnant=time.monotonic()-self.progress_stamp
+                            stagnant=self.local_progress_age(time.monotonic())
                             if stagnant>5 and getattr(self,'detour_scan_start',None) is None:
                                 self.reason+='; local detour requested'
                                 if self.mode=='AGL':
@@ -1206,8 +1321,10 @@ class Mission:
                                             self.desired[2]=self.terrain_velocity(p,v)
                                             self.heading=math.atan2(delta[1],delta[0])
                                             if self.count==10:self.five.blocked=False
-                            if stagnant>(30 if self.count==10 else 10):self.fail('No safe local progress')
+                            if stagnant>(30 if self.count==10 else 10) and not (independent and getattr(self.five,'cohesion_limited',False)):
+                                self.fail('No safe local progress')
                 self.plan_stage='sweep';self.plan_stage_started=time.monotonic()
+                self.desired=self.cohesion_velocity(self.desired,position=p,record=True)
                 if self.phase in ('CRUISE','TERRAIN_FOLLOW','GOTO','END_APPROACH','FORMATION') or self.count==10 and self.phase=='END_HOLD':self.final_sweep(p,v)
                 self.plan_stage='safety';self.plan_stage_started=time.monotonic()
                 if self.five:self.five.safety(p,v)
@@ -1280,6 +1397,9 @@ class Mission:
                     desired[:]=0.
             if self.failure or getattr(self,'stop_pending',False) or now-self.last_plan>.6 or rospy.Time.now().to_sec()-self.odom_stamp>.5:desired[:]=0
             if self.count==10 and getattr(self.five,'active',False) and getattr(self.five,'safety_paused',False):desired[:]=0.
+            try:desired=self.cohesion_velocity(desired,record=True)
+            except (ValueError,KeyError,TypeError) as exc:
+                desired[:]=0.;self.fail('Invalid cohesion control observation: '+str(exc))
             limits=dict(vertical_speed=7.,vertical_acc=2.5,vertical_jerk=8.) if self.count==10 else {}
             new,self.refa=smooth_velocity(self.refv,self.refa,desired,dt,**limits)
             self.refp+=(self.refv+new)*dt*.5;self.refv=new
@@ -1368,7 +1488,7 @@ class Mission:
         self.distance=None if not self.peer else float(np.linalg.norm(p-np.array(self.peer['position'])))
         value=dict(stamp=stamp,drone_id=self.id,phase=self.phase,height_mode=self.mode,target_height=self.height,inference_device=getattr(self,'device','unknown'),
             position=p.tolist(),velocity=v.tolist(),abs=float(p[2]),ground=self.ground,agl=float(p[2]-self.ground),speed=float(np.linalg.norm(v)),
-            control_reference=reference,
+            control_reference=reference,ground_cloud_source=getattr(self,'ground_cloud_source',None),
             goal=self.goal.tolist(),at_goal=bool(np.linalg.norm(p-self.goal)<.5 and np.linalg.norm(v)<.4),armed=self.armed,contact=self.contact,
             reason=self.reason,failure=self.failure,cruise_seconds=self.cruise.best,speed_1s=self.cruise.mean,band_active=self.band,
             pair_distance=self.distance,rendezvous_ready=self.rendezvous_ready,network_inferences=self.inferences,rejections=dict(self.rejects),map=stats,
@@ -1388,6 +1508,12 @@ class Mission:
             value['approach_check_stamp']=getattr(self.five,'approach_check_stamp',0.)
             value['approach_goal_clear']=getattr(self.five,'approach_goal_clear',False)
         value['frame_ages']={c:rospy.Time.now().to_sec()-f[0] for c,f in self.frames.items()}
+        detour=getattr(self,'detour',None)
+        value['local_recovery']=dict(scan_step=getattr(self,'detour_scan_step',None),
+            scan_active=getattr(self,'detour_scan_start',None) is not None,
+            command_yaw=self.yaw,measured_yaw=math.atan2(self.rot[1,0],self.rot[0,0]),heading=self.heading,
+            detour_endpoint=None if detour is None else detour[-1].tolist(),
+            candidates=getattr(self,'candidate_diagnostics',None))
         value.update(planner_mode=getattr(self,'planning_mode','YOPO'),planner_epoch=getattr(self,'planner_epoch',0),
                      image_callbacks=getattr(self,'image_callbacks',0),image_subscribers=len(getattr(self,'image_subscriptions',[])),yopo_ready=getattr(self,'yopo_ready',False),
                      image_received=getattr(self,'image_received',0),image_receive_ages={k:stamp-m.header.stamp.to_sec() for k,m in list(getattr(self,'preview_images',{}).items())},

@@ -16,6 +16,15 @@ def limit_norm(value, limit):
     return value * min(1., float(limit) / max(float(np.linalg.norm(value)), 1e-9))
 
 
+def made_local_progress(origin,position,velocity,desired,independent=False):
+    """Count measured commanded restart, while rejecting jitter and drift."""
+    delta=np.asarray(position,float)-np.asarray(origin,float)
+    if np.linalg.norm(delta)>.5:return True
+    v=np.asarray(velocity,float)[:2];command=np.asarray(desired,float)[:2]
+    return bool(independent and np.linalg.norm(delta[:2])>.15 and
+                np.linalg.norm(v)>.2 and np.dot(v,command)>0.)
+
+
 def slew_velocity(previous, target, dt):
     previous, target = np.asarray(previous, float), np.asarray(target, float)
     result = previous.copy()

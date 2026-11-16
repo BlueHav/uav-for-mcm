@@ -14,7 +14,7 @@ namespace Yopo.TrackerTest {
    if(chase==null)return;
 
    if(Time.realtimeSinceStartup>=nextPointRead){nextPointRead=Time.realtimeSinceStartup+1;
-    try {string path=Environment.GetEnvironmentVariable("YOPO_POINT_FILE");if(string.IsNullOrEmpty(path))path="/root/swarm-uav/config/point.json";
+    try {string path=Environment.GetEnvironmentVariable("YOPO_POINT_FILE");if(string.IsNullOrEmpty(path))path=System.IO.Path.GetFullPath(System.IO.Path.Combine(Application.dataPath,"../../../config/point.json"));
      double readStarted=SensorClock();string text=File.ReadAllText(path);SensorTiming("pin_file_read",readStarted);if(text!=pointText){var file=JsonUtility.FromJson<MarkerFile>(text);mapPoints=file.points;pointText=text;Debug.Log("MAP_MARKERS_LOADED start/end/end2/landing");}}
     catch(Exception e){if(pointText!="READ_ERROR")Debug.LogWarning("Map markers: "+e.Message);mapPoints=null;pointText="READ_ERROR";}
    }

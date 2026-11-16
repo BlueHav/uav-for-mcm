@@ -1,0 +1,38 @@
+{
+  "date": "2026-11-16",
+  "scope": "Linux SSH server only; independent installation and phase-six flight",
+  "unit_tests": {
+    "passed": true,
+    "canonical_queue": 286,
+    "isolated_install_queue": 267,
+    "count": 83
+  },
+  "independent_setup": {
+    "passed": true,
+    "queue": 236,
+    "own_dynamics_library": true,
+    "own_controller_and_tcp": true
+  },
+  "unity": {
+    "source_count": 29,
+    "assembly_sha256": "1172d079e68ebd4bd031a9b1ca57fc6e822dc2c00ab072b867dc85b82078501c",
+    "reproducible": true
+  },
+  "flight": {
+    "run": "phase6-min2-formation-cross-02",
+    "strict_distance_audit_passed": false,
+    "injection_response_complete": false,
+    "landed": true,
+    "runtime_manifest": "min2-formation-source-manifest.json",
+    "audit": "min2-formation-cross-audit.json"
+  },
+  "final_git_export_install": {
+    "passed": true,
+    "tracked_file_hashes_verified": 736,
+    "setup_passed": true,
+    "unit_tests_passed": 83,
+    "queue": 288,
+    "own_controller_tcp_and_dynamics": true,
+    "source_and_player_match": true
+  }
+}

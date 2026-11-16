@@ -3,7 +3,7 @@ set -euo pipefail
 root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 cd "$root/code/Swarm-formation/native"
 ros=${YOPO_ROS_ROOT:-/opt/ros/noetic}
-swarm=${YOPO_SWARM_WS:-/root/gpufree-data/yopo-portable/workspaces/swarm}
+swarm=${YOPO_SWARM_WS:-$root/workspaces/controller}
 boost=${YOPO_BOOST_INCLUDE:-/usr/include}
 output=$(mktemp "$PWD/.cloud_swarm_native.XXXXXXXX")
 trap 'if [[ -e "$output" ]]; then rm -- "$output"; fi' EXIT

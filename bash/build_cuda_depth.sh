@@ -20,3 +20,6 @@ build() {
 mkdir -p "$plugins"
 build "$runtime/ray_carve_cuda.cu" "$runtime/ray_carve_cuda.so"
 build "$root/unity/native/cuda_depth_ipc.cu" "$plugins/libyopo_cuda_depth_ipc.so"
+player_plugins="$root/unity/Build/MountainCity_Data/Plugins/x86_64"
+[[ -d "$player_plugins" ]] || { echo 'Run setup.sh to unpack the Player first' >&2; exit 2; }
+cp "$plugins/libyopo_cuda_depth_ipc.so" "$player_plugins/libyopo_cuda_depth_ipc.so"

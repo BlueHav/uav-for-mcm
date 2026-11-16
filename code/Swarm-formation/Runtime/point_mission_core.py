@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 import numpy as np
 from display_sampling import world_height
-from formation_core import transition
+from formation_core import transition, shape
 from leader_following import group_order
 from mission_core import BODY_OFFSET
 from active_layout import ActiveLayout
@@ -65,8 +65,16 @@ class PointMission:
         return np.c_[xy,self.ground(xy)+self.assembly_agl]
 
     def landing_slots(self,g):
-        xy=self.ends[g]+STAR
+        xy=self.ends[g]+self.star_offsets(g)
         return np.c_[xy,self.ground(xy)+BODY_OFFSET]
+
+    def star_offsets(self,g):
+        # Upstream type-6 final template, with the physical leader kept at 2.
+        slots=shape('final')[[1,2,0,3,4],:2]
+        forward=self.ends[g]-self.assembly_anchor(g)
+        forward=forward/np.linalg.norm(forward)
+        right=np.array([forward[1],-forward[0]])
+        return slots[:,0,None]*right+slots[:,1,None]*forward
 
     def line(self,g,leader,z,direction=None):
         d=self.direction if direction is None else direction
@@ -121,6 +129,8 @@ class PointMission:
     def descent_path(self,g):
         anchor=self.assembly_anchor(g)
         d=self.arrival-self.routes[g][-2];d/=np.linalg.norm(d)
+        # Preserve the existing CLOUD merge's vertex identities and clearance.
+        # Independent YOPO later converges to the leading final star slots.
         endxy=anchor+STAR
         end=np.c_[endxy,self.ground(endxy)+self.arrival_agl]
         if getattr(self,'synchronized_climb',False):

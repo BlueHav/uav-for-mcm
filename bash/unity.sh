@@ -11,7 +11,7 @@ export YOPO_DEPTH_HZ="${YOPO_DEPTH_HZ:-15}"
 # This flag only selects the player's depth schedule. control.sh owns ROS
 # planning mode. Keep all ten front streams available to the existing selector.
 export YOPO_CLOUD_MISSION=0
-export DISPLAY=${SWARM_DISPLAY:-:20} XAUTHORITY=${SWARM_XAUTHORITY:-/home/ubuntu/.Xauthority}
+export DISPLAY=${SWARM_DISPLAY:-${DISPLAY:-:0}} XAUTHORITY=${SWARM_XAUTHORITY:-${XAUTHORITY:-$HOME/.Xauthority}}
 export YOPO_POINT_FILE="${YOPO_POINT_FILE:-$ROOT/config/point.json}"
 BUILD=${YOPO_UNITY_BUILD:-$ROOT/unity/Build}
 [[ -x "$BUILD/MountainCity.x86_64" ]] || { echo 'Unity player missing' >&2; exit 2; }

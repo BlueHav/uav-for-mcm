@@ -3363,6 +3363,16 @@
   },
   "note": "直线几何规划预览；平台未配置，地面检查仅提示。XY直线上为表达地形跟随高度而采样的中间点不代表横向绕行。未下发飞行。",
   "config_schema": "swarm-uav-point-v1",
+  "terminal_cohesion": {
+    "enabled": true,
+    "trigger_m": 50.0,
+    "resume_m": 25.0,
+    "slow_factor": 0.35,
+    "minimum_speed_mps": 2.0,
+    "coefficient_tolerance": 0.02,
+    "lookahead_s": 3.5,
+    "braking_margin_m": 22.0
+  },
   "paths": {
     "map": "config/maps/GeoMap10km",
     "map_files": {
@@ -3370,9 +3380,7 @@
       "metadata": "metadata.json",
       "satellite": "satellite.png"
     },
-    "source_dem": "/root/高程.tif",
-    "source_satellite": "/root/卫星影像.tif",
-    "unity_project": "/root/gpufree-data/yopo-portable/scene-geotiff10km",
+    "unity_project": "unity/Project",
     "web_map_urls": {
       "world": "map/world.json",
       "metadata": "map/metadata.json",

@@ -2,10 +2,11 @@
 # Orchestrate one point-mission run: Unity scene, control stack, command driver.
 set -uo pipefail
 ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
-MODE=${1:-five}
-RUN=${2:-/root/swarm-${MODE}-$(date +%Y%m%d-%H%M%S)}
+MODE=${1:-ten}
+RUN=${2:-$ROOT/.runs/${MODE}-$(date +%Y%m%d-%H%M%S)}
 mkdir -p "$RUN"
-echo "$RUN" > /root/last-${MODE}-run
+mkdir -p "$ROOT/.runs"
+echo "$RUN" > "$ROOT/.runs/last-${MODE}-run"
 echo "RUN=$RUN MODE=$MODE" | tee "$RUN/orchestrator.log"
 
 export SWARM_RUN_DIR="$RUN"
@@ -40,5 +41,7 @@ export PYTHONPATH="$ROOT/code/Swarm-formation/Runtime:$ROOT/code/YOPO:${PYTHONPA
 
 sleep 20
 /usr/bin/python3 "$ROOT/tests/run_point_mission.py" "$MODE" 3900 "$RUN/driver.json" > "$RUN/driver.log" 2>&1
-echo "driver exit $?" | tee -a "$RUN/orchestrator.log"
+result=$?
+echo "driver exit $result" | tee -a "$RUN/orchestrator.log"
 echo "RUN_DIR=$RUN"
+exit "$result"

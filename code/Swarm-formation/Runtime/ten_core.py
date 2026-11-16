@@ -147,8 +147,23 @@ def depth_points(depth,position,rotation,focal,cx,cy,stride=8):
  return body@np.asarray(rotation).T+position
 
 def failure_directory(root,run_id):
+ import json
  from pathlib import Path
- root=Path(root);target=Path((root/'Runtime/ten-last-run').read_text().strip()).resolve()
- parent=(root/'Reports/ten-runs').resolve()
- if not run_id or target.parent!=parent or target.name!=run_id:raise ValueError('Failure snapshot run mismatch')
+ parent=(Path(root)/'Reports').resolve()
+ index=json.loads((parent/'run-index.json').read_text())
+ target=(parent/index['directory']).resolve()
+ if not run_id or index.get('run_id')!=run_id or parent not in target.parents:
+  raise ValueError('Failure snapshot run mismatch or destination outside session reports')
+ if not target.is_dir():raise ValueError('Failure report directory does not exist')
  return target
+
+def register_failure_directory(root,run_id,directory):
+ import json
+ from pathlib import Path
+ parent=(Path(root)/'Reports').resolve();target=Path(directory).resolve()
+ if not run_id or parent not in target.parents or not target.is_dir():
+  raise ValueError('Failure destination must be inside this session reports')
+ parent.mkdir(parents=True,exist_ok=True)
+ index=parent/'run-index.json';temporary=index.with_suffix('.tmp')
+ temporary.write_text(json.dumps(dict(run_id=run_id,directory=str(target.relative_to(parent)))))
+ temporary.replace(index)

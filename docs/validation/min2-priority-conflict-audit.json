@@ -1,0 +1,573 @@
+{
+  "passed": false,
+  "run_id": "phase6-1eb7f4da5e",
+  "run_name": "phase6-min2-formation-cross-01",
+  "scope": "focused real phase-six flight; phases 1-5 not exercised",
+  "errors": [
+    "Measured XY link exceeded 50 m",
+    "20 Hz controller XY link peak exceeded 50 m"
+  ],
+  "telemetry_rows": 6879,
+  "network_inferences": {
+    "0": 5195,
+    "1": 4928,
+    "2": 5596,
+    "3": 4931,
+    "4": 4632,
+    "5": 4569,
+    "6": 4820,
+    "7": 5188,
+    "8": 4678,
+    "9": 4360
+  },
+  "joint_swarm_calls": 0,
+  "prelanding_star_max_error_m": {
+    "0": 0.32590798188859327,
+    "1": 0.3910354105120017
+  },
+  "actual_peak_horizontal_mps": {
+    "0": 6.068053029811773,
+    "1": 6.1235787373762145,
+    "2": 6.197581234099006,
+    "3": 6.268290460823118,
+    "4": 6.152778064025932,
+    "5": 6.365302530218085,
+    "6": 6.131666268211572,
+    "7": 6.845224028822316,
+    "8": 6.134978535825886,
+    "9": 6.129463571034999
+  },
+  "own_crop_members": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "failures": [],
+  "collision_events": 0,
+  "bounds_events": 0,
+  "source_hashes": {
+    "point": "814be3f598e855ba8e83a258a39ad8bb795b1a3f92d388f3ebce2025e52c15df",
+    "world": "e6aea346fa3c64b5c46d9bb6681ee066fdceb9ced26aeeb1fff6b6ae366eba10",
+    "metadata": "ecd873aa97d0f2467ef848f63016843e6e80d52bf692430607c40eb0257f25e2"
+  },
+  "cohesion_measured_xy_peaks_m": {
+    "0:2-0": 33.59219821977043,
+    "0:2-1": 34.50418493365215,
+    "0:0-3": 110.59136010232292,
+    "0:1-4": 29.298368175140347,
+    "1:2-0": 217.34683559604488,
+    "1:2-1": 181.57860062276686,
+    "1:0-3": 81.01713946960649,
+    "1:1-4": 74.39850857044223
+  },
+  "cohesion_gate_xy_peaks_m": {
+    "0:2-0": 33.59219821977043,
+    "0:2-1": 34.50418493365215,
+    "0:0-3": 110.59136010232292,
+    "0:1-4": 29.480997220999974,
+    "1:2-0": 217.34683559604488,
+    "1:2-1": 181.57860062276686,
+    "1:0-3": 81.10474196136505,
+    "1:1-4": 74.39850857044223
+  },
+  "runtime_source_manifest_sha256": "dd8b658938e7aa4ac32839ff8ded55dc07a3bb4a76239ab36a899b9efbf8a834",
+  "player_assembly_sha256": "1172d079e68ebd4bd031a9b1ca57fc6e822dc2c00ab072b867dc85b82078501c",
+  "cohesion_events": [
+    {
+      "group": 1,
+      "parent": 2,
+      "child": 1,
+      "active": true,
+      "stamp": 1794839911.2531114,
+      "observation_distance_m": 28.185893201227124,
+      "front": 1,
+      "rear": 2,
+      "release_count": 0
+    },
+    {
+      "group": 1,
+      "parent": 2,
+      "child": 1,
+      "active": false,
+      "stamp": 1794839933.7539978,
+      "observation_distance_m": 24.681600337566536,
+      "front": 1,
+      "rear": 2,
+      "release_count": 1
+    },
+    {
+      "group": 0,
+      "parent": 2,
+      "child": 1,
+      "active": true,
+      "stamp": 1794840093.4532597,
+      "observation_distance_m": 28.208287084654163,
+      "front": 1,
+      "rear": 2,
+      "release_count": 0
+    },
+    {
+      "group": 0,
+      "parent": 2,
+      "child": 0,
+      "active": true,
+      "stamp": 1794840094.052947,
+      "observation_distance_m": 28.119388334559098,
+      "front": 0,
+      "rear": 2,
+      "release_count": 0
+    },
+    {
+      "group": 0,
+      "parent": 2,
+      "child": 1,
+      "active": false,
+      "stamp": 1794840100.7529917,
+      "observation_distance_m": 24.637076807011482,
+      "front": 1,
+      "rear": 2,
+      "release_count": 1
+    },
+    {
+      "group": 0,
+      "parent": 2,
+      "child": 0,
+      "active": false,
+      "stamp": 1794840101.255594,
+      "observation_distance_m": 24.885969329769868,
+      "front": 0,
+      "rear": 2,
+      "release_count": 1
+    },
+    {
+      "group": 1,
+      "parent": 0,
+      "child": 3,
+      "active": true,
+      "stamp": 1794840112.1528494,
+      "observation_distance_m": 28.936720349508363,
+      "front": 0,
+      "rear": 3,
+      "release_count": 0
+    },
+    {
+      "group": 1,
+      "parent": 2,
+      "child": 0,
+      "active": true,
+      "stamp": 1794840113.753526,
+      "observation_distance_m": 28.081913055825293,
+      "front": 0,
+      "rear": 2,
+      "release_count": 0
+    },
+    {
+      "group": 1,
+      "parent": 2,
+      "child": 0,
+      "active": false,
+      "stamp": 1794840115.8549478,
+      "observation_distance_m": 24.592228463283707,
+      "front": 0,
+      "rear": 2,
+      "release_count": 1
+    },
+    {
+      "group": 1,
+      "parent": 2,
+      "child": 1,
+      "active": true,
+      "stamp": 1794840119.853365,
+      "observation_distance_m": 28.610389258773388,
+      "front": 2,
+      "rear": 1,
+      "release_count": 1
+    },
+    {
+      "group": 1,
+      "parent": 1,
+      "child": 4,
+      "active": true,
+      "stamp": 1794840127.5534322,
+      "observation_distance_m": 28.163233349143876,
+      "front": 4,
+      "rear": 1,
+      "release_count": 0
+    },
+    {
+      "group": 0,
+      "parent": 2,
+      "child": 1,
+      "active": true,
+      "stamp": 1794840138.4529421,
+      "observation_distance_m": 28.032218314197234,
+      "front": 2,
+      "rear": 1,
+      "release_count": 1
+    },
+    {
+      "group": 0,
+      "parent": 2,
+      "child": 1,
+      "active": false,
+      "stamp": 1794840140.6530118,
+      "observation_distance_m": 24.93213669456404,
+      "front": 2,
+      "rear": 1,
+      "release_count": 2
+    },
+    {
+      "group": 1,
+      "parent": 2,
+      "child": 0,
+      "active": true,
+      "stamp": 1794840149.9528913,
+      "observation_distance_m": 28.256428783696563,
+      "front": 2,
+      "rear": 0,
+      "release_count": 1
+    },
+    {
+      "group": 1,
+      "parent": 0,
+      "child": 3,
+      "active": false,
+      "stamp": 1794840153.5528998,
+      "observation_distance_m": 25.1909659833008,
+      "front": 0,
+      "rear": 3,
+      "release_count": 1
+    },
+    {
+      "group": 1,
+      "parent": 2,
+      "child": 0,
+      "active": false,
+      "stamp": 1794840156.5532386,
+      "observation_distance_m": 24.738925541153478,
+      "front": 2,
+      "rear": 0,
+      "release_count": 2
+    },
+    {
+      "group": 0,
+      "parent": 2,
+      "child": 1,
+      "active": true,
+      "stamp": 1794840156.752931,
+      "observation_distance_m": 28.419936691462333,
+      "front": 2,
+      "rear": 1,
+      "release_count": 2
+    },
+    {
+      "group": 1,
+      "parent": 0,
+      "child": 3,
+      "active": true,
+      "stamp": 1794840164.2529283,
+      "observation_distance_m": 28.02456794598058,
+      "front": 0,
+      "rear": 3,
+      "release_count": 1
+    },
+    {
+      "group": 1,
+      "parent": 2,
+      "child": 0,
+      "active": true,
+      "stamp": 1794840171.7530022,
+      "observation_distance_m": 27.025695771463525,
+      "front": 2,
+      "rear": 0,
+      "release_count": 2
+    },
+    {
+      "group": 0,
+      "parent": 0,
+      "child": 3,
+      "active": true,
+      "stamp": 1794840173.252968,
+      "observation_distance_m": 28.039502280727532,
+      "front": 0,
+      "rear": 3,
+      "release_count": 0
+    },
+    {
+      "group": 0,
+      "parent": 1,
+      "child": 4,
+      "active": true,
+      "stamp": 1794840182.1537716,
+      "observation_distance_m": 27.9705201688175,
+      "front": 1,
+      "rear": 4,
+      "release_count": 0
+    },
+    {
+      "group": 0,
+      "parent": 1,
+      "child": 4,
+      "active": false,
+      "stamp": 1794840185.653016,
+      "observation_distance_m": 24.82489732652869,
+      "front": 1,
+      "rear": 4,
+      "release_count": 1
+    },
+    {
+      "group": 0,
+      "parent": 0,
+      "child": 3,
+      "active": false,
+      "stamp": 1794840187.3530037,
+      "observation_distance_m": 24.818350210135506,
+      "front": 0,
+      "rear": 3,
+      "release_count": 1
+    },
+    {
+      "group": 0,
+      "parent": 2,
+      "child": 1,
+      "active": false,
+      "stamp": 1794840193.5530362,
+      "observation_distance_m": 24.98016873882763,
+      "front": 2,
+      "rear": 1,
+      "release_count": 3
+    },
+    {
+      "group": 1,
+      "parent": 0,
+      "child": 3,
+      "active": false,
+      "stamp": 1794840264.8529553,
+      "observation_distance_m": 24.992117054135885,
+      "front": 3,
+      "rear": 0,
+      "release_count": 2
+    },
+    {
+      "group": 1,
+      "parent": 1,
+      "child": 4,
+      "active": false,
+      "stamp": 1794840267.2531843,
+      "observation_distance_m": 24.81187051869925,
+      "front": 1,
+      "rear": 4,
+      "release_count": 1
+    },
+    {
+      "group": 0,
+      "parent": 0,
+      "child": 3,
+      "active": true,
+      "stamp": 1794840280.953105,
+      "observation_distance_m": 28.08688847252722,
+      "front": 0,
+      "rear": 3,
+      "release_count": 1
+    },
+    {
+      "group": 1,
+      "parent": 0,
+      "child": 3,
+      "active": true,
+      "stamp": 1794840301.1533473,
+      "observation_distance_m": 28.02759197424369,
+      "front": 0,
+      "rear": 3,
+      "release_count": 2
+    },
+    {
+      "group": 1,
+      "parent": 2,
+      "child": 0,
+      "active": false,
+      "stamp": 1794840302.9530292,
+      "observation_distance_m": 24.89496822818831,
+      "front": 2,
+      "rear": 0,
+      "release_count": 3
+    },
+    {
+      "group": 1,
+      "parent": 2,
+      "child": 1,
+      "active": false,
+      "stamp": 1794840310.6529803,
+      "observation_distance_m": 24.97908101881704,
+      "front": 2,
+      "rear": 1,
+      "release_count": 2
+    },
+    {
+      "group": 1,
+      "parent": 0,
+      "child": 3,
+      "active": false,
+      "stamp": 1794840311.7529469,
+      "observation_distance_m": 24.949045826109423,
+      "front": 0,
+      "rear": 3,
+      "release_count": 3
+    },
+    {
+      "group": 0,
+      "parent": 0,
+      "child": 3,
+      "active": false,
+      "stamp": 1794840368.1527061,
+      "observation_distance_m": 24.322343370363154,
+      "front": 0,
+      "rear": 3,
+      "release_count": 2
+    }
+  ],
+  "lag_evidence": {
+    "injected_slow": true,
+    "front_slow": true,
+    "rear_catchup": true,
+    "recovered_within_25m": true,
+    "resumed": true
+  },
+  "formation_speed_evidence": {
+    "groups": [
+      0,
+      1
+    ],
+    "coefficient_peaks": {
+      "0": 1.6818503064866035,
+      "1": 1.606768809363549
+    },
+    "culprit_observations": {
+      "0": 3918,
+      "1": 4014,
+      "4": 2451,
+      "3": 4636,
+      "2": 4265,
+      "6": 3180,
+      "5": 3758,
+      "8": 4538,
+      "9": 4565,
+      "7": 5040
+    },
+    "order_violation_observations": {
+      "0:0-3": 2489,
+      "0:1-4": 2407,
+      "1:0-3": 3099,
+      "1:1-4": 2756,
+      "1:2-0": 2211,
+      "1:2-1": 2137,
+      "0:2-0": 1653,
+      "0:2-1": 2549
+    },
+    "order_response": {
+      "0:0-3": {
+        "first_stamp": 1794839722.8561687,
+        "consumer_cap_seen": true,
+        "physical_slow_seen": true,
+        "recovered": true,
+        "violation_rows": 2489,
+        "last_violation_stamp": 1794840244.9529371,
+        "recovery_stamp": 1794840396.95288
+      },
+      "0:1-4": {
+        "first_stamp": 1794839722.8561687,
+        "consumer_cap_seen": true,
+        "physical_slow_seen": true,
+        "recovered": true,
+        "violation_rows": 2407,
+        "last_violation_stamp": 1794840283.053569,
+        "recovery_stamp": 1794840396.95288
+      },
+      "1:0-3": {
+        "first_stamp": 1794839722.8561687,
+        "consumer_cap_seen": true,
+        "physical_slow_seen": true,
+        "recovered": true,
+        "violation_rows": 3099,
+        "last_violation_stamp": 1794840283.8529615,
+        "recovery_stamp": 1794840396.95288
+      },
+      "1:1-4": {
+        "first_stamp": 1794839722.8561687,
+        "consumer_cap_seen": true,
+        "physical_slow_seen": true,
+        "recovered": true,
+        "violation_rows": 2756,
+        "last_violation_stamp": 1794840216.1532288,
+        "recovery_stamp": 1794840396.95288
+      },
+      "1:2-0": {
+        "first_stamp": 1794839724.9539225,
+        "consumer_cap_seen": true,
+        "physical_slow_seen": true,
+        "recovered": true,
+        "violation_rows": 2211,
+        "last_violation_stamp": 1794840166.9529114,
+        "recovery_stamp": 1794840396.95288
+      },
+      "1:2-1": {
+        "first_stamp": 1794839727.353472,
+        "consumer_cap_seen": true,
+        "physical_slow_seen": true,
+        "recovered": true,
+        "violation_rows": 2137,
+        "last_violation_stamp": 1794840166.452801,
+        "recovery_stamp": 1794840396.95288
+      },
+      "0:2-0": {
+        "first_stamp": 1794839731.9527898,
+        "consumer_cap_seen": true,
+        "physical_slow_seen": true,
+        "recovered": true,
+        "violation_rows": 1653,
+        "last_violation_stamp": 1794840314.8529978,
+        "recovery_stamp": 1794840396.95288
+      },
+      "0:2-1": {
+        "first_stamp": 1794839731.9527898,
+        "consumer_cap_seen": true,
+        "physical_slow_seen": true,
+        "recovered": true,
+        "violation_rows": 2549,
+        "last_violation_stamp": 1794840288.653121,
+        "recovery_stamp": 1794840396.95288
+      }
+    },
+    "policy_floor_violations": 0,
+    "consumer_policy_floor_violations": 0,
+    "order_cap_violations": 0,
+    "stale_fallback_observations": 45,
+    "zero_command_reasons": {
+      "sensor_turn": 1452,
+      "no_observed_corridor": 65,
+      "safety_braking": 2407,
+      "other_planner_command": 573,
+      "terminal_settle": 5104
+    },
+    "consumer_policy_members": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ]
+  },
+  "distance_cycle_exercised": true
+}

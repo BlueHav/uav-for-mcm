@@ -2,10 +2,10 @@
 import os
 from pathlib import Path
 
-ROOT = Path(os.environ.get('YOPO_ROOT', Path(__file__).resolve().parents[2]))
 PROJECT = Path(__file__).resolve().parents[3]
+ROOT = Path(os.environ.get('YOPO_ROOT', PROJECT))
 SCENE = Path(os.environ.get('YOPO_SCENE_ROOT', ROOT / 'scene'))
-PLANNER = Path(os.environ.get('YOPO_PLANNER_ROOT', ROOT / 'planner/YOPO'))
+PLANNER = Path(os.environ.get('YOPO_PLANNER_ROOT', PROJECT / 'code/YOPO'))
 WEIGHTS = Path(os.environ.get('YOPO_WEIGHTS', PLANNER / 'saved/YOPO_1/epoch50.pth'))
 OPS = Path(os.environ.get('YOPO_OPS_ROOT', ROOT / 'ops'))
 CONTROLLER = Path(os.environ.get('YOPO_CONTROLLER_WS', ROOT / 'workspaces/controller'))
