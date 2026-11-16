@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>yopo_ten_mission</name>
+  <version>1.0.0</version>
+  <description>Ten aircraft ROS1 mission coordinator and sensor-based planners.</description>
+  <maintainer email="maintainer@example.com">YOPO project</maintainer>
+  <license>BSD-3-Clause</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>rviz</exec_depend>
+  <exec_depend>so3_quadrotor_simulator</exec_depend>
+  <exec_depend>so3_control</exec_depend>
+  <exec_depend>ros_tcp_endpoint</exec_depend>
+  <exec_depend>swarm_status_panel</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>visualization_msgs</exec_depend>
+  <exec_depend>quadrotor_msgs</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+</package>

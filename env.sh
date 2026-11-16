@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+export UAV_PROJECT_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+export YOPO_PLANNER_ROOT="$UAV_PROJECT_ROOT/code/YOPO"
+source "${UAV_SYSTEM_ENV:-/root/gpufree-data/yopo-portable/env.sh}"
+export YOPO_POINT_FILE="$UAV_PROJECT_ROOT/config/point.json"
+export YOPO_SCENE_ROOT="${SWARM_RUN_DIR:-$UAV_PROJECT_ROOT/.runs/session}"
+export YOPO_UNITY_BUILD="$UAV_PROJECT_ROOT/unity/Build"
+export YOPO_ENV_FILE="$UAV_PROJECT_ROOT/env.sh"
+export PYTHONPATH="$UAV_PROJECT_ROOT/code/Swarm-formation/Runtime:$YOPO_PLANNER_ROOT:$PYTHONPATH"
+export ROS_PACKAGE_PATH="$UAV_PROJECT_ROOT/code/Swarm-formation/Runtime:$ROS_PACKAGE_PATH"

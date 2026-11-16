@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.runs/
+unity/Build/
+*.log
+*.lock

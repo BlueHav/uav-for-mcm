@@ -1,0 +1,28 @@
+<launch>
+  <arg name="tracker_x" default="45.0"/>
+  <arg name="tracker_y" default="-50.0"/>
+  <arg name="tracker_z" default="2.0"/>
+  <node pkg="so3_quadrotor_simulator" type="quadrotor_simulator_so3" name="quadrotor_simulator_so3" output="screen" required="true">
+    <param name="is_tracker" value="true"/>
+    <param name="rate/odom" value="50.0"/>
+    <param name="simulator/init_state_x" value="$(arg tracker_x)"/>
+    <param name="simulator/init_state_y" value="$(arg tracker_y)"/>
+    <param name="simulator/init_state_z" value="$(arg tracker_z)"/>
+    <remap from="odom" to="/drone_0/odom"/>
+    <remap from="imu" to="/sim/imu"/>
+    <remap from="cmd" to="/so3_cmd"/>
+  </node>
+  <node pkg="so3_control" type="network_control_node" name="network_controller_node" output="screen" required="true">
+    <param name="is_simulation" value="true"/>
+    <param name="use_disturbance_observer" value="true"/>
+    <param name="disturbance_observer_type" value="HGDO"/>
+    <param name="hover_thrust" value="0.375"/>
+    <param name="record_log" value="false"/>
+    <remap from="odom" to="/drone_0/odom"/>
+    <remap from="imu" to="/sim/imu"/>
+    <remap from="position_cmd" to="/so3_control/pos_cmd"/>
+    <remap from="so3_cmd" to="/so3_cmd"/>
+  </node>
+  <node pkg="tf2_ros" type="static_transform_publisher" name="camera_tf" args="0 0 0.1 -1.5708 0 -1.5708 odom camera_frame"/>
+  <node pkg="so3_quadrotor_simulator" type="odom_paths.py" name="odom_paths" output="screen"/>
+</launch>

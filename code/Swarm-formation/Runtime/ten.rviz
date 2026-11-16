@@ -1,0 +1,1485 @@
+Panels:
+- Class: rviz/Displays
+  Help Height: 52
+  Name: Displays
+  Property Tree Widget:
+    Expanded: null
+    Splitter Ratio: 0.5
+  Tree Height: 438
+- Class: rviz/Views
+  Expanded:
+  - /Current View1
+  Name: Views
+  Splitter Ratio: 0.5
+Preferences:
+  PromptSaveOnExit: true
+Toolbars:
+  toolButtonStyle: 2
+Visualization Manager:
+  Class: ''
+  Displays:
+  - Class: swarm_status_panel/Overlay
+    Name: Fleet status overlay
+    Enabled: true
+  - Alpha: 0.30000001192092896
+    Cell Size: 10
+    Class: rviz/Grid
+    Color: 75; 80; 90
+    Enabled: true
+    Line Style:
+      Line Width: 0.029999999329447746
+      Value: Lines
+    Name: Local reference grid
+    Normal Cell Count: 0
+    Offset:
+      X: 0
+      Y: 0
+      Z: 0
+    Plane: XY
+    Plane Cell Count: 30
+    Reference Frame: world
+    Value: true
+  - Class: rviz/TF
+    Enabled: true
+    Filter (blacklist): ''
+    Filter (whitelist): ''
+    Frame Timeout: 10
+    Frames:
+      All Enabled: true
+      drone_0/base_link:
+        Value: true
+      drone_0/camera_frame:
+        Value: true
+      drone_1/base_link:
+        Value: true
+      drone_1/camera_frame:
+        Value: true
+      drone_2/base_link:
+        Value: true
+      drone_2/camera_frame:
+        Value: true
+      drone_3/base_link:
+        Value: true
+      drone_3/camera_frame:
+        Value: true
+      drone_4/base_link:
+        Value: true
+      drone_4/camera_frame:
+        Value: true
+      drone_5/base_link:
+        Value: true
+      drone_5/camera_frame:
+        Value: true
+      drone_6/base_link:
+        Value: true
+      drone_6/camera_frame:
+        Value: true
+      drone_7/base_link:
+        Value: true
+      drone_7/camera_frame:
+        Value: true
+      drone_8/base_link:
+        Value: true
+      drone_8/camera_frame:
+        Value: true
+      drone_9/base_link:
+        Value: true
+      drone_9/camera_frame:
+        Value: true
+      world:
+        Value: true
+    Marker Alpha: 1
+    Marker Scale: 1
+    Name: TF
+    Show Arrows: false
+    Show Axes: false
+    Show Names: false
+    Tree:
+      world:
+        drone_0/base_link:
+          drone_0/camera_frame: {}
+        drone_1/base_link:
+          drone_1/camera_frame: {}
+        drone_2/base_link:
+          drone_2/camera_frame: {}
+        drone_3/base_link:
+          drone_3/camera_frame: {}
+        drone_4/base_link:
+          drone_4/camera_frame: {}
+        drone_5/base_link:
+          drone_5/camera_frame: {}
+        drone_6/base_link:
+          drone_6/camera_frame: {}
+        drone_7/base_link:
+          drone_7/camera_frame: {}
+        drone_8/base_link:
+          drone_8/camera_frame: {}
+        drone_9/base_link:
+          drone_9/camera_frame: {}
+    Update Interval: 0
+    Value: true
+  - Class: rviz/MarkerArray
+    Enabled: true
+    Marker Topic: /corner_view/drone_0/mission/markers
+    Name: Drone 0 actual model and mission labels
+    Namespaces:
+      /drone_0: true
+    Queue Size: 5
+    Value: true
+  - Class: rviz/MarkerArray
+    Enabled: true
+    Marker Topic: /corner_view/drone_1/mission/markers
+    Name: Drone 1 actual model and mission labels
+    Namespaces:
+      /drone_1: true
+    Queue Size: 5
+    Value: true
+  - Alpha: 0.800000011920929
+    Autocompute Intensity Bounds: true
+    Autocompute Value Bounds:
+      Max Value: 10
+      Min Value: -10
+      Value: true
+    Axis: Z
+    Channel Name: intensity
+    Class: rviz/PointCloud2
+    Color: 255; 115; 50
+    Color Transformer: FlatColor
+    Decay Time: 0
+    Enabled: false
+    Invert Rainbow: false
+    Max Color: 255; 255; 255
+    Min Color: 0; 0; 0
+    Name: Drone 0 local occupied map
+    Position Transformer: XYZ
+    Queue Size: 1
+    Selectable: true
+    Size (Pixels): 3
+    Size (m): 0.5
+    Style: Boxes
+    Topic: /display/drone_0/local_map
+    Unreliable: false
+    Use Fixed Frame: true
+    Use rainbow: true
+    Value: false
+  - Alpha: 0.800000011920929
+    Autocompute Intensity Bounds: true
+    Autocompute Value Bounds:
+      Max Value: 10
+      Min Value: -10
+      Value: true
+    Axis: Z
+    Channel Name: intensity
+    Class: rviz/PointCloud2
+    Color: 120; 180; 255
+    Color Transformer: FlatColor
+    Decay Time: 0
+    Enabled: false
+    Invert Rainbow: false
+    Max Color: 255; 255; 255
+    Min Color: 0; 0; 0
+    Name: Drone 1 local occupied map
+    Position Transformer: XYZ
+    Queue Size: 1
+    Selectable: true
+    Size (Pixels): 3
+    Size (m): 0.5
+    Style: Boxes
+    Topic: /display/drone_1/local_map
+    Unreliable: false
+    Use Fixed Frame: true
+    Use rainbow: true
+    Value: false
+  - Alpha: 0.6000000238418579
+    Autocompute Intensity Bounds: true
+    Autocompute Value Bounds:
+      Max Value: 10
+      Min Value: -10
+      Value: true
+    Axis: Z
+    Channel Name: intensity
+    Class: rviz/PointCloud2
+    Color: 255; 255; 255
+    Color Transformer: AxisColor
+    Decay Time: 0
+    Enabled: false
+    Invert Rainbow: false
+    Max Color: 255; 255; 255
+    Min Color: 0; 0; 0
+    Name: Drone 0 local ground measurements
+    Position Transformer: XYZ
+    Queue Size: 1
+    Selectable: true
+    Size (Pixels): 2
+    Size (m): 0.009999999776482582
+    Style: Points
+    Topic: /drone_0/local_ground
+    Unreliable: false
+    Use Fixed Frame: true
+    Use rainbow: true
+    Value: false
+  - Alpha: 0.6000000238418579
+    Autocompute Intensity Bounds: true
+    Autocompute Value Bounds:
+      Max Value: 10
+      Min Value: -10
+      Value: true
+    Axis: Z
+    Channel Name: intensity
+    Class: rviz/PointCloud2
+    Color: 255; 255; 255
+    Color Transformer: AxisColor
+    Decay Time: 0
+    Enabled: false
+    Invert Rainbow: false
+    Max Color: 255; 255; 255
+    Min Color: 0; 0; 0
+    Name: Drone 1 local ground measurements
+    Position Transformer: XYZ
+    Queue Size: 1
+    Selectable: true
+    Size (Pixels): 2
+    Size (m): 0.009999999776482582
+    Style: Points
+    Topic: /drone_1/local_ground
+    Unreliable: false
+    Use Fixed Frame: true
+    Use rainbow: true
+    Value: false
+  - Alpha: 1
+    Buffer Length: 1
+    Class: rviz/Path
+    Color: 255; 210; 60
+    Enabled: false
+    Head Diameter: 0.30000001192092896
+    Head Length: 0.20000000298023224
+    Length: 0.30000001192092896
+    Line Style: Lines
+    Line Width: 0.20000000298023224
+    Name: Drone 0 planned path
+    Offset:
+      X: 0
+      Y: 0
+      Z: 0
+    Pose Color: 255; 85; 255
+    Pose Style: None
+    Queue Size: 10
+    Radius: 0.029999999329447746
+    Shaft Diameter: 0.10000000149011612
+    Shaft Length: 0.10000000149011612
+    Topic: /drone_0/planned_path
+    Unreliable: false
+    Value: true
+  - Alpha: 1
+    Buffer Length: 1
+    Class: rviz/Path
+    Color: 100; 255; 255
+    Enabled: false
+    Head Diameter: 0.30000001192092896
+    Head Length: 0.20000000298023224
+    Length: 0.30000001192092896
+    Line Style: Lines
+    Line Width: 0.20000000298023224
+    Name: Drone 1 planned path
+    Offset:
+      X: 0
+      Y: 0
+      Z: 0
+    Pose Color: 255; 85; 255
+    Pose Style: None
+    Queue Size: 10
+    Radius: 0.029999999329447746
+    Shaft Diameter: 0.10000000149011612
+    Shaft Length: 0.10000000149011612
+    Topic: /drone_1/planned_path
+    Unreliable: false
+    Value: true
+  - Alpha: 1
+    Buffer Length: 1
+    Class: rviz/Path
+    Color: 255; 110; 80
+    Enabled: false
+    Head Diameter: 0.30000001192092896
+    Head Length: 0.20000000298023224
+    Length: 0.30000001192092896
+    Line Style: Lines
+    Line Width: 0.15000000596046448
+    Name: Drone 0 executed path
+    Offset:
+      X: 0
+      Y: 0
+      Z: 0
+    Pose Color: 255; 85; 255
+    Pose Style: None
+    Queue Size: 10
+    Radius: 0.029999999329447746
+    Shaft Diameter: 0.10000000149011612
+    Shaft Length: 0.10000000149011612
+    Topic: /drone_0/executed_path
+    Unreliable: false
+    Value: true
+  - Alpha: 1
+    Buffer Length: 1
+    Class: rviz/Path
+    Color: 90; 170; 255
+    Enabled: false
+    Head Diameter: 0.30000001192092896
+    Head Length: 0.20000000298023224
+    Length: 0.30000001192092896
+    Line Style: Lines
+    Line Width: 0.15000000596046448
+    Name: Drone 1 executed path
+    Offset:
+      X: 0
+      Y: 0
+      Z: 0
+    Pose Color: 255; 85; 255
+    Pose Style: None
+    Queue Size: 10
+    Radius: 0.029999999329447746
+    Shaft Diameter: 0.10000000149011612
+    Shaft Length: 0.10000000149011612
+    Topic: /drone_1/executed_path
+    Unreliable: false
+    Value: true
+  - Class: rviz/MarkerArray
+    Enabled: true
+    Marker Topic: /corner_view/drone_2/mission/markers
+    Name: Drone 2 actual model and mission labels
+    Namespaces:
+      /drone_2: true
+    Queue Size: 5
+    Value: true
+  - Alpha: 0.800000011920929
+    Autocompute Intensity Bounds: true
+    Autocompute Value Bounds:
+      Max Value: 10
+      Min Value: -10
+      Value: true
+    Axis: Z
+    Channel Name: intensity
+    Class: rviz/PointCloud2
+    Color: 255; 115; 50
+    Color Transformer: FlatColor
+    Decay Time: 0
+    Enabled: false
+    Invert Rainbow: false
+    Max Color: 255; 255; 255
+    Min Color: 0; 0; 0
+    Name: Drone 2 local occupied map
+    Position Transformer: XYZ
+    Queue Size: 1
+    Selectable: true
+    Size (Pixels): 3
+    Size (m): 0.5
+    Style: Boxes
+    Topic: /display/drone_2/local_map
+    Unreliable: false
+    Use Fixed Frame: true
+    Use rainbow: true
+    Value: false
+  - Alpha: 0.6000000238418579
+    Autocompute Intensity Bounds: true
+    Autocompute Value Bounds:
+      Max Value: 10
+      Min Value: -10
+      Value: true
+    Axis: Z
+    Channel Name: intensity
+    Class: rviz/PointCloud2
+    Color: 255; 255; 255
+    Color Transformer: AxisColor
+    Decay Time: 0
+    Enabled: false
+    Invert Rainbow: false
+    Max Color: 255; 255; 255
+    Min Color: 0; 0; 0
+    Name: Drone 2 local ground measurements
+    Position Transformer: XYZ
+    Queue Size: 1
+    Selectable: true
+    Size (Pixels): 2
+    Size (m): 0.009999999776482582
+    Style: Points
+    Topic: /drone_2/local_ground
+    Unreliable: false
+    Use Fixed Frame: true
+    Use rainbow: true
+    Value: false
+  - Alpha: 1
+    Buffer Length: 1
+    Class: rviz/Path
+    Color: 255; 115; 25
+    Enabled: true
+    Head Diameter: 0.30000001192092896
+    Head Length: 0.20000000298023224
+    Length: 0.30000001192092896
+    Line Style: Lines
+    Line Width: 0.22
+    Name: Drone 2 planned path
+    Offset:
+      X: 0
+      Y: 0
+      Z: 0
+    Pose Color: 255; 85; 255
+    Pose Style: None
+    Queue Size: 10
+    Radius: 0.029999999329447746
+    Shaft Diameter: 0.10000000149011612
+    Shaft Length: 0.10000000149011612
+    Topic: /drone_2/planned_path
+    Unreliable: false
+    Value: true
+  - Alpha: 1
+    Buffer Length: 1
+    Class: rviz/Path
+    Color: 255; 115; 25
+    Enabled: true
+    Head Diameter: 0.30000001192092896
+    Head Length: 0.20000000298023224
+    Length: 0.30000001192092896
+    Line Style: Lines
+    Line Width: 0.22
+    Name: Drone 2 executed path
+    Offset:
+      X: 0
+      Y: 0
+      Z: 0
+    Pose Color: 255; 85; 255
+    Pose Style: None
+    Queue Size: 10
+    Radius: 0.029999999329447746
+    Shaft Diameter: 0.10000000149011612
+    Shaft Length: 0.10000000149011612
+    Topic: /drone_2/executed_path
+    Unreliable: false
+    Value: true
+  - Class: rviz/MarkerArray
+    Enabled: true
+    Marker Topic: /corner_view/drone_3/mission/markers
+    Name: Drone 3 actual model and mission labels
+    Namespaces:
+      /drone_3: true
+    Queue Size: 5
+    Value: true
+  - Alpha: 0.800000011920929
+    Autocompute Intensity Bounds: true
+    Autocompute Value Bounds:
+      Max Value: 10
+      Min Value: -10
+      Value: true
+    Axis: Z
+    Channel Name: intensity
+    Class: rviz/PointCloud2
+    Color: 255; 115; 50
+    Color Transformer: FlatColor
+    Decay Time: 0
+    Enabled: false
+    Invert Rainbow: false
+    Max Color: 255; 255; 255
+    Min Color: 0; 0; 0
+    Name: Drone 3 local occupied map
+    Position Transformer: XYZ
+    Queue Size: 1
+    Selectable: true
+    Size (Pixels): 3
+    Size (m): 0.5
+    Style: Boxes
+    Topic: /display/drone_3/local_map
+    Unreliable: false
+    Use Fixed Frame: true
+    Use rainbow: true
+    Value: false
+  - Alpha: 0.6000000238418579
+    Autocompute Intensity Bounds: true
+    Autocompute Value Bounds:
+      Max Value: 10
+      Min Value: -10
+      Value: true
+    Axis: Z
+    Channel Name: intensity
+    Class: rviz/PointCloud2
+    Color: 255; 255; 255
+    Color Transformer: AxisColor
+    Decay Time: 0
+    Enabled: false
+    Invert Rainbow: false
+    Max Color: 255; 255; 255
+    Min Color: 0; 0; 0
+    Name: Drone 3 local ground measurements
+    Position Transformer: XYZ
+    Queue Size: 1
+    Selectable: true
+    Size (Pixels): 2
+    Size (m): 0.009999999776482582
+    Style: Points
+    Topic: /drone_3/local_ground
+    Unreliable: false
+    Use Fixed Frame: true
+    Use rainbow: true
+    Value: false
+  - Alpha: 1
+    Buffer Length: 1
+    Class: rviz/Path
+    Color: 255; 210; 60
+    Enabled: false
+    Head Diameter: 0.30000001192092896
+    Head Length: 0.20000000298023224
+    Length: 0.30000001192092896
+    Line Style: Lines
+    Line Width: 0.20000000298023224
+    Name: Drone 3 planned path
+    Offset:
+      X: 0
+      Y: 0
+      Z: 0
+    Pose Color: 255; 85; 255
+    Pose Style: None
+    Queue Size: 10
+    Radius: 0.029999999329447746
+    Shaft Diameter: 0.10000000149011612
+    Shaft Length: 0.10000000149011612
+    Topic: /drone_3/planned_path
+    Unreliable: false
+    Value: true
+  - Alpha: 1
+    Buffer Length: 1
+    Class: rviz/Path
+    Color: 255; 110; 80
+    Enabled: false
+    Head Diameter: 0.30000001192092896
+    Head Length: 0.20000000298023224
+    Length: 0.30000001192092896
+    Line Style: Lines
+    Line Width: 0.15000000596046448
+    Name: Drone 3 executed path
+    Offset:
+      X: 0
+      Y: 0
+      Z: 0
+    Pose Color: 255; 85; 255
+    Pose Style: None
+    Queue Size: 10
+    Radius: 0.029999999329447746
+    Shaft Diameter: 0.10000000149011612
+    Shaft Length: 0.10000000149011612
+    Topic: /drone_3/executed_path
+    Unreliable: false
+    Value: true
+  - Class: rviz/MarkerArray
+    Enabled: true
+    Marker Topic: /corner_view/drone_4/mission/markers
+    Name: Drone 4 actual model and mission labels
+    Namespaces:
+      /drone_4: true
+    Queue Size: 5
+    Value: true
+  - Alpha: 0.800000011920929
+    Autocompute Intensity Bounds: true
+    Autocompute Value Bounds:
+      Max Value: 10
+      Min Value: -10
+      Value: true
+    Axis: Z
+    Channel Name: intensity
+    Class: rviz/PointCloud2
+    Color: 255; 115; 50
+    Color Transformer: FlatColor
+    Decay Time: 0
+    Enabled: false
+    Invert Rainbow: false
+    Max Color: 255; 255; 255
+    Min Color: 0; 0; 0
+    Name: Drone 4 local occupied map
+    Position Transformer: XYZ
+    Queue Size: 1
+    Selectable: true
+    Size (Pixels): 3
+    Size (m): 0.5
+    Style: Boxes
+    Topic: /display/drone_4/local_map
+    Unreliable: false
+    Use Fixed Frame: true
+    Use rainbow: true
+    Value: false
+  - Alpha: 0.6000000238418579
+    Autocompute Intensity Bounds: true
+    Autocompute Value Bounds:
+      Max Value: 10
+      Min Value: -10
+      Value: true
+    Axis: Z
+    Channel Name: intensity
+    Class: rviz/PointCloud2
+    Color: 255; 255; 255
+    Color Transformer: AxisColor
+    Decay Time: 0
+    Enabled: false
+    Invert Rainbow: false
+    Max Color: 255; 255; 255
+    Min Color: 0; 0; 0
+    Name: Drone 4 local ground measurements
+    Position Transformer: XYZ
+    Queue Size: 1
+    Selectable: true
+    Size (Pixels): 2
+    Size (m): 0.009999999776482582
+    Style: Points
+    Topic: /drone_4/local_ground
+    Unreliable: false
+    Use Fixed Frame: true
+    Use rainbow: true
+    Value: false
+  - Alpha: 1
+    Buffer Length: 1
+    Class: rviz/Path
+    Color: 255; 210; 60
+    Enabled: false
+    Head Diameter: 0.30000001192092896
+    Head Length: 0.20000000298023224
+    Length: 0.30000001192092896
+    Line Style: Lines
+    Line Width: 0.20000000298023224
+    Name: Drone 4 planned path
+    Offset:
+      X: 0
+      Y: 0
+      Z: 0
+    Pose Color: 255; 85; 255
+    Pose Style: None
+    Queue Size: 10
+    Radius: 0.029999999329447746
+    Shaft Diameter: 0.10000000149011612
+    Shaft Length: 0.10000000149011612
+    Topic: /drone_4/planned_path
+    Unreliable: false
+    Value: true
+  - Alpha: 1
+    Buffer Length: 1
+    Class: rviz/Path
+    Color: 255; 110; 80
+    Enabled: false
+    Head Diameter: 0.30000001192092896
+    Head Length: 0.20000000298023224
+    Length: 0.30000001192092896
+    Line Style: Lines
+    Line Width: 0.15000000596046448
+    Name: Drone 4 executed path
+    Offset:
+      X: 0
+      Y: 0
+      Z: 0
+    Pose Color: 255; 85; 255
+    Pose Style: None
+    Queue Size: 10
+    Radius: 0.029999999329447746
+    Shaft Diameter: 0.10000000149011612
+    Shaft Length: 0.10000000149011612
+    Topic: /drone_4/executed_path
+    Unreliable: false
+    Value: true
+  - Class: rviz/MarkerArray
+    Enabled: true
+    Marker Topic: /corner_view/drone_5/mission/markers
+    Name: Drone 5 actual model and mission labels
+    Namespaces:
+      /drone_5: true
+    Queue Size: 5
+    Value: true
+  - Alpha: 0.800000011920929
+    Autocompute Intensity Bounds: true
+    Autocompute Value Bounds:
+      Max Value: 10
+      Min Value: -10
+      Value: true
+    Axis: Z
+    Channel Name: intensity
+    Class: rviz/PointCloud2
+    Color: 255; 115; 50
+    Color Transformer: FlatColor
+    Decay Time: 0
+    Enabled: false
+    Invert Rainbow: false
+    Max Color: 255; 255; 255
+    Min Color: 0; 0; 0
+    Name: Drone 5 local occupied map
+    Position Transformer: XYZ
+    Queue Size: 1
+    Selectable: true
+    Size (Pixels): 3
+    Size (m): 0.5
+    Style: Boxes
+    Topic: /display/drone_5/local_map
+    Unreliable: false
+    Use Fixed Frame: true
+    Use rainbow: true
+    Value: false
+  - Alpha: 0.6000000238418579
+    Autocompute Intensity Bounds: true
+    Autocompute Value Bounds:
+      Max Value: 10
+      Min Value: -10
+      Value: true
+    Axis: Z
+    Channel Name: intensity
+    Class: rviz/PointCloud2
+    Color: 255; 255; 255
+    Color Transformer: AxisColor
+    Decay Time: 0
+    Enabled: false
+    Invert Rainbow: false
+    Max Color: 255; 255; 255
+    Min Color: 0; 0; 0
+    Name: Drone 5 local ground measurements
+    Position Transformer: XYZ
+    Queue Size: 1
+    Selectable: true
+    Size (Pixels): 2
+    Size (m): 0.009999999776482582
+    Style: Points
+    Topic: /drone_5/local_ground
+    Unreliable: false
+    Use Fixed Frame: true
+    Use rainbow: true
+    Value: false
+  - Alpha: 1
+    Buffer Length: 1
+    Class: rviz/Path
+    Color: 255; 210; 60
+    Enabled: false
+    Head Diameter: 0.30000001192092896
+    Head Length: 0.20000000298023224
+    Length: 0.30000001192092896
+    Line Style: Lines
+    Line Width: 0.20000000298023224
+    Name: Drone 5 planned path
+    Offset:
+      X: 0
+      Y: 0
+      Z: 0
+    Pose Color: 255; 85; 255
+    Pose Style: None
+    Queue Size: 10
+    Radius: 0.029999999329447746
+    Shaft Diameter: 0.10000000149011612
+    Shaft Length: 0.10000000149011612
+    Topic: /drone_5/planned_path
+    Unreliable: false
+    Value: true
+  - Alpha: 1
+    Buffer Length: 1
+    Class: rviz/Path
+    Color: 255; 110; 80
+    Enabled: false
+    Head Diameter: 0.30000001192092896
+    Head Length: 0.20000000298023224
+    Length: 0.30000001192092896
+    Line Style: Lines
+    Line Width: 0.15000000596046448
+    Name: Drone 5 executed path
+    Offset:
+      X: 0
+      Y: 0
+      Z: 0
+    Pose Color: 255; 85; 255
+    Pose Style: None
+    Queue Size: 10
+    Radius: 0.029999999329447746
+    Shaft Diameter: 0.10000000149011612
+    Shaft Length: 0.10000000149011612
+    Topic: /drone_5/executed_path
+    Unreliable: false
+    Value: true
+  - Class: rviz/MarkerArray
+    Enabled: true
+    Marker Topic: /corner_view/drone_6/mission/markers
+    Name: Drone 6 actual model and mission labels
+    Namespaces:
+      /drone_6: true
+    Queue Size: 5
+    Value: true
+  - Alpha: 0.800000011920929
+    Autocompute Intensity Bounds: true
+    Autocompute Value Bounds:
+      Max Value: 10
+      Min Value: -10
+      Value: true
+    Axis: Z
+    Channel Name: intensity
+    Class: rviz/PointCloud2
+    Color: 255; 115; 50
+    Color Transformer: FlatColor
+    Decay Time: 0
+    Enabled: false
+    Invert Rainbow: false
+    Max Color: 255; 255; 255
+    Min Color: 0; 0; 0
+    Name: Drone 6 local occupied map
+    Position Transformer: XYZ
+    Queue Size: 1
+    Selectable: true
+    Size (Pixels): 3
+    Size (m): 0.5
+    Style: Boxes
+    Topic: /display/drone_6/local_map
+    Unreliable: false
+    Use Fixed Frame: true
+    Use rainbow: true
+    Value: false
+  - Alpha: 0.6000000238418579
+    Autocompute Intensity Bounds: true
+    Autocompute Value Bounds:
+      Max Value: 10
+      Min Value: -10
+      Value: true
+    Axis: Z
+    Channel Name: intensity
+    Class: rviz/PointCloud2
+    Color: 255; 255; 255
+    Color Transformer: AxisColor
+    Decay Time: 0
+    Enabled: false
+    Invert Rainbow: false
+    Max Color: 255; 255; 255
+    Min Color: 0; 0; 0
+    Name: Drone 6 local ground measurements
+    Position Transformer: XYZ
+    Queue Size: 1
+    Selectable: true
+    Size (Pixels): 2
+    Size (m): 0.009999999776482582
+    Style: Points
+    Topic: /drone_6/local_ground
+    Unreliable: false
+    Use Fixed Frame: true
+    Use rainbow: true
+    Value: false
+  - Alpha: 1
+    Buffer Length: 1
+    Class: rviz/Path
+    Color: 255; 210; 60
+    Enabled: false
+    Head Diameter: 0.30000001192092896
+    Head Length: 0.20000000298023224
+    Length: 0.30000001192092896
+    Line Style: Lines
+    Line Width: 0.20000000298023224
+    Name: Drone 6 planned path
+    Offset:
+      X: 0
+      Y: 0
+      Z: 0
+    Pose Color: 255; 85; 255
+    Pose Style: None
+    Queue Size: 10
+    Radius: 0.029999999329447746
+    Shaft Diameter: 0.10000000149011612
+    Shaft Length: 0.10000000149011612
+    Topic: /drone_6/planned_path
+    Unreliable: false
+    Value: true
+  - Alpha: 1
+    Buffer Length: 1
+    Class: rviz/Path
+    Color: 255; 110; 80
+    Enabled: false
+    Head Diameter: 0.30000001192092896
+    Head Length: 0.20000000298023224
+    Length: 0.30000001192092896
+    Line Style: Lines
+    Line Width: 0.15000000596046448
+    Name: Drone 6 executed path
+    Offset:
+      X: 0
+      Y: 0
+      Z: 0
+    Pose Color: 255; 85; 255
+    Pose Style: None
+    Queue Size: 10
+    Radius: 0.029999999329447746
+    Shaft Diameter: 0.10000000149011612
+    Shaft Length: 0.10000000149011612
+    Topic: /drone_6/executed_path
+    Unreliable: false
+    Value: true
+  - Class: rviz/MarkerArray
+    Enabled: true
+    Marker Topic: /corner_view/drone_7/mission/markers
+    Name: Drone 7 actual model and mission labels
+    Namespaces:
+      /drone_7: true
+    Queue Size: 5
+    Value: true
+  - Alpha: 0.800000011920929
+    Autocompute Intensity Bounds: true
+    Autocompute Value Bounds:
+      Max Value: 10
+      Min Value: -10
+      Value: true
+    Axis: Z
+    Channel Name: intensity
+    Class: rviz/PointCloud2
+    Color: 255; 115; 50
+    Color Transformer: FlatColor
+    Decay Time: 0
+    Enabled: false
+    Invert Rainbow: false
+    Max Color: 255; 255; 255
+    Min Color: 0; 0; 0
+    Name: Drone 7 local occupied map
+    Position Transformer: XYZ
+    Queue Size: 1
+    Selectable: true
+    Size (Pixels): 3
+    Size (m): 0.5
+    Style: Boxes
+    Topic: /display/drone_7/local_map
+    Unreliable: false
+    Use Fixed Frame: true
+    Use rainbow: true
+    Value: false
+  - Alpha: 0.6000000238418579
+    Autocompute Intensity Bounds: true
+    Autocompute Value Bounds:
+      Max Value: 10
+      Min Value: -10
+      Value: true
+    Axis: Z
+    Channel Name: intensity
+    Class: rviz/PointCloud2
+    Color: 255; 255; 255
+    Color Transformer: AxisColor
+    Decay Time: 0
+    Enabled: false
+    Invert Rainbow: false
+    Max Color: 255; 255; 255
+    Min Color: 0; 0; 0
+    Name: Drone 7 local ground measurements
+    Position Transformer: XYZ
+    Queue Size: 1
+    Selectable: true
+    Size (Pixels): 2
+    Size (m): 0.009999999776482582
+    Style: Points
+    Topic: /drone_7/local_ground
+    Unreliable: false
+    Use Fixed Frame: true
+    Use rainbow: true
+    Value: false
+  - Alpha: 1
+    Buffer Length: 1
+    Class: rviz/Path
+    Color: 25; 166; 255
+    Enabled: true
+    Head Diameter: 0.30000001192092896
+    Head Length: 0.20000000298023224
+    Length: 0.30000001192092896
+    Line Style: Lines
+    Line Width: 0.22
+    Name: Drone 7 planned path
+    Offset:
+      X: 0
+      Y: 0
+      Z: 0
+    Pose Color: 255; 85; 255
+    Pose Style: None
+    Queue Size: 10
+    Radius: 0.029999999329447746
+    Shaft Diameter: 0.10000000149011612
+    Shaft Length: 0.10000000149011612
+    Topic: /drone_7/planned_path
+    Unreliable: false
+    Value: true
+  - Alpha: 1
+    Buffer Length: 1
+    Class: rviz/Path
+    Color: 25; 166; 255
+    Enabled: true
+    Head Diameter: 0.30000001192092896
+    Head Length: 0.20000000298023224
+    Length: 0.30000001192092896
+    Line Style: Lines
+    Line Width: 0.22
+    Name: Drone 7 executed path
+    Offset:
+      X: 0
+      Y: 0
+      Z: 0
+    Pose Color: 255; 85; 255
+    Pose Style: None
+    Queue Size: 10
+    Radius: 0.029999999329447746
+    Shaft Diameter: 0.10000000149011612
+    Shaft Length: 0.10000000149011612
+    Topic: /drone_7/executed_path
+    Unreliable: false
+    Value: true
+  - Class: rviz/MarkerArray
+    Enabled: true
+    Marker Topic: /corner_view/drone_8/mission/markers
+    Name: Drone 8 actual model and mission labels
+    Namespaces:
+      /drone_8: true
+    Queue Size: 5
+    Value: true
+  - Alpha: 0.800000011920929
+    Autocompute Intensity Bounds: true
+    Autocompute Value Bounds:
+      Max Value: 10
+      Min Value: -10
+      Value: true
+    Axis: Z
+    Channel Name: intensity
+    Class: rviz/PointCloud2
+    Color: 255; 115; 50
+    Color Transformer: FlatColor
+    Decay Time: 0
+    Enabled: false
+    Invert Rainbow: false
+    Max Color: 255; 255; 255
+    Min Color: 0; 0; 0
+    Name: Drone 8 local occupied map
+    Position Transformer: XYZ
+    Queue Size: 1
+    Selectable: true
+    Size (Pixels): 3
+    Size (m): 0.5
+    Style: Boxes
+    Topic: /display/drone_8/local_map
+    Unreliable: false
+    Use Fixed Frame: true
+    Use rainbow: true
+    Value: false
+  - Alpha: 0.6000000238418579
+    Autocompute Intensity Bounds: true
+    Autocompute Value Bounds:
+      Max Value: 10
+      Min Value: -10
+      Value: true
+    Axis: Z
+    Channel Name: intensity
+    Class: rviz/PointCloud2
+    Color: 255; 255; 255
+    Color Transformer: AxisColor
+    Decay Time: 0
+    Enabled: false
+    Invert Rainbow: false
+    Max Color: 255; 255; 255
+    Min Color: 0; 0; 0
+    Name: Drone 8 local ground measurements
+    Position Transformer: XYZ
+    Queue Size: 1
+    Selectable: true
+    Size (Pixels): 2
+    Size (m): 0.009999999776482582
+    Style: Points
+    Topic: /drone_8/local_ground
+    Unreliable: false
+    Use Fixed Frame: true
+    Use rainbow: true
+    Value: false
+  - Alpha: 1
+    Buffer Length: 1
+    Class: rviz/Path
+    Color: 255; 210; 60
+    Enabled: false
+    Head Diameter: 0.30000001192092896
+    Head Length: 0.20000000298023224
+    Length: 0.30000001192092896
+    Line Style: Lines
+    Line Width: 0.20000000298023224
+    Name: Drone 8 planned path
+    Offset:
+      X: 0
+      Y: 0
+      Z: 0
+    Pose Color: 255; 85; 255
+    Pose Style: None
+    Queue Size: 10
+    Radius: 0.029999999329447746
+    Shaft Diameter: 0.10000000149011612
+    Shaft Length: 0.10000000149011612
+    Topic: /drone_8/planned_path
+    Unreliable: false
+    Value: true
+  - Alpha: 1
+    Buffer Length: 1
+    Class: rviz/Path
+    Color: 255; 110; 80
+    Enabled: false
+    Head Diameter: 0.30000001192092896
+    Head Length: 0.20000000298023224
+    Length: 0.30000001192092896
+    Line Style: Lines
+    Line Width: 0.15000000596046448
+    Name: Drone 8 executed path
+    Offset:
+      X: 0
+      Y: 0
+      Z: 0
+    Pose Color: 255; 85; 255
+    Pose Style: None
+    Queue Size: 10
+    Radius: 0.029999999329447746
+    Shaft Diameter: 0.10000000149011612
+    Shaft Length: 0.10000000149011612
+    Topic: /drone_8/executed_path
+    Unreliable: false
+    Value: true
+  - Class: rviz/MarkerArray
+    Enabled: true
+    Marker Topic: /corner_view/drone_9/mission/markers
+    Name: Drone 9 actual model and mission labels
+    Namespaces:
+      /drone_9: true
+    Queue Size: 5
+    Value: true
+  - Alpha: 0.800000011920929
+    Autocompute Intensity Bounds: true
+    Autocompute Value Bounds:
+      Max Value: 10
+      Min Value: -10
+      Value: true
+    Axis: Z
+    Channel Name: intensity
+    Class: rviz/PointCloud2
+    Color: 255; 115; 50
+    Color Transformer: FlatColor
+    Decay Time: 0
+    Enabled: false
+    Invert Rainbow: false
+    Max Color: 255; 255; 255
+    Min Color: 0; 0; 0
+    Name: Drone 9 local occupied map
+    Position Transformer: XYZ
+    Queue Size: 1
+    Selectable: true
+    Size (Pixels): 3
+    Size (m): 0.5
+    Style: Boxes
+    Topic: /display/drone_9/local_map
+    Unreliable: false
+    Use Fixed Frame: true
+    Use rainbow: true
+    Value: false
+  - Alpha: 0.6000000238418579
+    Autocompute Intensity Bounds: true
+    Autocompute Value Bounds:
+      Max Value: 10
+      Min Value: -10
+      Value: true
+    Axis: Z
+    Channel Name: intensity
+    Class: rviz/PointCloud2
+    Color: 255; 255; 255
+    Color Transformer: AxisColor
+    Decay Time: 0
+    Enabled: false
+    Invert Rainbow: false
+    Max Color: 255; 255; 255
+    Min Color: 0; 0; 0
+    Name: Drone 9 local ground measurements
+    Position Transformer: XYZ
+    Queue Size: 1
+    Selectable: true
+    Size (Pixels): 2
+    Size (m): 0.009999999776482582
+    Style: Points
+    Topic: /drone_9/local_ground
+    Unreliable: false
+    Use Fixed Frame: true
+    Use rainbow: true
+    Value: false
+  - Alpha: 1
+    Buffer Length: 1
+    Class: rviz/Path
+    Color: 255; 210; 60
+    Enabled: false
+    Head Diameter: 0.30000001192092896
+    Head Length: 0.20000000298023224
+    Length: 0.30000001192092896
+    Line Style: Lines
+    Line Width: 0.20000000298023224
+    Name: Drone 9 planned path
+    Offset:
+      X: 0
+      Y: 0
+      Z: 0
+    Pose Color: 255; 85; 255
+    Pose Style: None
+    Queue Size: 10
+    Radius: 0.029999999329447746
+    Shaft Diameter: 0.10000000149011612
+    Shaft Length: 0.10000000149011612
+    Topic: /drone_9/planned_path
+    Unreliable: false
+    Value: true
+  - Alpha: 1
+    Buffer Length: 1
+    Class: rviz/Path
+    Color: 255; 110; 80
+    Enabled: false
+    Head Diameter: 0.30000001192092896
+    Head Length: 0.20000000298023224
+    Length: 0.30000001192092896
+    Line Style: Lines
+    Line Width: 0.15000000596046448
+    Name: Drone 9 executed path
+    Offset:
+      X: 0
+      Y: 0
+      Z: 0
+    Pose Color: 255; 85; 255
+    Pose Style: None
+    Queue Size: 10
+    Radius: 0.029999999329447746
+    Shaft Diameter: 0.10000000149011612
+    Shaft Length: 0.10000000149011612
+    Topic: /drone_9/executed_path
+    Unreliable: false
+    Value: true
+  - Alpha: 1
+    Autocompute Intensity Bounds: true
+    Autocompute Value Bounds:
+      Max Value: 10
+      Min Value: -10
+      Value: true
+    Axis: Z
+    Channel Name: intensity
+    Class: rviz/PointCloud2
+    Color: 255; 170; 50
+    Color Transformer: FlatColor
+    Decay Time: 0
+    Enabled: true
+    Invert Rainbow: false
+    Max Color: 255; 255; 255
+    Min Color: 0; 0; 0
+    Name: Fused local obstacles 20m (0.5m voxels)
+    Position Transformer: XYZ
+    Queue Size: 1
+    Selectable: true
+    Size (Pixels): 2
+    Size (m): 0.009999999776482582
+    Style: Points
+    Topic: /display/swarm10/map_fused
+    Unreliable: false
+    Use Fixed Frame: true
+    Use rainbow: true
+    Value: true
+  - Alpha: 1
+    Autocompute Intensity Bounds: true
+    Autocompute Value Bounds:
+      Max Value: 10
+      Min Value: -10
+      Value: true
+    Axis: Z
+    Channel Name: intensity
+    Class: rviz/PointCloud2
+    Color: 50; 220; 255
+    Color Transformer: FlatColor
+    Decay Time: 0
+    Enabled: false
+    Invert Rainbow: false
+    Max Color: 255; 255; 255
+    Min Color: 0; 0; 0
+    Name: Unity raw depth 20m
+    Position Transformer: XYZ
+    Queue Size: 1
+    Selectable: true
+    Size (Pixels): 2
+    Size (m): 0.009999999776482582
+    Style: Points
+    Topic: /display/swarm10/depth_points_fused
+    Unreliable: false
+    Use Fixed Frame: true
+    Use rainbow: true
+    Value: false
+  - Class: rviz/MarkerArray
+    Enabled: true
+    Marker Topic: /corner_view/swarm10/markers
+    Name: Two five-agent groups
+    Namespaces:
+      ten_groups: true
+    Queue Size: 1
+    Value: true
+  - Alpha: 1
+    Autocompute Intensity Bounds: true
+    Autocompute Value Bounds:
+      Max Value: 10
+      Min Value: -10
+      Value: true
+    Axis: Z
+    Channel Name: intensity
+    Class: rviz/PointCloud2
+    Color: 100; 220; 100
+    Color Transformer: AxisColor
+    Decay Time: 0
+    Enabled: true
+    Invert Rainbow: false
+    Max Color: 255; 255; 255
+    Min Color: 0; 0; 0
+    Name: Terrain near groups 1km / 10m spacing
+    Position Transformer: XYZ
+    Queue Size: 1
+    Selectable: true
+    Size (Pixels): 2
+    Size (m): 0.15
+    Style: Points
+    Topic: /swarm10/display/terrain_near
+    Unreliable: false
+    Use Fixed Frame: true
+    Use rainbow: true
+    Value: true
+  - Alpha: 1
+    Autocompute Intensity Bounds: true
+    Autocompute Value Bounds:
+      Max Value: 10
+      Min Value: -10
+      Value: true
+    Axis: Z
+    Channel Name: intensity
+    Class: rviz/PointCloud2
+    Color: 100; 220; 100
+    Color Transformer: AxisColor
+    Decay Time: 0
+    Enabled: true
+    Invert Rainbow: false
+    Max Color: 255; 255; 255
+    Min Color: 0; 0; 0
+    Name: Terrain overview 20km / 100m spacing
+    Position Transformer: XYZ
+    Queue Size: 1
+    Selectable: true
+    Size (Pixels): 2
+    Size (m): 0.15
+    Style: Points
+    Topic: /swarm10/display/terrain_far
+    Unreliable: false
+    Use Fixed Frame: true
+    Use rainbow: true
+    Value: true
+  - Class: rviz/Image
+    Name: Leader A - Drone 2 Depth
+    Enabled: true
+    Image Topic: /drone_2/depth
+    Transport Hint: raw
+    Queue Size: 1
+    Normalize Range: true
+    Min Value: 0
+    Max Value: 80
+    Median window: 5
+    Value: true
+  - Class: rviz/Image
+    Name: Leader B - Drone 7 Depth
+    Enabled: true
+    Image Topic: /drone_7/depth
+    Transport Hint: raw
+    Queue Size: 1
+    Normalize Range: true
+    Min Value: 0
+    Max Value: 80
+    Median window: 5
+    Value: true
+  Enabled: true
+  Global Options:
+    Background Color: 24; 27; 33
+    Default Light: true
+    Fixed Frame: world
+    Frame Rate: 10
+  Name: root
+  Tools:
+  - Class: rviz/Interact
+    Hide Inactive Objects: true
+  - Class: rviz/SetGoal
+    Topic: /move_base_simple/goal
+  Value: true
+  Views:
+    Current:
+      Class: rviz/Orbit
+      Distance: 40
+      Enable Stereo Rendering: &id001
+        Stereo Eye Separation: 0.05999999865889549
+        Stereo Focal Distance: 1
+        Swap Stereo Eyes: false
+        Value: false
+      Field of View: 0.7853981852531433
+      Focal Point:
+        X: 0
+        Y: 4
+        Z: 0
+      Focal Shape Fixed Size: true
+      Focal Shape Size: 0.05000000074505806
+      Invert Z Axis: false
+      Name: Current View
+      Near Clip Distance: 0.10000000149011612
+      Pitch: 0.7
+      Target Frame: drone_2/base_link
+      Yaw: 3.9
+    Saved:
+    - Angle: 0
+      Class: rviz/TopDownOrtho
+      Enable Stereo Rendering:
+        Stereo Eye Separation: 0.05999999865889549
+        Stereo Focal Distance: 1
+        Swap Stereo Eyes: false
+        Value: false
+      Invert Z Axis: false
+      Name: Mountain city overview
+      Near Clip Distance: 0.009999999776482582
+      Scale: 0.5
+      Target Frame: world
+      X: 1000
+      Y: 0
+    - Class: rviz/Orbit
+      Distance: 45
+      Enable Stereo Rendering:
+        Stereo Eye Separation: 0.05999999865889549
+        Stereo Focal Distance: 1
+        Swap Stereo Eyes: false
+        Value: false
+      Field of View: 0.7853981852531433
+      Focal Point:
+        X: 0
+        Y: 0
+        Z: 0
+      Focal Shape Fixed Size: true
+      Focal Shape Size: 0.05000000074505806
+      Invert Z Axis: false
+      Name: Drone 0 follow (requires TF)
+      Near Clip Distance: 0.009999999776482582
+      Pitch: 0.75
+      Target Frame: drone_0/base_link
+      Yaw: 3.140000104904175
+    - Class: rviz/Orbit
+      Distance: 8
+      Enable Stereo Rendering: *id001
+      Field of View: 0.7853981852531433
+      Focal Point:
+        X: 0
+        Y: 0
+        Z: 0
+      Focal Shape Fixed Size: true
+      Focal Shape Size: 0.05000000074505806
+      Invert Z Axis: false
+      Name: YOPO model detail
+      Near Clip Distance: 0.10000000149011612
+      Pitch: 0.7
+      Target Frame: drone_2/base_link
+      Yaw: 3.9
+Window Geometry:
+  Displays:
+    collapsed: false
+  Height: 935
+  Hide Left Dock: false
+  Hide Right Dock: false
+  Views:
+    collapsed: false
+  Width: 1280
+  X: 300
+  Y: 0
+  Flight Status:
+    collapsed: false
+  Leader A - Drone 2 Depth:
+    collapsed: false
+  Leader B - Drone 7 Depth:
+    collapsed: false

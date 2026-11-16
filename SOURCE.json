@@ -1,0 +1,15 @@
+{
+  "branch": "swarm-uav-combine",
+  "source_commit": "eec6ca751593c21796fe515947c120a65722fa36",
+  "source": "current working tree; not HEAD only",
+  "unity_build": "/root/swarm-uav/unity/Project/BuildOptimized",
+  "system_env": "/root/gpufree-data/yopo-portable/env.sh",
+  "execution": "Linux server only",
+  "excluded": [
+    "old runs and reports",
+    "duplicate code/Runtime",
+    "Unity editor cache and historical builds",
+    "training entry points",
+    "SSH credentials"
+  ]
+}
