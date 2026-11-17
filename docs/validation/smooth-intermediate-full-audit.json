@@ -1,0 +1,421 @@
+{
+  "passed": true,
+  "scope": "complete production ten-aircraft mission from stage one",
+  "errors": [],
+  "run_id": "20261117T121418-95a666",
+  "run_name": "full-smooth-star-04",
+  "telemetry_rows": 13260,
+  "stages": [
+    {
+      "stage": "TAKEOFF",
+      "stamp": 1794888858.6236362
+    },
+    {
+      "stage": "AIR_ASSEMBLE",
+      "stamp": 1794888863.4320545
+    },
+    {
+      "stage": "ASSEMBLED",
+      "stamp": 1794888872.5979443
+    },
+    {
+      "stage": "RUNNING",
+      "stamp": 1794888875.9348497
+    },
+    {
+      "stage": "PRELAND",
+      "stamp": 1794890174.0931807
+    },
+    {
+      "stage": "LANDING",
+      "stamp": 1794890174.298909
+    },
+    {
+      "stage": "LANDED",
+      "stamp": 1794890182.80356
+    }
+  ],
+  "group_events": [
+    [
+      {
+        "phase": "AIR_ASSEMBLE",
+        "stamp": 1794888863.396179
+      },
+      {
+        "phase": "ASSEMBLED",
+        "stamp": 1794888872.59545
+      },
+      {
+        "phase": "WAIT",
+        "stamp": 1794888875.9050574
+      },
+      {
+        "phase": "CLIMB",
+        "stamp": 1794888875.99602
+      },
+      {
+        "phase": "CRUISE",
+        "stamp": 1794888925.7962227
+      },
+      {
+        "phase": "RELAY_DESCENT",
+        "stamp": 1794889086.4954069
+      },
+      {
+        "phase": "MOVING_MERGE",
+        "stamp": 1794889316.695915
+      },
+      {
+        "phase": "DESCENT_ASSEMBLED",
+        "stamp": 1794889490.2960584
+      },
+      {
+        "phase": "TERRAIN",
+        "stamp": 1794889497.7471755
+      },
+      {
+        "phase": "FINAL",
+        "stamp": 1794890166.798434
+      }
+    ],
+    [
+      {
+        "phase": "AIR_ASSEMBLE",
+        "stamp": 1794888863.396179
+      },
+      {
+        "phase": "ASSEMBLED",
+        "stamp": 1794888872.59545
+      },
+      {
+        "phase": "WAIT",
+        "stamp": 1794888875.9050574
+      },
+      {
+        "phase": "CLIMB",
+        "stamp": 1794888875.99602
+      },
+      {
+        "phase": "CRUISE",
+        "stamp": 1794888927.2970567
+      },
+      {
+        "phase": "RELAY_DESCENT",
+        "stamp": 1794889086.9956045
+      },
+      {
+        "phase": "MOVING_MERGE",
+        "stamp": 1794889304.6962225
+      },
+      {
+        "phase": "DESCENT_ASSEMBLED",
+        "stamp": 1794889478.297847
+      },
+      {
+        "phase": "TERRAIN",
+        "stamp": 1794889497.7471755
+      },
+      {
+        "phase": "FINAL",
+        "stamp": 1794890174.0126488
+      }
+    ]
+  ],
+  "planning_modes": [
+    "CLOUD",
+    "YOPO_WARMUP",
+    "YOPO"
+  ],
+  "initial_spawn_max_xy_error_m": 0.0,
+  "cruise_evidence": {
+    "minimum_horizontal_mps": 15.0,
+    "required_straight_seconds": 60.0,
+    "heading_tolerance_degrees": 5.0,
+    "checked_members": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "passed": true,
+    "members": {
+      "0": {
+        "best_straight_seconds": 159.50063467025757,
+        "speed_1s": 20.007206048763738,
+        "peak_speed": 20.173708378256116,
+        "passed": true
+      },
+      "1": {
+        "best_straight_seconds": 156.49999117851257,
+        "speed_1s": 20.029428104567245,
+        "peak_speed": 20.27376789971853,
+        "passed": true
+      },
+      "2": {
+        "best_straight_seconds": 159.60000729560852,
+        "speed_1s": 20.008213385067354,
+        "peak_speed": 20.070117153133225,
+        "passed": true
+      },
+      "3": {
+        "best_straight_seconds": 153.4998779296875,
+        "speed_1s": 19.960223533770684,
+        "peak_speed": 20.191620789804066,
+        "passed": true
+      },
+      "4": {
+        "best_straight_seconds": 150.50016617774963,
+        "speed_1s": 19.964027201328232,
+        "peak_speed": 20.190826752000923,
+        "passed": true
+      },
+      "5": {
+        "best_straight_seconds": 158.5002453327179,
+        "speed_1s": 19.991582778021293,
+        "peak_speed": 20.07458643826984,
+        "passed": true
+      },
+      "6": {
+        "best_straight_seconds": 155.39993023872375,
+        "speed_1s": 20.006440301209455,
+        "peak_speed": 20.063575716414725,
+        "passed": true
+      },
+      "7": {
+        "best_straight_seconds": 158.59952211380005,
+        "speed_1s": 19.99948296772808,
+        "peak_speed": 20.023553139221168,
+        "passed": true
+      },
+      "8": {
+        "best_straight_seconds": 152.40012884140015,
+        "speed_1s": 20.002215767707032,
+        "peak_speed": 20.05976044936415,
+        "passed": true
+      },
+      "9": {
+        "best_straight_seconds": 149.49983978271484,
+        "speed_1s": 19.993054718446373,
+        "peak_speed": 20.064549028664686,
+        "passed": true
+      }
+    }
+  },
+  "terminal_network_inference_delta": {
+    "9": 4784,
+    "0": 4555,
+    "8": 4254,
+    "5": 4717,
+    "1": 4097,
+    "2": 4034,
+    "3": 4233,
+    "4": 4251,
+    "6": 4799,
+    "7": 4815
+  },
+  "terminal_joint_swarm_call_delta": {
+    "9": 0,
+    "0": 0,
+    "8": 0,
+    "5": 0,
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "6": 0,
+    "7": 0
+  },
+  "whole_mission_swarm_calls": {
+    "5": 0,
+    "9": 0,
+    "0": 0,
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "6": 0,
+    "7": 0,
+    "8": 0
+  },
+  "own_crop_members": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "prelanding_star_max_xy_error_m": {
+    "0": 0.31497564661295735,
+    "1": 0.008863506102770903
+  },
+  "observed_members": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "landed_members": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "collision_events": 0,
+  "bounds_events": 0,
+  "minimum_body_distance_m": 1.2786603326779793,
+  "maximum_altitude_m": 270.01059233615143,
+  "terminal_actual_peak_horizontal_mps": {
+    "0": 6.027256859419436,
+    "1": 6.013577547667765,
+    "2": 6.043487426812487,
+    "3": 5.448252197903066,
+    "4": 5.904214324025177,
+    "5": 5.920099702801187,
+    "6": 5.808455879573633,
+    "7": 6.0078407317680345,
+    "8": 6.0689027215692635,
+    "9": 6.03594179399749
+  },
+  "relay_handover_boundaries": {
+    "5": {
+      "stamp": 1794889304.6962724,
+      "command_stamp": 1794889304.6896265,
+      "position_error_m": 0.05644275627954139,
+      "velocity_error_mps": 0.0013070026928043517,
+      "acceleration": [
+        0.009790215319812797,
+        0.026358236215381303,
+        -0.0014073210966427936
+      ]
+    },
+    "9": {
+      "stamp": 1794889304.7085893,
+      "command_stamp": 1794889304.689982,
+      "position_error_m": 0.05612530205466999,
+      "velocity_error_mps": 0.0026792407362712504,
+      "acceleration": [
+        0.001187718462731753,
+        0.0031976991013650154,
+        -0.00017073181832471932
+      ]
+    },
+    "0": {
+      "stamp": 1794889316.6194313,
+      "command_stamp": 1794889316.588874,
+      "position_error_m": 0.051616598611765964,
+      "velocity_error_mps": 0.009317578933880955,
+      "acceleration": [
+        0.010879395572156957,
+        0.028847297979219873,
+        -0.001483348363309609
+      ]
+    },
+    "1": {
+      "stamp": 1794889316.616761,
+      "command_stamp": 1794889316.5890238,
+      "position_error_m": 0.13062804697358285,
+      "velocity_error_mps": 0.011905450229440949,
+      "acceleration": [
+        -0.0021636589376169387,
+        -0.005737056960573132,
+        0.0002950035193880894
+      ]
+    },
+    "3": {
+      "stamp": 1794889316.6121213,
+      "command_stamp": 1794889316.5891366,
+      "position_error_m": 0.049606774869507916,
+      "velocity_error_mps": 0.014481290444624406,
+      "acceleration": [
+        -0.011419719788854475,
+        -0.030279995796875007,
+        0.0015570186657260048
+      ]
+    },
+    "4": {
+      "stamp": 1794889316.6079617,
+      "command_stamp": 1794889316.5892382,
+      "position_error_m": 0.042880228740979694,
+      "velocity_error_mps": 0.016717879914997957,
+      "acceleration": [
+        -0.0009034433171770211,
+        -0.002395526464059671,
+        0.00012317976542002462
+      ]
+    },
+    "6": {
+      "stamp": 1794889304.7073083,
+      "command_stamp": 1794889304.6897566,
+      "position_error_m": 0.0564190561000488,
+      "velocity_error_mps": 0.0005784528917776523,
+      "acceleration": [
+        -0.0027436783925170096,
+        -0.007386816594603431,
+        0.00039439751082958143
+      ]
+    },
+    "8": {
+      "stamp": 1794889304.7006044,
+      "command_stamp": 1794889304.6898746,
+      "position_error_m": 0.024388511182399184,
+      "velocity_error_mps": 3.876164472232364e-05,
+      "acceleration": [
+        -0.011190912717152076,
+        -0.030129339410350765,
+        0.0016086681465212348
+      ]
+    }
+  },
+  "formation_policy_floor_violations": 0,
+  "cohesion_link_peaks_m": {
+    "0:2-0": 102.20554076300155,
+    "0:2-1": 115.55196497430303,
+    "0:0-3": 95.10771153351406,
+    "0:1-4": 108.05453492907432,
+    "1:2-0": 53.973652716159165,
+    "1:2-1": 85.18319824844144,
+    "1:0-3": 63.07020681560568,
+    "1:1-4": 46.999182852049735
+  },
+  "distance_50m_is_completion_requirement": false,
+  "faults": [],
+  "run_contract": {
+    "scope": "full production mission from configured stage-one spawn",
+    "command": [
+      "bash",
+      "bash/run_mode.sh",
+      "ten",
+      "/root/gpufree-data/uav-combine-runs/full-smooth-star-04"
+    ],
+    "phase_skipping": false,
+    "spawn_override": false,
+    "lag_injection": false,
+    "project": "/root/uav-combine-independent"
+  },
+  "flight_elapsed_s": 1321.8516533374786,
+  "source_manifest_sha256": "c271282291d625054187e669fbceda74d57c820303230eb12722dd61e587fe67",
+  "source_mismatches": []
+}

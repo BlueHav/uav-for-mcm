@@ -4,12 +4,23 @@ from concurrent.futures import ThreadPoolExecutor
 import numpy as np
 from swarm_native_bridge import NativePlanner, NativeTrajectory
 
-def goal_boundary(p,v,target,speed=6.):
+def goal_boundary(p,v,target,speed=6.,turning=False):
     from cloud_config import NATIVE_HORIZON,NATIVE_ACCELERATION
     horizon=NATIVE_HORIZON if speed>6 else 18.;acceleration=NATIVE_ACCELERATION if speed>6 else 1.2
     direction=target-p;length=float(np.linalg.norm(direction[:2]));unit=direction[:2]/max(length,1e-9)
+    forward=max(0.,float(np.dot(v[:2],unit)))
+    lateral=float(np.linalg.norm(v[:2]-unit*forward))
+    if turning and speed>6. and lateral>.5:
+        # A high-speed bearing change also needs room to remove lateral
+        # velocity. The original 80 m failed the unchanged native acceleration
+        # certificate at the recorded cruise-to-descent turn.
+        horizon=max(horizon,NATIVE_HORIZON+2.*speed*lateral/NATIVE_ACCELERATION)
+    if forward>speed:
+        # A short fixed horizon forced the 12->4 m/s MINCO boundary to loop
+        # backwards into delayed followers. Reserve braking and jerk room.
+        horizon=max(horizon,(forward**2-speed**2)/(2*acceleration)+forward*.75+3.)
     goal=p+direction*min(1.,horizon/max(length,1e-9));goal[2]=270.
-    distance=min(horizon,length);forward=max(0.,float(np.dot(v[:2],unit)))
+    distance=min(horizon,length)
     # A stopped vehicle cannot reach 6 m/s in a short remaining segment.
     # Reserve margin for zero acceleration at the MINCO boundary. At cruise
     # speed this leaves the ordinary 6 m/s boundary unchanged.
@@ -40,6 +51,12 @@ class CloudLeaderPlanner:
             job,start,epoch=self.pending;self.pending=None
             try:
                 plan=job.result()
+                course=getattr(self,'pending_forward',None)
+                if plan is not None and epoch==self.epoch and course is not None and now<=start:
+                    motion=plan.samples(np.linspace(0,plan.duration,max(2,int(plan.duration/.025)+1)))
+                    if np.min(motion[:,1,:2]@course)<-.05:
+                        self.cancel();m.fail('Cloud descent trajectory reverses into delayed followers')
+                        self.reason='Rejected reversing relay descent';return
                 if plan is not None and epoch==self.epoch and now<=start:
                     if self.active is None:self.active=(plan,start,epoch)
                     else:self.next_plan=(plan,start,epoch)
@@ -85,7 +102,7 @@ class CloudLeaderPlanner:
         if length<.5:return
         from cloud_config import CLIMB_SPEED_LIMIT, CRUISE_SPEED
         speed=min(float(getattr(m,'speed',6.)),CLIMB_SPEED_LIMIT if climbing else CRUISE_SPEED)
-        goal,end=goal_boundary(p,v,m.goal,speed)
+        goal,end=goal_boundary(p,v,m.goal,speed,turning=descent is not None)
         goal[2]=m.goal[2]
         if climbing:
             distance=np.linalg.norm(goal[:2]-p[:2])
@@ -115,4 +132,6 @@ class CloudLeaderPlanner:
         locked_z=m.goal[2] if not climbing and descent is None and abs(p[2]-m.goal[2])<.1 and abs(v[2])<.1 else -1.
         limit=max(speed,min(CRUISE_SPEED,np.linalg.norm(v)+.05)) if descent is not None else speed
         future=self.pool.submit(self.native.plan,grid,p,v,a,goal,end,cruise_z=locked_z,drone_id=m.id,peers=peers,max_speed=limit,certification_grid=certificate)
+        self.pending_forward=(direction[:2]/length if descent is not None and
+                              np.dot(v[:2],direction[:2]/length)>.5 else None)
         self.pending=(future,start,self.epoch);self.last_request=now;self.calls+=1

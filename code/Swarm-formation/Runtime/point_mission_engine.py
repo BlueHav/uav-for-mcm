@@ -85,14 +85,17 @@ class GroupFlight:
 
     def relay_climb(self,p,v,now,blocked,hold_leader):
         if not hasattr(self,'climb_course'):
-            direction=self.model.ends[self.group]-p[2,:2]
+            # The assembly lateral order is opposite the endpoint bearings.
+            # Keep parallel climb/cruise lanes; turn toward each endpoint only
+            # after relay_descent establishes separate altitude lanes.
+            direction=self.model.direction.copy()
             self.climb_axis=direction/np.linalg.norm(direction)
             self.climb_origin=p[2,:2].copy()
             self.climb_course=self.climb_origin+2000.*self.climb_axis
         if abs(p[2,2]-self.model.altitude)<.3 and abs(v[2,2])<.25:
             self.start_cruise(p,now)
             return self.cruise(p,v,now,blocked,hold_leader)
-        self.note='Continuous forward climb toward group endpoint'
+        self.note='Continuous forward climb in parallel group corridors'
         self.reference=p.copy()
         self.reference[2]=np.r_[self.climb_course,self.model.altitude]
         result=self.output(now,pause=blocked or hold_leader)
@@ -117,8 +120,8 @@ class GroupFlight:
         self.navigation=list(self.model.routes[self.group][1:-1])+[start[2,:2]]
         if hasattr(self,'climb_course'):
             # Finish the straight climb course before taking the next forward route waypoint.
-            # Keep the two endpoint bearings through high-speed cruise.
-            # The former turn toward opposite entry sides crossed the two lines.
+            # Keep the parallel group corridors through high-speed cruise.
+            # Endpoint turns occur only after descent establishes altitude lanes.
             if self.relay and getattr(self.model,'moving_merge',False):
                 self.navigation=[self.climb_origin+3800.*self.climb_axis]
             else:
@@ -483,7 +486,11 @@ class GroupFlight:
                 self.cohesion['sample_stamps']=list(getattr(self,'distance_sample_stamps',[now]*5))
                 ref.update(cohesion_required=True,cohesion=self.cohesion,
                            member_speed_caps=[float(ref['speed'])]*5)
-            if not self.model.star_settled(self.group,p,v):
+            approach_complete=(start is not None and approach is not None
+                and now>=start+approach.duration and len(states)==5
+                and all(s.get('formation',{}).get('star_started') is True
+                        and s.get('formation',{}).get('star_token')==approach.token for s in states))
+            if not approach_complete or not self.model.star_settled(self.group,p,v):
                 self.dwell=None
                 if self.phase=='FINAL':self.event('TERRAIN',now)
             elif self.phase=='TERRAIN':

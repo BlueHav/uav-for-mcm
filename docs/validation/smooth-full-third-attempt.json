@@ -1,0 +1,12 @@
+{
+  "run": "full-smooth-star-03",
+  "result": {
+    "scope": "full production mission from stage one",
+    "passed": false,
+    "entry_pid": 42335,
+    "error": "Actual separation below 1.0m"
+  },
+  "source_manifest_sha256": "d7fb210ef4e297c2a969b47bcf83f3881908b4643b72fa50160734461cb47409",
+  "scope": "Failed complete-mission attempt before terminal stage; not success evidence",
+  "diagnosis": "Endpoint bearing rays crossed the lateral order of the assembled groups during climb. The two leaders approached below 1m and the body guard stopped the run. Climb and high cruise now retain parallel group corridors until existing distinct descent altitude lanes permit the endpoint turns."
+}

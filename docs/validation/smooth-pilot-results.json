@@ -1,0 +1,34 @@
+[
+  {
+    "run": "phase6-smooth-star-01",
+    "result": {
+      "scope": "focused phase-six flight with ground takeoff, not full mission",
+      "passed": false,
+      "error": "Flight harness interrupted"
+    },
+    "source_manifest_sha256": "488545ef4a74d8d75dbae5b52b40d8606a3193f06166c164794f857dbca3e5c3",
+    "partial_route_metrics": {
+      "sum_route_variation": 115.91068201898268,
+      "sum_route_slow_entries": 7,
+      "sum_route_slow_seconds": 18.999326944351196,
+      "mean_route_speed": 2.0167183439591314
+    },
+    "scope": "Unsuccessful partial pilot; not full-mission or successful landing evidence"
+  },
+  {
+    "run": "phase6-smooth-star-02",
+    "result": {
+      "scope": "focused phase-six flight with ground takeoff, not full mission",
+      "passed": false,
+      "error": "Member 2 local ground stale"
+    },
+    "source_manifest_sha256": "ed26b4c88b3527fbb6d30d921ba7d6f25bbbb8d9bf035611e2564550d00d1d5f",
+    "partial_route_metrics": {
+      "sum_route_variation": 1527.7776896843006,
+      "sum_route_slow_entries": 81,
+      "sum_route_slow_seconds": 215.97343349456787,
+      "mean_route_speed": 2.282019156058307
+    },
+    "scope": "Unsuccessful partial pilot; not full-mission or successful landing evidence"
+  }
+]

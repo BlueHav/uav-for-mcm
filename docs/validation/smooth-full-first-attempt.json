@@ -1,0 +1,12 @@
+{
+  "run": "full-smooth-star-01",
+  "result": {
+    "scope": "full production mission from stage one",
+    "passed": false,
+    "entry_pid": 33854,
+    "error": "Member 2 fault/interruption"
+  },
+  "source_manifest_sha256": "d3ff4cd6151d6092ec6dd1642abe00c6231c6df31dc8e24e667eb0abd844569e",
+  "scope": "Failed complete-mission attempt before terminal stage; not success evidence",
+  "diagnosis": "An 18m slowdown horizon was insufficient for 12m/s to 4m/s. Native rejection was followed by an accepted reversing descent path, closing on a delayed relay follower. Horizon now includes braking demand and a prepublication guard rejects reversing descent trajectories."
+}

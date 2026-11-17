@@ -1,0 +1,326 @@
+{
+  "passed": false,
+  "errors": [
+    "Missing all-ten formation takeover"
+  ],
+  "current": {
+    "run": "full-smooth-star-04",
+    "scope": "Route TERRAIN_FOLLOW, goal distance >30m, before formation takeover; speed sampled ~1Hz",
+    "members": {
+      "0": {
+        "samples_1hz": 574,
+        "duration_s": 573.4114742279053,
+        "estimated_travel_m": 1256.554713694448,
+        "mean_speed_mps": 2.1913665320115725,
+        "speed_total_variation_mps": 233.81466151619242,
+        "variation_per_km": 186.0759893445024,
+        "slow_entries": 15,
+        "slow_seconds": 55.15245842933655,
+        "latched_fraction": 0.06410033095279569,
+        "near30_to_landed_s": 108.6019275188446
+      },
+      "1": {
+        "samples_1hz": 594,
+        "duration_s": 594.3003103733063,
+        "estimated_travel_m": 1268.7216906735925,
+        "mean_speed_mps": 2.1348157968765866,
+        "speed_total_variation_mps": 239.68656427496566,
+        "variation_per_km": 188.91973396286048,
+        "slow_entries": 14,
+        "slow_seconds": 57.11434507369995,
+        "latched_fraction": 0.058635752688172046,
+        "near30_to_landed_s": 87.40212774276733
+      },
+      "2": {
+        "samples_1hz": 542,
+        "duration_s": 542.3528032302856,
+        "estimated_travel_m": 1223.618443027736,
+        "mean_speed_mps": 2.2561300241093836,
+        "speed_total_variation_mps": 160.4508292090825,
+        "variation_per_km": 131.1281552867584,
+        "slow_entries": 5,
+        "slow_seconds": 15.004849672317505,
+        "latched_fraction": 0.018409425625920472,
+        "near30_to_landed_s": 139.40156769752502
+      },
+      "3": {
+        "samples_1hz": 545,
+        "duration_s": 545.2996532917023,
+        "estimated_travel_m": 1219.4512047719916,
+        "mean_speed_mps": 2.2362955806239238,
+        "speed_total_variation_mps": 220.18667403918346,
+        "variation_per_km": 180.56210299972858,
+        "slow_entries": 16,
+        "slow_seconds": 23.952646255493164,
+        "latched_fraction": 0.06670331684075499,
+        "near30_to_landed_s": 137.10246777534485
+      },
+      "4": {
+        "samples_1hz": 549,
+        "duration_s": 549.2989661693573,
+        "estimated_travel_m": 1226.2487042413773,
+        "mean_speed_mps": 2.232388516572059,
+        "speed_total_variation_mps": 230.4740622651898,
+        "variation_per_km": 187.95050422318147,
+        "slow_entries": 17,
+        "slow_seconds": 23.01231598854065,
+        "latched_fraction": 0.07253226686057081,
+        "near30_to_landed_s": 132.40878772735596
+      },
+      "5": {
+        "samples_1hz": 597,
+        "duration_s": 597.2993948459625,
+        "estimated_travel_m": 1215.6155754532747,
+        "mean_speed_mps": 2.0351863503340226,
+        "speed_total_variation_mps": 91.24805657165814,
+        "variation_per_km": 75.06325059847465,
+        "slow_entries": 6,
+        "slow_seconds": 22.08009910583496,
+        "latched_fraction": 0.018571189559979922,
+        "near30_to_landed_s": 84.78565406799316
+      },
+      "6": {
+        "samples_1hz": 613,
+        "duration_s": 613.2991535663605,
+        "estimated_travel_m": 1214.5551679259593,
+        "mean_speed_mps": 1.980363352636751,
+        "speed_total_variation_mps": 135.43263809624818,
+        "variation_per_km": 111.5080168219286,
+        "slow_entries": 12,
+        "slow_seconds": 36.00012731552124,
+        "latched_fraction": 0.05276872964169381,
+        "near30_to_landed_s": 68.6025161743164
+      },
+      "7": {
+        "samples_1hz": 599,
+        "duration_s": 599.2991552352905,
+        "estimated_travel_m": 1207.5244935230194,
+        "mean_speed_mps": 2.014894369488864,
+        "speed_total_variation_mps": 111.35735969108552,
+        "variation_per_km": 92.21954526669208,
+        "slow_entries": 7,
+        "slow_seconds": 33.00416970252991,
+        "latched_fraction": 0.03652434956637759,
+        "near30_to_landed_s": 82.84669065475464
+      },
+      "8": {
+        "samples_1hz": 600,
+        "duration_s": 599.4001305103302,
+        "estimated_travel_m": 1233.6562970033979,
+        "mean_speed_mps": 2.058151532187791,
+        "speed_total_variation_mps": 172.58582698879528,
+        "variation_per_km": 139.89782033133002,
+        "slow_entries": 16,
+        "slow_seconds": 54.09892249107361,
+        "latched_fraction": 0.050666666666666665,
+        "near30_to_landed_s": 82.75096344947815
+      },
+      "9": {
+        "samples_1hz": 614,
+        "duration_s": 613.4001288414001,
+        "estimated_travel_m": 1216.1672461672326,
+        "mean_speed_mps": 1.982665456012128,
+        "speed_total_variation_mps": 172.8050089831275,
+        "variation_per_km": 142.08983963983968,
+        "slow_entries": 17,
+        "slow_seconds": 46.144278049468994,
+        "latched_fraction": 0.057003257328990226,
+        "near30_to_landed_s": 68.70273923873901
+      }
+    },
+    "takeover": {
+      "9": {
+        "stamp": 1794890167.6987927,
+        "token": "star-1-1794890167.298096",
+        "inference_count": 4787
+      },
+      "6": {
+        "stamp": 1794890167.6987927,
+        "token": "star-1-1794890167.298096",
+        "inference_count": 4803
+      },
+      "7": {
+        "stamp": 1794890167.6987927,
+        "token": "star-1-1794890167.298096",
+        "inference_count": 4819
+      },
+      "8": {
+        "stamp": 1794890167.6987927,
+        "token": "star-1-1794890167.298096",
+        "inference_count": 4257
+      },
+      "5": {
+        "stamp": 1794890167.797507,
+        "token": "star-1-1794890167.298096",
+        "inference_count": 4720
+      }
+    },
+    "network_inferences_after_takeover": {
+      "9": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "5": 0
+    },
+    "landed_members": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "sum_route_variation": 1768.0416816355287,
+    "sum_route_slow_entries": 125,
+    "sum_route_slow_seconds": 365.5642120838165,
+    "mean_route_speed": 2.107663001753983
+  },
+  "baseline": {
+    "run": "full-pipeline-02",
+    "scope": "Route TERRAIN_FOLLOW, goal distance >30m, before formation takeover; speed sampled ~1Hz",
+    "members": {
+      "0": {
+        "samples_1hz": 542,
+        "duration_s": 541.0996420383453,
+        "estimated_travel_m": 1234.397444050816,
+        "mean_speed_mps": 2.2812756619109713,
+        "speed_total_variation_mps": 481.86980705840966,
+        "variation_per_km": 390.36844201256525,
+        "slow_entries": 47,
+        "slow_seconds": 61.126598834991455,
+        "latched_fraction": 0.2725258493353028,
+        "near30_to_landed_s": 103.49982953071594
+      },
+      "1": {
+        "samples_1hz": 527,
+        "duration_s": 526.1006803512573,
+        "estimated_travel_m": 1224.6446599220046,
+        "mean_speed_mps": 2.327776233066941,
+        "speed_total_variation_mps": 535.5360486772847,
+        "variation_per_km": 437.2991335391868,
+        "slow_entries": 51,
+        "slow_seconds": 70.01102328300476,
+        "latched_fraction": 0.32953898690950484,
+        "near30_to_landed_s": 117.90066361427307
+      },
+      "2": {
+        "samples_1hz": 528,
+        "duration_s": 527.1003978252411,
+        "estimated_travel_m": 1223.4479315438798,
+        "mean_speed_mps": 2.3210908900689375,
+        "speed_total_variation_mps": 499.24936577226134,
+        "variation_per_km": 408.0675220417874,
+        "slow_entries": 44,
+        "slow_seconds": 58.08039140701294,
+        "latched_fraction": 0.28660849772382396,
+        "near30_to_landed_s": 117.72758483886719
+      },
+      "3": {
+        "samples_1hz": 542,
+        "duration_s": 541.0996420383453,
+        "estimated_travel_m": 1229.4475741048166,
+        "mean_speed_mps": 2.272127864423335,
+        "speed_total_variation_mps": 424.93798110968925,
+        "variation_per_km": 345.6332665661604,
+        "slow_entries": 36,
+        "slow_seconds": 47.98783755302429,
+        "latched_fraction": 0.20834102232884297,
+        "near30_to_landed_s": 102.92734360694885
+      },
+      "4": {
+        "samples_1hz": 528,
+        "duration_s": 527.0998351573944,
+        "estimated_travel_m": 1214.1608704247317,
+        "mean_speed_mps": 2.303474198701234,
+        "speed_total_variation_mps": 424.51608090003066,
+        "variation_per_km": 349.63742551802756,
+        "slow_entries": 36,
+        "slow_seconds": 47.038371324539185,
+        "latched_fraction": 0.20003788596325062,
+        "near30_to_landed_s": 116.92666816711426
+      },
+      "5": {
+        "samples_1hz": 574,
+        "duration_s": 573.1997680664062,
+        "estimated_travel_m": 1254.4126305551765,
+        "mean_speed_mps": 2.1884388313462306,
+        "speed_total_variation_mps": 604.3105115684867,
+        "variation_per_km": 481.74778924302734,
+        "slow_entries": 61,
+        "slow_seconds": 100.14457154273987,
+        "latched_fraction": 0.3376872169975618,
+        "near30_to_landed_s": 70.69987845420837
+      },
+      "6": {
+        "samples_1hz": 561,
+        "duration_s": 560.203209400177,
+        "estimated_travel_m": 1232.870986869023,
+        "mean_speed_mps": 2.2007567364512024,
+        "speed_total_variation_mps": 400.58535512768503,
+        "variation_per_km": 324.9207414191848,
+        "slow_entries": 36,
+        "slow_seconds": 68.94211888313293,
+        "latched_fraction": 0.18108831400535236,
+        "near30_to_landed_s": 84.59921836853027
+      },
+      "7": {
+        "samples_1hz": 573,
+        "duration_s": 572.1997826099396,
+        "estimated_travel_m": 1229.2854040164564,
+        "mean_speed_mps": 2.148350001828719,
+        "speed_total_variation_mps": 401.37838122064693,
+        "variation_per_km": 326.513582532762,
+        "slow_entries": 36,
+        "slow_seconds": 69.02467012405396,
+        "latched_fraction": 0.1818976061506203,
+        "near30_to_landed_s": 72.80018758773804
+      },
+      "8": {
+        "samples_1hz": 523,
+        "duration_s": 522.1000545024872,
+        "estimated_travel_m": 1178.9132894785018,
+        "mean_speed_mps": 2.2580217705625345,
+        "speed_total_variation_mps": 299.86360023462777,
+        "variation_per_km": 254.3559419601368,
+        "slow_entries": 22,
+        "slow_seconds": 28.10697650909424,
+        "latched_fraction": 0.12052802754926344,
+        "near30_to_landed_s": 122.40006756782532
+      },
+      "9": {
+        "samples_1hz": 545,
+        "duration_s": 544.1688423156738,
+        "estimated_travel_m": 1200.3501649650057,
+        "mean_speed_mps": 2.205841407341509,
+        "speed_total_variation_mps": 450.55214934769356,
+        "variation_per_km": 375.35059559960047,
+        "slow_entries": 43,
+        "slow_seconds": 70.08231735229492,
+        "latched_fraction": 0.27107438016528923,
+        "near30_to_landed_s": 100.60004806518555
+      }
+    },
+    "takeover": {},
+    "network_inferences_after_takeover": {},
+    "landed_members": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "sum_route_variation": 4522.799281016816,
+    "sum_route_slow_entries": 412,
+    "sum_route_slow_seconds": 620.5448768138885,
+    "mean_route_speed": 2.2490052730285366
+  }
+}

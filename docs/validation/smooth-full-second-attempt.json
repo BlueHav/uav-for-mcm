@@ -1,0 +1,12 @@
+{
+  "run": "full-smooth-star-02",
+  "result": {
+    "scope": "full production mission from stage one",
+    "passed": false,
+    "entry_pid": 38215,
+    "error": "Member 7 fault/interruption"
+  },
+  "source_manifest_sha256": "d82b207ed4443f90240181b43702ec0d2d289d7ebbf8df02c28f8a556019fed2",
+  "scope": "Failed complete-mission attempt before terminal stage; not success evidence",
+  "diagnosis": "An 80m horizon failed the unchanged native acceleration certificate at a 20m/s bearing change into descent. Repeated rejections exhausted the old forward path; the reversal guard stopped the mission before publishing a reversing path. A recorded-boundary native regression verifies a longer lateral-velocity-dependent horizon."
+}
