@@ -3,12 +3,13 @@ import math
 CLOUD='CLOUD'
 YOPO_WARMUP='YOPO_WARMUP'
 YOPO='YOPO'
+GROUND_AGE_LIMIT=max(.6,3.5*.2) # Shared 5 Hz ground-input contract.
 
 def input_problem(state,raw_ground_stamp,now,mode):
     if mode not in (CLOUD,YOPO_WARMUP,YOPO):return 'invalid planning mode'
     if not -.1<=state.get('odom_age',999)<=.5:return 'odometry stale'
     if not 0<=state.get('plan_age',999)<=.8:return 'planner stale'
-    if not -.1<=now-raw_ground_stamp<=.6 or not -.1<=state.get('stamp',0)-(state.get('map',{}).get('ground_stamp') or 0)<=.6:return 'local ground stale'
+    if not -.1<=now-raw_ground_stamp<=GROUND_AGE_LIMIT or not -.1<=state.get('stamp',0)-(state.get('map',{}).get('ground_stamp') or 0)<=GROUND_AGE_LIMIT:return 'local ground stale'
     if mode==YOPO:
         ages=state.get('frame_ages',{})
         if set(ages)!=set(('front','up','down')) or not all(math.isfinite(v) and -.1<=v<=.6 for v in ages.values()):return 'depth missing/stale'

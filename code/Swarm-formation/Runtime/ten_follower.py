@@ -109,7 +109,8 @@ class TenFollower(FormationFollower):
    self.applied_terminal_reference=ref
    endpoint=np.asarray(ref.get('fixed_endpoints',points),float)[self.member_id]
    terminal_near=np.linalg.norm(endpoint[:2]-m.p[:2])<15.
-   if terminal_near:m.speed=min(m.speed,.6)
+   committed=(ref.get('star_approach') or {}).get('start') is not None
+   if terminal_near and not committed:m.speed=min(m.speed,.6)
    now=rospy.Time.now().to_sec()
    m.map.dynamic_peers=np.array([s['position'] for s in self.peers.values() if -.1<=now-s.get('stamp',0)<=.6],float).reshape(-1,3)
    m.map.dynamic_clearance=2.2 if terminal_near else 2.8
@@ -264,6 +265,45 @@ class TenFollower(FormationFollower):
  def plan_terrain(self,p,v):
   m=self.m;self.blocked=False;self.safety_paused=False
   ref=self.reference or {}
+  proposal=ref.get('star_approach')
+  if proposal:
+   from terminal_star_approach import StarApproach,observed_member_clear
+   now=rospy.Time.now().to_sec()
+   if getattr(self,'star_token',None)!=proposal['token']:
+    if getattr(self,'star_started',False):m.fail('Star ownership changed after commit');m.desired[:]=0.;return
+    self.star_plan=StarApproach.from_packet(proposal);self.star_token=proposal['token']
+   start=proposal.get('start')
+   if start is None:
+    clear=(not m.braking and observed_member_clear(m.map,self.star_plan,self.member_id,p))
+    self.star_certificate=dict(token=self.star_token,stamp=now,clear=clear)
+   else:
+    if not getattr(self,'star_started',False):
+     certificate=getattr(self,'star_certificate',{})
+     if certificate.get('token')!=self.star_token or not certificate.get('clear') or now-certificate.get('stamp',-1e9)>.8:
+      m.fail('Star commit missing own fresh admission');m.desired[:]=0.;return
+     self.star_inference_at_start=m.inferences
+    self.star_started=True
+    self.star_mode='FORMATION_APPROACH'
+    m.detour=None;m.detour_scan_start=None
+    if now<start:
+     m.desired[:]=0.;m.reason='Committed star approach awaiting common start';return
+    q,w,a=self.star_plan.sample(max(0.,now-start));q=q[self.member_id];w=w[self.member_id]
+    # Tracking targets change ownership; the existing jerk-limited control
+    # integrator retains its actual P/V/A instead of resetting at takeover.
+    desired=w+1.2*(q-p)-.65*(v-w)
+    desired[:2]*=min(1.,3./max(np.linalg.norm(desired[:2]),1e-9))
+    desired[2]=np.clip(desired[2],-1.2,1.2)
+    m.desired=desired;m.chosen=np.array([p,q]);m.reason='Formation-only synchronized star approach'
+    if now>=start+self.star_plan.duration:self.star_mode='STAR_SETTLE'
+    if np.linalg.norm(q-p)>.5:m.fail('Star approach tracking tube exceeded');m.desired[:]=0.
+    return
+  elif getattr(self,'star_started',False):
+   m.fail('Committed star approach reference lost');m.desired[:]=0.;return
+  if ref.get('star_prepare'):
+   self.star_mode='PREPARE';m.desired[:]=0.
+   m.reason='Preparing synchronized star entry; controlled settling'
+   return
+  self.star_mode='YOPO'
   if ref.get('independent_terminal'):
    self.safety_paused=(not self.active or getattr(self,'suspended',False)
                        or m.planning_mode!='YOPO' or ref.get('safety_pause',False) or m.speed<=.001)
@@ -389,6 +429,9 @@ class TenFollower(FormationFollower):
   self.note='Ten bodies checked; distance band uses group centers only'
  def status(self):
   s=super().status();s.update(group_id=self.group_id,member_id=self.member_id)
+  s.update(star_certificate=getattr(self,'star_certificate',None),star_mode=getattr(self,'star_mode','YOPO'),
+           star_token=getattr(self,'star_token',None),star_started=bool(getattr(self,'star_started',False)),
+           star_inference_at_start=getattr(self,'star_inference_at_start',None))
   if (self.reference or {}).get('independent_terminal'):
    s.update(member_speed_cap=getattr(self,'member_speed_cap',None),cohesion_wait=bool(self.safety_paused or getattr(self,'cohesion_limited',False)),cohesion_limited=bool(getattr(self,'cohesion_limited',False)),direction_limit=getattr(self,'direction_limit',None))
    formation=((self.reference or {}).get('cohesion') or {}).get('formation')

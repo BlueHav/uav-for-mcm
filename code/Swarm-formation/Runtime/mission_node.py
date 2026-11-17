@@ -29,7 +29,7 @@ from inference_device import select_device
 from mission_core import *
 
 # Ground stream in the fixed ten-drone scene runs at ~5 Hz.
-GROUND_AGE_LIMIT=max(.6,3.5*.2)
+from planning_mode import GROUND_AGE_LIMIT
 
 
 class Mission:
@@ -910,7 +910,8 @@ class Mission:
                 best=candidate
         if independent:
             vz=self.terrain_velocity(p,v)
-            for candidate in sorted(ranked,key=lambda item:item[0],reverse=True):
+            from terminal_speed import stable_candidates
+            for candidate in stable_candidates(ranked,getattr(self,'continuous_route_direction',None)):
                 _,direction,speed,*_=candidate
                 if self.five.independent_peer_clear(p,v,np.r_[direction*speed,vz]):
                     best=candidate
@@ -930,6 +931,13 @@ class Mission:
             self.try_detour(p)
             return
         _,direction,speed,points,slope,index=best
+        if independent:
+            from terminal_speed import bounded_speed
+            clock=time.monotonic()
+            previous=getattr(self,'continuous_route_speed',min(speed,float(np.linalg.norm(v[:2]))+.3))
+            speed=bounded_speed(previous,speed,max(0.,clock-getattr(self,'continuous_route_stamp',clock-.1)))
+            self.continuous_route_speed=speed;self.continuous_route_stamp=clock
+            self.continuous_route_direction=direction.copy()
         self.chosen=points;self.desired[:2]=direction*speed
         if self.mode=='AGL':
             self.desired[2]=self.terrain_velocity(p,v)
@@ -1091,6 +1099,25 @@ class Mission:
                 endpoints=self.map.points_clear([path[-1] for path in paths],radius=.5)
                 for clear,endpoint in zip(clear_paths,endpoints):clear[-1]&=endpoint
             if not all(np.all(clear) for clear in clear_paths):
+                if ((getattr(self.five,'reference',None) or {}).get('independent_terminal')
+                        and self.phase=='TERRAIN_FOLLOW'):
+                    from terminal_speed import select_continuous_velocity
+                    def admitted(candidate):
+                        # The planner owns the reentrant map lock; consume new
+                        # ground between complete candidate proofs, not mid-proof.
+                        self.integrate_ground_tick(None)
+                        trial=(actual_stop_paths(p,v,self.refa,candidate) if terrain is None else
+                               ten_stop_envelopes(p,v,self.refa,candidate,terrain_velocity=terrain))
+                        for path in trial:
+                            if not np.all(self.map.points_clear(path,radius=.35)):return False
+                            if not self.map.points_clear([path[-1]],radius=.5)[0]:return False
+                        return self.five.independent_peer_clear(p,v,candidate)
+                    reduced=select_continuous_velocity(self.desired,admitted)
+                    if reduced is not None:
+                        self.desired=reduced
+                        self.continuous_route_speed=float(np.linalg.norm(reduced[:2]))
+                        self.reason='Continuous reduced speed in verified stopping corridor'
+                        return
                 if (self.phase=='FORMATION' and self.planning_mode=='CLOUD'
                         and (self.five.reference or {}).get('moving_merge')):
                     from terminal_stopping import clear_reduced_merge_velocity
@@ -1325,7 +1352,8 @@ class Mission:
                         joint=getattr(self,'terminal_client',None) is not None and self.planning_mode=='YOPO'
                         if joint and self.phase in ('TERRAIN_FOLLOW','END_HOLD'):self.five.plan_terrain(p,v)
                         elif self.phase in ('TAKEOFF','CLIMB','DESCENT','LAND','VERTICAL_GOTO'):self.vertical_plan(p,v)
-                        elif self.phase=='TERRAIN_FOLLOW' and self.count==10:self.five.plan_terrain(p,v)
+                        elif self.count==10 and (self.phase=='TERRAIN_FOLLOW' or
+                                self.phase=='END_HOLD' and (self.five.reference or {}).get('star_prepare')):self.five.plan_terrain(p,v)
                         elif self.phase in ('CRUISE','TERRAIN_FOLLOW','GOTO','END_APPROACH'):self.horizontal_plan(p,v)
                         elif self.phase=='AIR_ASSEMBLE':self.vertical_plan(p,v)
                         elif self.phase=='FORMATION':self.five.plan(p,v)
@@ -1333,7 +1361,8 @@ class Mission:
                         elif self.phase in ('HOLD','BRAKE','END_HOLD'):
                             self.desired=limit_norm((self.hold-p)*1.2,1.5)
                         self.desired=self.cohesion_velocity(self.desired,position=p,record=True)
-                        if self.phase in ('CRUISE','TERRAIN_FOLLOW','GOTO') and not joint:
+                        if (self.phase in ('CRUISE','TERRAIN_FOLLOW','GOTO') and not joint
+                                and not (getattr(self.five,'reference',None) or {}).get('star_prepare')):
                             if self.count==10 and getattr(self.five,'active',False) and getattr(self.five,'safety_paused',False):
                                 self.progress_p=p.copy();self.progress_stamp=time.monotonic()
                             independent=bool((getattr(self.five,'reference',None) or {}).get('independent_terminal'))
@@ -1359,6 +1388,9 @@ class Mission:
                 if self.phase in ('CRUISE','TERRAIN_FOLLOW','GOTO','END_APPROACH','FORMATION') or self.count==10 and self.phase=='END_HOLD':self.final_sweep(p,v)
                 self.plan_stage='safety';self.plan_stage_started=time.monotonic()
                 if self.five:self.five.safety(p,v)
+                if (getattr(self.five,'star_started',False) and self.phase in ('TERRAIN_FOLLOW','END_HOLD')
+                        and (self.braking or self.five.blocked)):
+                    self.fail('Committed star approach safety corridor lost');self.desired[:]=0.
                 self.plan_profile['safety']=time.monotonic()-self.plan_stage_started
                 if self.count==10 and getattr(self.five,'active',False) and getattr(self.five,'safety_paused',False):self.desired[:]=0.
                 if self.count==10:

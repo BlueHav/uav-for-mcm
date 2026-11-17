@@ -417,8 +417,52 @@ class GroupFlight:
             self.note='Independent YOPO to fixed star slots'
             ref=self.output(now,stage='TERRAIN',pause=hold_leader,agl=agl)
             ref.update(independent_terminal=True,fixed_endpoints=final.tolist(),moving_slots=False)
+            from terminal_star_approach import StarApproach,certificates_ready,boundary_matches,settled_boundary
+            approach=getattr(self,'star_approach',None)
+            states=getattr(self,'member_states',[])
+            start=getattr(self,'star_approach_start',None)
+            if (remaining<=30. and not hasattr(self,'star_prepare_since')
+                    and now>=getattr(self,'star_retry_after',-1e9)):self.star_prepare_since=now
+            preparing=hasattr(self,'star_prepare_since')
+            if preparing:ref['star_prepare']=True
+            boundary=None
+            if preparing and len(states)==5:
+                try:
+                    from relay_core import validated_control_reference
+                    samples=[validated_control_reference(s.get('control_reference'),now) for s in states]
+                    boundary=[np.array([s[key] for s in samples]) for key in ('position','velocity','acceleration')]
+                except ValueError:pass
+            if approach is not None and start is None:
+                certificates=[s.get('formation',{}).get('star_certificate') for s in states]
+                if (certificates_ready(certificates,approach.token,now) and boundary is not None
+                        and boundary_matches(approach,*boundary) and boundary_matches(approach,p,v,boundary[2])
+                        and settled_boundary(p,v,boundary)
+                        and now<self.star_planned_start-.2):
+                    self.star_approach_start=start=self.star_planned_start
+                elif now-self.star_proposed>.8:self.star_approach=approach=None
+            if (approach is None and preparing and remaining<=30. and boundary is not None
+                    and settled_boundary(p,v,boundary) and not hold_leader
+                    and now-getattr(self,'star_attempt',-1e9)>1.):
+                self.star_attempt=now
+                try:
+                    target=final.copy();target[:,2]=self.model.ground(final[:,:2])+self.model.end_agl
+                    approach=StarApproach(*boundary,target,'star-%d-%.6f'%(self.group,now))
+                    self.star_approach=approach;self.star_proposed=now;self.star_planned_start=now+1.2
+                except ValueError:pass
+            if preparing and start is None and now-self.star_prepare_since>12.:
+                # Admission failure is still YOPO ownership. Resume observation,
+                # rather than keeping a group stopped indefinitely at a bad slot.
+                self.star_approach=approach=None
+                del self.star_prepare_since
+                self.star_retry_after=now+15.
+                ref.pop('star_prepare',None)
+            if approach is not None:
+                ref['star_approach']=dict(approach.packet(),start=start)
+                if start is not None:
+                    ref.update(agl=self.model.end_agl,speed=3.,targets=approach.sample(approach.duration)[0].tolist())
+                    self.note='Committed formation-only star approach'
             cohesion=self.model.config.get('terminal_cohesion',{})
-            if cohesion.get('enabled',False):
+            if cohesion.get('enabled',False) and start is None:
                 if self.distance_gate is None:
                     from tree_distance import TreeDistanceGate
                     from formation_speed_governor import FormationSpeedGovernor

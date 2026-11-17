@@ -312,6 +312,7 @@ class Coordinator(LegacyCoordinator):
                         self.publish_execution_commit(g,dict(terminal_joint=command),now)
                 for g in self.active_groups:
                     engine=self.groups[g];sl=slice(g*5,g*5+5)
+                    engine.member_states=[self.states[i] for i in range(g*5,g*5+5)]
                     engine.distance_sample_stamps=[leader_sample_time(self.states[i],now) for i in range(g*5,g*5+5)]
                     engine.distance_observations_fresh=all(-.1<=now-stamp<=.3 for stamp in engine.distance_sample_stamps)
                     engine.leader_sample_stamp=engine.distance_sample_stamps[2]

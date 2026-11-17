@@ -13,13 +13,12 @@ from ten_core import *
 from formation_core import min_separation,graph_gradient
 from ten_cloud import xyz
 from ten_terrain import TerrainStages
-from planning_mode import input_problem
+from planning_mode import input_problem,GROUND_AGE_LIMIT
 from sensor_inbox import LatestMeasurement
 from swarm_state import fresh as state_fresh, parse_swarm_state
 from sensor_channels import group_cloud_topic, group_members
 
 # Matches mission_node: the ten-drone ground stream runs at ~5 Hz.
-GROUND_AGE_LIMIT=max(.6,3.5*.2)
 ROOT=Path((str(portable_paths.SCENE)))
 BAND={'LINE','CRUISE','CRUISED'}
 TERMINAL={'IDLE','FAILED','HOLD','LANDED','STAR_HOVER'}
