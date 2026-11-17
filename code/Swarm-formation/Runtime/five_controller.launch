@@ -1,0 +1,132 @@
+<launch><arg name="count" default="1" />
+  
+  <arg name="spawn_x" default="45.0" />
+  <arg name="spawn_y" default="-50.0" />
+  <arg name="ground_z" default="0.0" />
+  <arg name="body_ground_offset" default="0.083263099193573" />
+  <group ns="drone_0">
+    <node pkg="so3_quadrotor_simulator" type="quadrotor_simulator_so3" name="dynamics" output="screen" required="true">
+      <param name="ground_contact" value="true" />
+      <param name="initial_ground_z" value="$(arg ground_z)" />
+      <param name="body_ground_offset" value="$(arg body_ground_offset)" />
+      <param name="quadrotor_name" value="drone_0" />
+      <param name="rate/odom" value="50.0" />
+      <param name="simulator/init_state_x" value="$(arg spawn_x)" />
+      <param name="simulator/init_state_y" value="-62" />
+      <remap from="cmd" to="so3_cmd" />
+    </node>
+    <node pkg="so3_control" type="network_control_node" name="controller" output="screen" required="true">
+      <param name="is_simulation" value="true" />
+      <param name="use_disturbance_observer" value="true" />
+      <param name="disturbance_observer_type" value="HGDO" />
+      <param name="hover_thrust" value="0.375" />
+      <!-- Faster relay departure: stronger position/velocity gains so the
+           leader reaches 20 m/s in a few seconds instead of creeping. -->
+      <param name="kx_xy" value="14.0" />
+      <param name="kx_z" value="14.0" />
+      <param name="kv_xy" value="7.0" />
+      <param name="kv_z" value="7.0" />
+      <remap from="position_cmd" to="pos_cmd" />
+    </node>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="camera_tf" args="0 0 0 -0.5 0.5 -0.5 0.5 drone_0/base_link drone_0/camera_frame" />
+  </group><group ns="drone_1">
+    <node pkg="so3_quadrotor_simulator" type="quadrotor_simulator_so3" name="dynamics" output="screen" required="true">
+      <param name="ground_contact" value="true" />
+      <param name="initial_ground_z" value="$(arg ground_z)" />
+      <param name="body_ground_offset" value="$(arg body_ground_offset)" />
+      <param name="quadrotor_name" value="drone_1" />
+      <param name="rate/odom" value="50.0" />
+      <param name="simulator/init_state_x" value="$(arg spawn_x)" />
+      <param name="simulator/init_state_y" value="-56" />
+      <remap from="cmd" to="so3_cmd" />
+    </node>
+    <node pkg="so3_control" type="network_control_node" name="controller" output="screen" required="true">
+      <param name="is_simulation" value="true" />
+      <param name="use_disturbance_observer" value="true" />
+      <param name="disturbance_observer_type" value="HGDO" />
+      <param name="hover_thrust" value="0.375" />
+      <!-- Faster relay departure: stronger position/velocity gains so the
+           leader reaches 20 m/s in a few seconds instead of creeping. -->
+      <param name="kx_xy" value="14.0" />
+      <param name="kx_z" value="14.0" />
+      <param name="kv_xy" value="7.0" />
+      <param name="kv_z" value="7.0" />
+      <remap from="position_cmd" to="pos_cmd" />
+    </node>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="camera_tf" args="0 0 0 -0.5 0.5 -0.5 0.5 drone_1/base_link drone_1/camera_frame" />
+  </group><group ns="drone_2">
+    <node pkg="so3_quadrotor_simulator" type="quadrotor_simulator_so3" name="dynamics" output="screen" required="true">
+      <param name="ground_contact" value="true" />
+      <param name="initial_ground_z" value="$(arg ground_z)" />
+      <param name="body_ground_offset" value="$(arg body_ground_offset)" />
+      <param name="quadrotor_name" value="drone_2" />
+      <param name="rate/odom" value="50.0" />
+      <param name="simulator/init_state_x" value="$(arg spawn_x)" />
+      <param name="simulator/init_state_y" value="-50" />
+      <remap from="cmd" to="so3_cmd" />
+    </node>
+    <node pkg="so3_control" type="network_control_node" name="controller" output="screen" required="true">
+      <param name="is_simulation" value="true" />
+      <param name="use_disturbance_observer" value="true" />
+      <param name="disturbance_observer_type" value="HGDO" />
+      <param name="hover_thrust" value="0.375" />
+      <!-- Faster relay departure: stronger position/velocity gains so the
+           leader reaches 20 m/s in a few seconds instead of creeping. -->
+      <param name="kx_xy" value="14.0" />
+      <param name="kx_z" value="14.0" />
+      <param name="kv_xy" value="7.0" />
+      <param name="kv_z" value="7.0" />
+      <remap from="position_cmd" to="pos_cmd" />
+    </node>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="camera_tf" args="0 0 0 -0.5 0.5 -0.5 0.5 drone_2/base_link drone_2/camera_frame" />
+  </group><group ns="drone_3">
+    <node pkg="so3_quadrotor_simulator" type="quadrotor_simulator_so3" name="dynamics" output="screen" required="true">
+      <param name="ground_contact" value="true" />
+      <param name="initial_ground_z" value="$(arg ground_z)" />
+      <param name="body_ground_offset" value="$(arg body_ground_offset)" />
+      <param name="quadrotor_name" value="drone_3" />
+      <param name="rate/odom" value="50.0" />
+      <param name="simulator/init_state_x" value="$(arg spawn_x)" />
+      <param name="simulator/init_state_y" value="-44" />
+      <remap from="cmd" to="so3_cmd" />
+    </node>
+    <node pkg="so3_control" type="network_control_node" name="controller" output="screen" required="true">
+      <param name="is_simulation" value="true" />
+      <param name="use_disturbance_observer" value="true" />
+      <param name="disturbance_observer_type" value="HGDO" />
+      <param name="hover_thrust" value="0.375" />
+      <!-- Faster relay departure: stronger position/velocity gains so the
+           leader reaches 20 m/s in a few seconds instead of creeping. -->
+      <param name="kx_xy" value="14.0" />
+      <param name="kx_z" value="14.0" />
+      <param name="kv_xy" value="7.0" />
+      <param name="kv_z" value="7.0" />
+      <remap from="position_cmd" to="pos_cmd" />
+    </node>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="camera_tf" args="0 0 0 -0.5 0.5 -0.5 0.5 drone_3/base_link drone_3/camera_frame" />
+  </group><group ns="drone_4">
+    <node pkg="so3_quadrotor_simulator" type="quadrotor_simulator_so3" name="dynamics" output="screen" required="true">
+      <param name="ground_contact" value="true" />
+      <param name="initial_ground_z" value="$(arg ground_z)" />
+      <param name="body_ground_offset" value="$(arg body_ground_offset)" />
+      <param name="quadrotor_name" value="drone_4" />
+      <param name="rate/odom" value="50.0" />
+      <param name="simulator/init_state_x" value="$(arg spawn_x)" />
+      <param name="simulator/init_state_y" value="-38" />
+      <remap from="cmd" to="so3_cmd" />
+    </node>
+    <node pkg="so3_control" type="network_control_node" name="controller" output="screen" required="true">
+      <param name="is_simulation" value="true" />
+      <param name="use_disturbance_observer" value="true" />
+      <param name="disturbance_observer_type" value="HGDO" />
+      <param name="hover_thrust" value="0.375" />
+      <!-- Faster relay departure: stronger position/velocity gains so the
+           leader reaches 20 m/s in a few seconds instead of creeping. -->
+      <param name="kx_xy" value="14.0" />
+      <param name="kx_z" value="14.0" />
+      <param name="kv_xy" value="7.0" />
+      <param name="kv_z" value="7.0" />
+      <remap from="position_cmd" to="pos_cmd" />
+    </node>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="camera_tf" args="0 0 0 -0.5 0.5 -0.5 0.5 drone_4/base_link drone_4/camera_frame" />
+  </group></launch>

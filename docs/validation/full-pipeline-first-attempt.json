@@ -1,0 +1,166 @@
+{
+  "scope": "failed first full production run before the takeover repair",
+  "passed": false,
+  "run_id": "20261116T234626-7f8e02",
+  "errors": [
+    "ValueError('Relay star takeover lost measured stopping clearance')"
+  ],
+  "stages": [
+    {
+      "stage": "TAKEOFF",
+      "stamp": 1794843986.5697951
+    },
+    {
+      "stage": "AIR_ASSEMBLE",
+      "stamp": 1794843991.3784165
+    },
+    {
+      "stage": "ASSEMBLED",
+      "stamp": 1794844000.645106
+    },
+    {
+      "stage": "RUNNING",
+      "stamp": 1794844003.878683
+    },
+    {
+      "stage": "FAILED",
+      "stamp": 1794844433.7528243
+    }
+  ],
+  "group_events": [
+    [
+      {
+        "phase": "AIR_ASSEMBLE",
+        "stamp": 1794843991.3403344
+      },
+      {
+        "phase": "ASSEMBLED",
+        "stamp": 1794844000.6409652
+      },
+      {
+        "phase": "WAIT",
+        "stamp": 1794844003.8511438
+      },
+      {
+        "phase": "CLIMB",
+        "stamp": 1794844003.9390051
+      },
+      {
+        "phase": "CRUISE",
+        "stamp": 1794844055.2398236
+      },
+      {
+        "phase": "RELAY_DESCENT",
+        "stamp": 1794844214.6391966
+      }
+    ],
+    [
+      {
+        "phase": "AIR_ASSEMBLE",
+        "stamp": 1794843991.3403344
+      },
+      {
+        "phase": "ASSEMBLED",
+        "stamp": 1794844000.6409652
+      },
+      {
+        "phase": "WAIT",
+        "stamp": 1794844003.8511438
+      },
+      {
+        "phase": "CLIMB",
+        "stamp": 1794844003.9390051
+      },
+      {
+        "phase": "CRUISE",
+        "stamp": 1794844053.8392763
+      },
+      {
+        "phase": "RELAY_DESCENT",
+        "stamp": 1794844214.739288
+      }
+    ]
+  ],
+  "cruise_evidence": {
+    "minimum_horizontal_mps": 15.0,
+    "required_straight_seconds": 60.0,
+    "heading_tolerance_degrees": 5.0,
+    "checked_members": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "passed": true,
+    "members": {
+      "0": {
+        "best_straight_seconds": 158.00020575523376,
+        "speed_1s": 20.018185324416184,
+        "peak_speed": 20.09702215120214,
+        "passed": true
+      },
+      "1": {
+        "best_straight_seconds": 155.00044560432434,
+        "speed_1s": 19.989024693891967,
+        "peak_speed": 20.06998742632245,
+        "passed": true
+      },
+      "2": {
+        "best_straight_seconds": 158.29998993873596,
+        "speed_1s": 20.005948475813263,
+        "peak_speed": 20.031997497016437,
+        "passed": true
+      },
+      "3": {
+        "best_straight_seconds": 152.10029077529907,
+        "speed_1s": 20.01757541407644,
+        "peak_speed": 20.064641085779968,
+        "passed": true
+      },
+      "4": {
+        "best_straight_seconds": 149.20005059242249,
+        "speed_1s": 20.00370402891778,
+        "peak_speed": 20.132600250328778,
+        "passed": true
+      },
+      "5": {
+        "best_straight_seconds": 159.70025062561035,
+        "speed_1s": 19.981953614079007,
+        "peak_speed": 20.05265353195333,
+        "passed": true
+      },
+      "6": {
+        "best_straight_seconds": 156.7999484539032,
+        "speed_1s": 20.0002451241769,
+        "peak_speed": 20.051823095403968,
+        "passed": true
+      },
+      "7": {
+        "best_straight_seconds": 159.70000171661377,
+        "speed_1s": 19.99973654918719,
+        "peak_speed": 20.01863948604822,
+        "passed": true
+      },
+      "8": {
+        "best_straight_seconds": 153.6998097896576,
+        "speed_1s": 20.000591962650322,
+        "peak_speed": 20.060668150017165,
+        "passed": true
+      },
+      "9": {
+        "best_straight_seconds": 150.79976320266724,
+        "speed_1s": 19.99928616316667,
+        "peak_speed": 20.04813135342716,
+        "passed": true
+      }
+    }
+  },
+  "collision_events": 0,
+  "bounds_events": 0
+}

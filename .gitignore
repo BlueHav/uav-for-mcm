@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.runs/
+unity/Build/
+*.log
+*.lock
+workspaces/
+.setup.log
+.boost-install.log
+config/runs/
+config/last-run

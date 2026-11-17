@@ -1,0 +1,11 @@
+{
+  "upstream_commit": "967a4bdfae949e994691f8ffc87dbb0147cbebb7",
+  "components": [
+    "MinJerkOpt",
+    "lbfgs",
+    "SwarmGraph"
+  ],
+  "adapter": "five-body moving PVA and finite backup, with optional individual horizontal detours and star recovery",
+  "source_sha256": "a20ea5d8ba3d898e8ee8de450ad17c3cda1915aed836ea661d53043cfdc91fe1",
+  "binary_sha256": "0250d337300c32fbc042e22cff0da17da811b300b6cb459abeec34c966d78f10"
+}

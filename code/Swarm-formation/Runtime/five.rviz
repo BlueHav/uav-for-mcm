@@ -1,0 +1,292 @@
+Panels:
+- Class: rviz/Displays
+  Name: Displays
+- Class: rviz/Views
+  Name: Views
+Visualization Manager:
+  Class: ''
+  Global Options:
+    Background Color: 24; 27; 33
+    Fixed Frame: world
+    Frame Rate: 30
+  Displays:
+  - Class: rviz/Grid
+    Name: Local reference grid
+    Enabled: true
+    Cell Size: 10
+    Plane Cell Count: 30
+    Color: 75; 80; 90
+    Alpha: 0.3
+    Reference Frame: world
+  - Class: rviz/TF
+    Name: TF
+    Enabled: true
+    Show Arrows: true
+    Show Axes: true
+    Show Names: true
+    Marker Scale: 1
+    Frame Timeout: 10
+  - Class: rviz/MarkerArray
+    Name: Drone 0 actual model and mission labels
+    Enabled: true
+    Marker Topic: /drone_0/mission/markers
+    Queue Size: 5
+  - Class: rviz/MarkerArray
+    Name: Drone 1 actual model and mission labels
+    Enabled: true
+    Marker Topic: /drone_1/mission/markers
+    Queue Size: 5
+  - Class: rviz/PointCloud2
+    Name: Drone 0 local occupied map
+    Enabled: true
+    Topic: /display/drone_0/local_map
+    Queue Size: 1
+    Style: Boxes
+    Size (m): 0.5
+    Color Transformer: FlatColor
+    Color: 255; 115; 50
+    Alpha: 0.8
+    Decay Time: 0
+    Position Transformer: XYZ
+  - Class: rviz/PointCloud2
+    Name: Drone 1 local occupied map
+    Enabled: true
+    Topic: /display/drone_1/local_map
+    Queue Size: 1
+    Style: Boxes
+    Size (m): 0.5
+    Color Transformer: FlatColor
+    Color: 120; 180; 255
+    Alpha: 0.8
+    Decay Time: 0
+    Position Transformer: XYZ
+  - Class: rviz/PointCloud2
+    Name: Drone 0 local ground measurements
+    Enabled: true
+    Topic: /drone_0/local_ground
+    Queue Size: 1
+    Style: Points
+    Size (Pixels): 2
+    Color Transformer: AxisColor
+    Axis: Z
+    Alpha: 0.6
+    Decay Time: 0
+    Position Transformer: XYZ
+  - Class: rviz/PointCloud2
+    Name: Drone 1 local ground measurements
+    Enabled: true
+    Topic: /drone_1/local_ground
+    Queue Size: 1
+    Style: Points
+    Size (Pixels): 2
+    Color Transformer: AxisColor
+    Axis: Z
+    Alpha: 0.6
+    Decay Time: 0
+    Position Transformer: XYZ
+  - Class: rviz/Path
+    Name: Drone 0 planned path
+    Enabled: true
+    Topic: /drone_0/planned_path
+    Color: 255; 210; 60
+    Line Style: Lines
+    Line Width: 0.2
+    Buffer Length: 1
+  - Class: rviz/Path
+    Name: Drone 1 planned path
+    Enabled: true
+    Topic: /drone_1/planned_path
+    Color: 100; 255; 255
+    Line Style: Lines
+    Line Width: 0.2
+    Buffer Length: 1
+  - Class: rviz/Path
+    Name: Drone 0 executed path
+    Enabled: true
+    Topic: /drone_0/executed_path
+    Color: 255; 110; 80
+    Line Style: Lines
+    Line Width: 0.15
+    Buffer Length: 1
+  - Class: rviz/Path
+    Name: Drone 1 executed path
+    Enabled: true
+    Topic: /drone_1/executed_path
+    Color: 90; 170; 255
+    Line Style: Lines
+    Line Width: 0.15
+    Buffer Length: 1
+  - Class: rviz/MarkerArray
+    Name: Drone 2 actual model and mission labels
+    Enabled: true
+    Marker Topic: /drone_2/mission/markers
+    Queue Size: 5
+  - Class: rviz/PointCloud2
+    Name: Drone 2 local occupied map
+    Enabled: true
+    Topic: /display/drone_2/local_map
+    Queue Size: 1
+    Style: Boxes
+    Size (m): 0.5
+    Color Transformer: FlatColor
+    Color: 255; 115; 50
+    Alpha: 0.8
+    Decay Time: 0
+    Position Transformer: XYZ
+  - Class: rviz/PointCloud2
+    Name: Drone 2 local ground measurements
+    Enabled: true
+    Topic: /drone_2/local_ground
+    Queue Size: 1
+    Style: Points
+    Size (Pixels): 2
+    Color Transformer: AxisColor
+    Axis: Z
+    Alpha: 0.6
+    Decay Time: 0
+    Position Transformer: XYZ
+  - Class: rviz/Path
+    Name: Drone 2 planned path
+    Enabled: true
+    Topic: /drone_2/planned_path
+    Color: 255; 210; 60
+    Line Style: Lines
+    Line Width: 0.2
+    Buffer Length: 1
+  - Class: rviz/Path
+    Name: Drone 2 executed path
+    Enabled: true
+    Topic: /drone_2/executed_path
+    Color: 255; 110; 80
+    Line Style: Lines
+    Line Width: 0.15
+    Buffer Length: 1
+  - Class: rviz/MarkerArray
+    Name: Drone 3 actual model and mission labels
+    Enabled: true
+    Marker Topic: /drone_3/mission/markers
+    Queue Size: 5
+  - Class: rviz/PointCloud2
+    Name: Drone 3 local occupied map
+    Enabled: true
+    Topic: /display/drone_3/local_map
+    Queue Size: 1
+    Style: Boxes
+    Size (m): 0.5
+    Color Transformer: FlatColor
+    Color: 255; 115; 50
+    Alpha: 0.8
+    Decay Time: 0
+    Position Transformer: XYZ
+  - Class: rviz/PointCloud2
+    Name: Drone 3 local ground measurements
+    Enabled: true
+    Topic: /drone_3/local_ground
+    Queue Size: 1
+    Style: Points
+    Size (Pixels): 2
+    Color Transformer: AxisColor
+    Axis: Z
+    Alpha: 0.6
+    Decay Time: 0
+    Position Transformer: XYZ
+  - Class: rviz/Path
+    Name: Drone 3 planned path
+    Enabled: true
+    Topic: /drone_3/planned_path
+    Color: 255; 210; 60
+    Line Style: Lines
+    Line Width: 0.2
+    Buffer Length: 1
+  - Class: rviz/Path
+    Name: Drone 3 executed path
+    Enabled: true
+    Topic: /drone_3/executed_path
+    Color: 255; 110; 80
+    Line Style: Lines
+    Line Width: 0.15
+    Buffer Length: 1
+  - Class: rviz/MarkerArray
+    Name: Drone 4 actual model and mission labels
+    Enabled: true
+    Marker Topic: /drone_4/mission/markers
+    Queue Size: 5
+  - Class: rviz/PointCloud2
+    Name: Drone 4 local occupied map
+    Enabled: true
+    Topic: /display/drone_4/local_map
+    Queue Size: 1
+    Style: Boxes
+    Size (m): 0.5
+    Color Transformer: FlatColor
+    Color: 255; 115; 50
+    Alpha: 0.8
+    Decay Time: 0
+    Position Transformer: XYZ
+  - Class: rviz/PointCloud2
+    Name: Drone 4 local ground measurements
+    Enabled: true
+    Topic: /drone_4/local_ground
+    Queue Size: 1
+    Style: Points
+    Size (Pixels): 2
+    Color Transformer: AxisColor
+    Axis: Z
+    Alpha: 0.6
+    Decay Time: 0
+    Position Transformer: XYZ
+  - Class: rviz/Path
+    Name: Drone 4 planned path
+    Enabled: true
+    Topic: /drone_4/planned_path
+    Color: 255; 210; 60
+    Line Style: Lines
+    Line Width: 0.2
+    Buffer Length: 1
+  - Class: rviz/Path
+    Name: Drone 4 executed path
+    Enabled: true
+    Topic: /drone_4/executed_path
+    Color: 255; 110; 80
+    Line Style: Lines
+    Line Width: 0.15
+    Buffer Length: 1
+  - Class: rviz/MarkerArray
+    Name: Five-agent formation and stage
+    Enabled: true
+    Marker Topic: /swarm5/markers
+    Queue Size: 2
+  Views:
+    Current:
+      Class: rviz/Orbit
+      Name: Drone 0 local follow
+      Target Frame: drone_0/base_link
+      Distance: 65.0
+      Focal Point:
+        X: 0.0
+        Y: 0.0
+        Z: 0.0
+      Pitch: 0.85
+      Yaw: 3.14
+      Near Clip Distance: 0.1
+    Saved:
+    - Class: rviz/TopDownOrtho
+      Name: Full 1760 m route
+      Target Frame: world
+      Scale: 0.6
+      X: 880
+      Y: 0
+      Angle: 0
+    - Class: rviz/Orbit
+      Name: Drone 0 follow (requires TF)
+      Target Frame: drone_0/base_link
+      Distance: 45
+      Focal Point:
+        X: 0
+        Y: 0
+        Z: 0
+      Pitch: 0.75
+      Yaw: 3.14
+Window Geometry:
+  Width: 1440
+  Height: 900

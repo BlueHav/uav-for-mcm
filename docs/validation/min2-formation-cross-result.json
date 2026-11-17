@@ -1,0 +1,662 @@
+{
+  "scope": "focused phase-six flight with ground takeoff, not full mission",
+  "passed": true,
+  "status": {
+    "stamp": 1794841555.5267222,
+    "workflow": "point-v1",
+    "stage": "LANDED",
+    "reason": "LANDED",
+    "run_id": "phase6-4d5f778023",
+    "group_phases": [
+      "FINAL",
+      "FINAL"
+    ],
+    "center_distance": 590.1031570858764,
+    "min_body_distance": 4.069145442427394,
+    "band_active": false,
+    "state_age": {
+      "transport": 0.0018622875213623047,
+      "use": 0.009859800338745117
+    },
+    "live_collision": false,
+    "altitude_abs": 270.0,
+    "center_ids": [
+      2,
+      7
+    ],
+    "stop_clearance": 2.0,
+    "hashes": {
+      "point": "814be3f598e855ba8e83a258a39ad8bb795b1a3f92d388f3ebce2025e52c15df",
+      "world": "e6aea346fa3c64b5c46d9bb6681ee066fdceb9ced26aeeb1fff6b6ae366eba10",
+      "metadata": "ecd873aa97d0f2467ef848f63016843e6e80d52bf692430607c40eb0257f25e2"
+    },
+    "planner_mode": "YOPO",
+    "planner_epoch": 2,
+    "flight_started_stamp": 1794840809.4775856,
+    "flight_elapsed_s": 743.7492225170135,
+    "relay_cuts": [
+      null,
+      null
+    ],
+    "terminal_cohesion": [
+      {
+        "edges": [
+          {
+            "parent": 2,
+            "child": 0,
+            "front": 2,
+            "rear": 0,
+            "course_xy": [
+              0.4086562841205325,
+              0.9126883594353543
+            ],
+            "nominal_distance_m": 6.708203932499368,
+            "distance_m": 6.688868663448523,
+            "predicted_distance_m": 6.695143936718175,
+            "guard_distance_m": 28.688868663448524,
+            "peak_distance_m": 116.067688615953,
+            "active": false,
+            "triggers": 1,
+            "releases": 1
+          },
+          {
+            "parent": 2,
+            "child": 1,
+            "front": 2,
+            "rear": 1,
+            "course_xy": [
+              0.6570578577746387,
+              0.7538401498571186
+            ],
+            "nominal_distance_m": 6.708203932499369,
+            "distance_m": 6.640985452583618,
+            "predicted_distance_m": 6.640985452583618,
+            "guard_distance_m": 28.640985452583617,
+            "peak_distance_m": 54.67982971033231,
+            "active": false,
+            "triggers": 1,
+            "releases": 1
+          },
+          {
+            "parent": 0,
+            "child": 3,
+            "front": 0,
+            "rear": 3,
+            "course_xy": [
+              0.40865628875992654,
+              0.9126883573580654
+            ],
+            "nominal_distance_m": 4.242640687119284,
+            "distance_m": 4.25422728205434,
+            "predicted_distance_m": 4.25422728205434,
+            "guard_distance_m": 26.25422728205434,
+            "peak_distance_m": 106.79814660629943,
+            "active": false,
+            "triggers": 1,
+            "releases": 1
+          },
+          {
+            "parent": 1,
+            "child": 4,
+            "front": 1,
+            "rear": 4,
+            "course_xy": [
+              0.046241071628697575,
+              0.9989303095284624
+            ],
+            "nominal_distance_m": 4.242640687119284,
+            "distance_m": 4.069099937756968,
+            "predicted_distance_m": 4.069099937756968,
+            "guard_distance_m": 26.069099937756967,
+            "peak_distance_m": 38.34067826053771,
+            "active": false,
+            "triggers": 1,
+            "releases": 1
+          }
+        ],
+        "fresh": true,
+        "positions": [
+          [
+            924.3863993886742,
+            3242.48445735729,
+            16.393577401383073
+          ],
+          [
+            934.290625123284,
+            3235.8750487075513,
+            16.575959466373178
+          ],
+          [
+            931.0238916889083,
+            3241.657015539881,
+            16.56515095153535
+          ],
+          [
+            925.2429378437079,
+            3238.3173490502713,
+            16.537460836107662
+          ],
+          [
+            930.3256172734708,
+            3234.960561389775,
+            16.556928566986766
+          ]
+        ],
+        "velocities": [
+          [
+            -0.002503960900036221,
+            -0.00559232830388886,
+            -9.217986892422873e-05
+          ],
+          [
+            1.5917977482804618e-09,
+            4.132855102376919e-09,
+            1.5604205792231895e-08
+          ],
+          [
+            2.4910189994913667e-09,
+            3.897424157211814e-09,
+            -1.4864819363996585e-09
+          ],
+          [
+            -2.441700091949439e-09,
+            3.584552727545952e-09,
+            4.848933266219791e-09
+          ],
+          [
+            6.320926247621322e-09,
+            -1.6654202923745556e-09,
+            1.7377201998831617e-09
+          ]
+        ],
+        "slow_factor": 0.35,
+        "trigger_m": 50.0,
+        "resume_m": 25.0,
+        "lookahead_s": 3.5,
+        "braking_margin_m": 22.0,
+        "minimum_speed_mps": 2.0,
+        "formation": {
+          "graph_cost": 0.00024456926701234576,
+          "coefficient_kind": "squared_normalized_laplacian_xy",
+          "row_contributions": [
+            4.3656180931325617e-05,
+            4.743145583675403e-05,
+            3.473477411190016e-06,
+            4.4447579784951985e-05,
+            0.00010556057304812412
+          ],
+          "repair_improvements": [
+            1.794849985619273e-07,
+            0.00011634892034296753,
+            2.4018707376440083e-06,
+            0.0,
+            0.00019903643152084443
+          ],
+          "culprit_members": [
+            4,
+            1,
+            2,
+            0
+          ],
+          "graph_growth_rates": [
+            0.0028342902945425754,
+            -0.005463251922160927,
+            -0.0015424016673557324,
+            0.0018151741730668138,
+            0.0023561829390664245
+          ],
+          "speed_caps": [
+            2.0,
+            6.0,
+            6.0,
+            6.0,
+            2.0
+          ],
+          "speed_reasons": [
+            [
+              {
+                "kind": "predicted_overtake",
+                "member": 2,
+                "projected_gap_m": 2.309864267849203
+              }
+            ],
+            [],
+            [],
+            [],
+            [
+              {
+                "kind": "predicted_overtake",
+                "member": 1,
+                "projected_gap_m": 2.631603695299357
+              }
+            ]
+          ],
+          "order_edges": [
+            {
+              "parent": 2,
+              "child": 0,
+              "gap_m": 2.309864267849203,
+              "desired_gap_m": 2.9999999999999996,
+              "actual_violation": false,
+              "parent_below_floor": true,
+              "projected_gap_m": 2.309864267849203,
+              "predictive_risk": true
+            },
+            {
+              "parent": 2,
+              "child": 1,
+              "gap_m": 3.6389081247951616,
+              "desired_gap_m": 3.0,
+              "actual_violation": false,
+              "parent_below_floor": true,
+              "projected_gap_m": 3.6389081247951616,
+              "predictive_risk": false
+            },
+            {
+              "parent": 0,
+              "child": 3,
+              "gap_m": 3.309746946965578,
+              "desired_gap_m": 3.0000000000000004,
+              "actual_violation": false,
+              "parent_below_floor": true,
+              "projected_gap_m": 3.309746946965578,
+              "predictive_risk": false
+            },
+            {
+              "parent": 1,
+              "child": 4,
+              "gap_m": 2.631603695299357,
+              "desired_gap_m": 2.999999999999999,
+              "actual_violation": false,
+              "parent_below_floor": true,
+              "projected_gap_m": 2.631603695299357,
+              "predictive_risk": true
+            }
+          ],
+          "order_recovery_members": [],
+          "axis_xy": [
+            0.5540921345906459,
+            0.832455347982575
+          ],
+          "order_course_xy": [
+            0.4587713497326339,
+            0.8885543588686611
+          ],
+          "leader_center": [
+            931.0238916889083,
+            3241.657015539881,
+            16.56515095153535
+          ],
+          "diagnostic_reference_center": [
+            931.0434078803416,
+            3241.657015539881
+          ],
+          "desired_offsets_xy": [
+            [
+              -6.657008491667386,
+              0.8271867635961501
+            ],
+            [
+              3.3324556841235125,
+              -5.8219188514916
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              -5.8219188514916,
+              -3.3324556841235125
+            ],
+            [
+              -0.8271867635961501,
+              -6.657008491667386
+            ]
+          ],
+          "minimum_speed_mps": 2.0,
+          "nominal_speed_mps": 6.0,
+          "culprit_global_members": [
+            4,
+            1,
+            2,
+            0
+          ]
+        },
+        "formation_speed_caps": [
+          2.0,
+          6.0,
+          6.0,
+          6.0,
+          2.0
+        ],
+        "order_recovery_members": [],
+        "speed_caps": [
+          2.0,
+          6.0,
+          6.0,
+          6.0,
+          2.0
+        ],
+        "stamp": 1794841546.3765469,
+        "sample_stamps": [
+          1794841546.273925,
+          1794841546.2684805,
+          1794841546.3091362,
+          1794841546.3480034,
+          1794841546.264269
+        ]
+      },
+      {
+        "edges": [
+          {
+            "parent": 2,
+            "child": 0,
+            "front": 2,
+            "rear": 0,
+            "course_xy": [
+              0.8176591970847558,
+              0.5757025598542292
+            ],
+            "nominal_distance_m": 6.708203932499369,
+            "distance_m": 6.72673236518762,
+            "predicted_distance_m": 6.72673236518762,
+            "guard_distance_m": 28.72673236518762,
+            "peak_distance_m": 68.90830980495919,
+            "active": false,
+            "triggers": 22,
+            "releases": 22
+          },
+          {
+            "parent": 2,
+            "child": 1,
+            "front": 2,
+            "rear": 1,
+            "course_xy": [
+              0.8195129137648325,
+              0.5730607159565854
+            ],
+            "nominal_distance_m": 6.708203932499369,
+            "distance_m": 6.680441459935098,
+            "predicted_distance_m": 6.680441468625199,
+            "guard_distance_m": 28.680441459935096,
+            "peak_distance_m": 63.175271924689596,
+            "active": false,
+            "triggers": 1,
+            "releases": 1
+          },
+          {
+            "parent": 0,
+            "child": 3,
+            "front": 0,
+            "rear": 3,
+            "course_xy": [
+              0.8179465282394188,
+              0.5752942524839628
+            ],
+            "nominal_distance_m": 4.242640687119285,
+            "distance_m": 4.239632916744212,
+            "predicted_distance_m": 4.239632916744212,
+            "guard_distance_m": 26.239632916744213,
+            "peak_distance_m": 34.29324154755911,
+            "active": false,
+            "triggers": 3,
+            "releases": 3
+          },
+          {
+            "parent": 1,
+            "child": 4,
+            "front": 1,
+            "rear": 4,
+            "course_xy": [
+              0.8424187827929899,
+              0.5388233424765276
+            ],
+            "nominal_distance_m": 4.242640687119285,
+            "distance_m": 4.271406873295829,
+            "predicted_distance_m": 4.271406873295829,
+            "guard_distance_m": 26.27140687329583,
+            "peak_distance_m": 53.250010595127925,
+            "active": false,
+            "triggers": 2,
+            "releases": 2
+          }
+        ],
+        "fresh": true,
+        "positions": [
+          [
+            1057.8401599221793,
+            2668.6386264108473,
+            15.757654283065442
+          ],
+          [
+            1065.1026192198174,
+            2659.0864074662145,
+            15.810645185088227
+          ],
+          [
+            1063.867338960044,
+            2665.6516478105914,
+            15.966031039089343
+          ],
+          [
+            1057.2768757235906,
+            2664.436579507211,
+            15.73707750231328
+          ],
+          [
+            1060.8697600310802,
+            2659.658962935634,
+            15.764101643837154
+          ]
+        ],
+        "velocities": [
+          [
+            -7.699698033527544e-10,
+            -2.279145850217333e-10,
+            -1.6221980706877967e-08
+          ],
+          [
+            -9.584726609276872e-09,
+            -3.041396649644712e-09,
+            7.951846468958062e-09
+          ],
+          [
+            -5.735890369472765e-09,
+            2.092332104449417e-10,
+            1.298896532051046e-09
+          ],
+          [
+            1.336479644308326e-09,
+            4.1440016383457293e-10,
+            6.3914534607858005e-09
+          ],
+          [
+            9.554229513804395e-09,
+            2.075181253994837e-09,
+            4.058851550229788e-09
+          ]
+        ],
+        "slow_factor": 0.35,
+        "trigger_m": 50.0,
+        "resume_m": 25.0,
+        "lookahead_s": 3.5,
+        "braking_margin_m": 22.0,
+        "minimum_speed_mps": 2.0,
+        "formation": {
+          "graph_cost": 1.187408755382992e-05,
+          "coefficient_kind": "squared_normalized_laplacian_xy",
+          "row_contributions": [
+            1.8076135209113653e-06,
+            3.148062666560121e-06,
+            3.383754723900296e-06,
+            1.0041303496083805e-06,
+            2.530526292849758e-06
+          ],
+          "repair_improvements": [
+            1.9995679881813335e-06,
+            1.1899366384643828e-06,
+            4.225085878095367e-06,
+            0.0,
+            4.15529362831315e-06
+          ],
+          "culprit_members": [
+            2,
+            4,
+            0,
+            1
+          ],
+          "graph_growth_rates": [
+            -0.0009548762500037718,
+            0.001779039062315006,
+            0.00021895678136739025,
+            -0.0003725714509639048,
+            -0.0006705547954501099
+          ],
+          "speed_caps": [
+            2.0,
+            6.0,
+            6.0,
+            6.0,
+            2.0
+          ],
+          "speed_reasons": [
+            [
+              {
+                "kind": "predicted_overtake",
+                "member": 2,
+                "projected_gap_m": 2.7761662836389087
+              }
+            ],
+            [],
+            [],
+            [],
+            [
+              {
+                "kind": "predicted_overtake",
+                "member": 1,
+                "projected_gap_m": 2.914943378541269
+              }
+            ]
+          ],
+          "order_edges": [
+            {
+              "parent": 2,
+              "child": 0,
+              "gap_m": 2.7761662836389087,
+              "desired_gap_m": 3.000000000000001,
+              "actual_violation": false,
+              "parent_below_floor": true,
+              "projected_gap_m": 2.7761662836389087,
+              "predictive_risk": true
+            },
+            {
+              "parent": 2,
+              "child": 1,
+              "gap_m": 3.198572117039384,
+              "desired_gap_m": 3.0,
+              "actual_violation": false,
+              "parent_below_floor": true,
+              "projected_gap_m": 3.198572117039384,
+              "predictive_risk": false
+            },
+            {
+              "parent": 0,
+              "child": 3,
+              "gap_m": 3.095503520637371,
+              "desired_gap_m": 2.999999999999999,
+              "actual_violation": false,
+              "parent_below_floor": true,
+              "projected_gap_m": 3.095503520637371,
+              "predictive_risk": false
+            },
+            {
+              "parent": 1,
+              "child": 4,
+              "gap_m": 2.914943378541269,
+              "desired_gap_m": 3.0,
+              "actual_violation": false,
+              "parent_below_floor": true,
+              "projected_gap_m": 2.914943378541269,
+              "predictive_risk": true
+            }
+          ],
+          "order_recovery_members": [],
+          "axis_xy": [
+            0.7967046636506065,
+            0.6043688268908054
+          ],
+          "order_course_xy": [
+            0.7742522269369486,
+            0.6328771516520216
+          ],
+          "leader_center": [
+            1063.867338960044,
+            2665.6516478105914,
+            15.966031039089343
+          ],
+          "diagnostic_reference_center": [
+            1063.8665202494244,
+            2665.6726784776038
+          ],
+          "desired_offsets_xy": [
+            [
+              -6.016326952296653,
+              2.9671215012312224
+            ],
+            [
+              1.2360989703930128,
+              -6.593334462576055
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              -6.593334462576055,
+              -1.2360989703930128
+            ],
+            [
+              -2.9671215012312224,
+              -6.016326952296653
+            ]
+          ],
+          "minimum_speed_mps": 2.0,
+          "nominal_speed_mps": 6.0,
+          "culprit_global_members": [
+            7,
+            9,
+            5,
+            6
+          ]
+        },
+        "formation_speed_caps": [
+          2.0,
+          6.0,
+          6.0,
+          6.0,
+          2.0
+        ],
+        "order_recovery_members": [],
+        "speed_caps": [
+          6.0,
+          6.0,
+          6.0,
+          6.0,
+          2.0
+        ],
+        "stamp": 1794841546.3765469,
+        "sample_stamps": [
+          1794841546.272047,
+          1794841546.2610612,
+          1794841546.3647664,
+          1794841546.2705007,
+          1794841546.3502767
+        ]
+      }
+    ],
+    "group_modes": [
+      "LANDED",
+      "LANDED"
+    ]
+  }
+}

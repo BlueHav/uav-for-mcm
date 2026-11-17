@@ -1,0 +1,381 @@
+{
+  "stamp": 1794840125.4576669,
+  "speed": 6.0,
+  "cohesion_required": true,
+  "cohesion": {
+    "edges": [
+      {
+        "parent": 2,
+        "child": 0,
+        "front": 2,
+        "rear": 0,
+        "course_xy": [
+          0.8089338290871919,
+          0.5878997024649135
+        ],
+        "nominal_distance_m": 6.708203932499369,
+        "distance_m": 3.3127609852798576,
+        "predicted_distance_m": 4.13711600771877,
+        "guard_distance_m": 25.31276098527986,
+        "peak_distance_m": 28.83805496284575,
+        "active": false,
+        "triggers": 1,
+        "releases": 1
+      },
+      {
+        "parent": 2,
+        "child": 1,
+        "front": 2,
+        "rear": 1,
+        "course_xy": [
+          0.803328683181456,
+          0.5955359156070672
+        ],
+        "nominal_distance_m": 6.708203932499369,
+        "distance_m": 50.01268889232903,
+        "predicted_distance_m": 54.14919467423193,
+        "guard_distance_m": 72.01268889232904,
+        "peak_distance_m": 50.01268889232903,
+        "active": true,
+        "triggers": 2,
+        "releases": 1
+      },
+      {
+        "parent": 0,
+        "child": 3,
+        "front": 0,
+        "rear": 3,
+        "course_xy": [
+          0.5543489618777309,
+          0.8322843435179361
+        ],
+        "nominal_distance_m": 4.242640687119285,
+        "distance_m": 46.07275303997154,
+        "predicted_distance_m": 46.07275303997154,
+        "guard_distance_m": 68.07275303997153,
+        "peak_distance_m": 48.949465683162344,
+        "active": true,
+        "triggers": 1,
+        "releases": 0
+      },
+      {
+        "parent": 1,
+        "child": 4,
+        "front": 4,
+        "rear": 1,
+        "course_xy": [
+          0.8269051371561988,
+          0.5623414391138963
+        ],
+        "nominal_distance_m": 4.242640687119285,
+        "distance_m": 24.2157834919621,
+        "predicted_distance_m": 30.79237048258196,
+        "guard_distance_m": 46.2157834919621,
+        "peak_distance_m": 24.2157834919621,
+        "active": false,
+        "triggers": 0,
+        "releases": 0
+      }
+    ],
+    "fresh": true,
+    "positions": [
+      [
+        809.3578332973104,
+        2484.1257007268764,
+        17.80786228962804
+      ],
+      [
+        774.4265799588023,
+        2450.865620546229,
+        17.54028973723027
+      ],
+      [
+        808.6268956838744,
+        2487.356817492154,
+        17.81598189296239
+      ],
+      [
+        772.2789976596001,
+        2456.7786986894707,
+        17.547053909436517
+      ],
+      [
+        787.7152051944012,
+        2471.1095482648657,
+        17.660619830316616
+      ]
+    ],
+    "velocities": [
+      [
+        0.5718556614009401,
+        0.38586835232551386,
+        0.010178663510943646
+      ],
+      [
+        -0.010314329900507556,
+        -0.023742774610697393,
+        0.0009520956701083805
+      ],
+      [
+        0.9354945060407066,
+        0.7096115041039603,
+        0.04890855513151738
+      ],
+      [
+        0.6001227687982468,
+        1.3737079533493461,
+        0.0059962676910675135
+      ],
+      [
+        1.6464489668813296,
+        1.1364052373305187,
+        0.011396887969991878
+      ]
+    ],
+    "slow_factor": 0.35,
+    "trigger_m": 50.0,
+    "resume_m": 25.0,
+    "lookahead_s": 3.5,
+    "braking_margin_m": 22.0,
+    "minimum_speed_mps": 2.0,
+    "formation": {
+      "graph_cost": 0.9184153574273793,
+      "coefficient_kind": "squared_normalized_laplacian_xy",
+      "row_contributions": [
+        0.2002993243850623,
+        0.21737080097130043,
+        0.14629349937227,
+        0.3023168110126926,
+        0.05213492168605409
+      ],
+      "repair_improvements": [
+        0.0,
+        0.06424365838833945,
+        0.03535248106450528,
+        0.43890667633829045,
+        0.0
+      ],
+      "culprit_members": [
+        3,
+        1,
+        2
+      ],
+      "graph_growth_rates": [
+        -0.04486393764625464,
+        -0.00602404786405821,
+        0.006182670922504704,
+        -0.05961668066092635,
+        0.09052359848663574
+      ],
+      "speed_caps": [
+        2.0,
+        6.0,
+        6.0,
+        6.0,
+        2.0
+      ],
+      "speed_reasons": [
+        [
+          {
+            "kind": "follower_lag",
+            "member": 3,
+            "gap_m": 46.06857423221451
+          },
+          {
+            "kind": "predicted_overtake",
+            "member": 2,
+            "projected_gap_m": 1.3703602782084223
+          }
+        ],
+        [
+          {
+            "kind": "restore_predecessor_order"
+          }
+        ],
+        [
+          {
+            "kind": "graph_error_growth",
+            "repair_gain": 0.03535248106450528,
+            "growth_rate": 0.006182670922504704
+          },
+          {
+            "kind": "follower_lag",
+            "member": 1,
+            "gap_m": 49.301457295095
+          },
+          {
+            "kind": "restore_predecessor_order"
+          }
+        ],
+        [],
+        [
+          {
+            "kind": "overtaking_predecessor",
+            "member": 1,
+            "gap_m": -22.82168150172252
+          },
+          {
+            "kind": "predicted_overtake",
+            "member": 1,
+            "projected_gap_m": -22.82168150172252
+          }
+        ]
+      ],
+      "order_edges": [
+        {
+          "parent": 2,
+          "child": 0,
+          "gap_m": 1.3703602782084223,
+          "desired_gap_m": 3.000000000000001,
+          "actual_violation": false,
+          "parent_below_floor": true,
+          "projected_gap_m": 1.3703602782084223,
+          "predictive_risk": true
+        },
+        {
+          "parent": 2,
+          "child": 1,
+          "gap_m": 49.301457295095,
+          "desired_gap_m": 3.0,
+          "actual_violation": false,
+          "parent_below_floor": true,
+          "projected_gap_m": 49.301457295095,
+          "predictive_risk": false
+        },
+        {
+          "parent": 0,
+          "child": 3,
+          "gap_m": 46.06857423221451,
+          "desired_gap_m": 2.999999999999999,
+          "actual_violation": false,
+          "parent_below_floor": true,
+          "projected_gap_m": 46.06857423221451,
+          "predictive_risk": false
+        },
+        {
+          "parent": 1,
+          "child": 4,
+          "gap_m": -22.82168150172252,
+          "desired_gap_m": 3.0,
+          "actual_violation": true,
+          "parent_below_floor": true,
+          "projected_gap_m": -22.82168150172252,
+          "predictive_risk": true
+        }
+      ],
+      "order_recovery_members": [
+        1,
+        2
+      ],
+      "axis_xy": [
+        0.9617009850410003,
+        0.27410073945756563
+      ],
+      "order_course_xy": [
+        0.7967216090540066,
+        0.6043464880897336
+      ],
+      "leader_center": [
+        808.6268956838744,
+        2487.356817492154,
+        17.81598189296239
+      ],
+      "diagnostic_reference_center": [
+        792.6631088862745,
+        2475.639255656734
+      ],
+      "desired_offsets_xy": [
+        [
+          -4.529707391868396,
+          4.947903691873305
+        ],
+        [
+          -1.2404985183776072,
+          -6.592508128618698
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -6.592508128618698,
+          1.2404985183776072
+        ],
+        [
+          -4.947903691873305,
+          -4.529707391868396
+        ]
+      ],
+      "minimum_speed_mps": 2.0,
+      "nominal_speed_mps": 6.0,
+      "culprit_global_members": [
+        8,
+        6,
+        7
+      ]
+    },
+    "formation_speed_caps": [
+      2.0,
+      6.0,
+      6.0,
+      6.0,
+      2.0
+    ],
+    "order_recovery_members": [
+      1,
+      2
+    ],
+    "speed_caps": [
+      2.0,
+      6.0,
+      6.0,
+      6.0,
+      2.0
+    ],
+    "stamp": 1794840125.4576669,
+    "sample_stamps": [
+      1794840125.4306836,
+      1794840125.4217424,
+      1794840125.4290051,
+      1794840125.34897,
+      1794840125.3912127
+    ]
+  },
+  "member": 2,
+  "position": [
+    808.6268956838744,
+    2487.356817492154,
+    17.81598189296239
+  ],
+  "desired": [
+    4.918468646329332,
+    3.436373986497294,
+    0.0
+  ],
+  "source": "phase6-min2-formation-cross-01",
+  "distance_m": 50.01268889232903,
+  "original_direction_limit": {
+    "stamp": 1794840125.4337552,
+    "source_stamp": 1794840125.4024637,
+    "requested_xy": [
+      4.918468646329332,
+      3.436373986497294
+    ],
+    "limited_xy": [
+      4.918468646329332,
+      3.436373986497294
+    ],
+    "cap_mps": 6.0,
+    "limited": false,
+    "hard_pause": false,
+    "policy_cap_mps": 6.0,
+    "planner_speed_limit_mps": 6.0,
+    "observation_fresh": true,
+    "minimum_policy_mps": 2.0,
+    "actual_command_xy_mps": 6.0,
+    "position_xy": [
+      808.6268956838744,
+      2487.356817492154
+    ]
+  }
+}
