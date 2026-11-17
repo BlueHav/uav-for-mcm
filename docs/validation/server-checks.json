@@ -3,9 +3,9 @@
   "scope": "Linux SSH server only; independent installation and complete ten-aircraft production mission from stage one",
   "unit_tests": {
     "passed": true,
-    "canonical_queue": 341,
-    "isolated_install_queue": 345,
-    "count": 94
+    "canonical_queue": 520,
+    "isolated_install_queue": 540,
+    "count": 121
   },
   "independent_setup": {
     "passed": true,
@@ -26,7 +26,7 @@
     "queue": 288,
     "own_controller_tcp_and_dynamics": true,
     "source_and_player_match": true,
-    "scope": "Historical phase-six snapshot before full-pipeline Python fixes; latest independent install overlay passed 94 tests"
+    "scope": "Historical phase-six snapshot; unchanged native and Unity build, latest independent installation overlay passed 121 tests"
   },
   "historical_phase_six_flight": {
     "run": "phase6-min2-formation-cross-02",
@@ -60,5 +60,71 @@
     "maximum_distance_is_completion_requirement": false,
     "canonical_audit_queue": 358,
     "source_and_player_match": true
+  },
+  "first_successful_version": {
+    "tag": "combine-v1-success",
+    "commit": "81583464dcc5facd16380bc7cacb6e838ee2324b"
+  },
+  "smooth_full_pipeline_flight": {
+    "run": "full-smooth-star-05",
+    "passed": true,
+    "full_audit": "smooth-full-audit.json",
+    "smoothness_audit": "smooth-comparison-audit.json",
+    "runtime_manifest": "smooth-source-manifest.json",
+    "runtime_commit": "0a22780",
+    "elapsed_seconds": 1337.399416923523,
+    "landed_members": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "formation_takeover_members": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "network_inferences_after_takeover": {
+      "1": 0,
+      "4": 0,
+      "0": 0,
+      "2": 0,
+      "3": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0
+    },
+    "collision_events": 0,
+    "bounds_events": 0,
+    "maximum_distance_is_completion_requirement": false,
+    "canonical_audit_queue": 528,
+    "source_and_player_match": true
+  },
+  "final_delivery": {
+    "passed": true,
+    "payload_files": 772,
+    "canonical_and_independent_install": true,
+    "queue": 540,
+    "post_delivery_full_audit_queue": 536,
+    "installed_binary_transform": "setup.sh: patchelf --remove-rpath",
+    "source_binary_sha256": "324ce84a6eb05ee9afdd65e6899c1a091273444c12a2e0a20b0a116ddfbcaf4c",
+    "installed_binary_sha256": "cad171de315a8a8fcf79f6fefb31ff3a1c2f6c0192cceebf396572f8cbf7aee0",
+    "unexpected_mismatches": [],
+    "independent_install_tests": 121
   }
 }

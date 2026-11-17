@@ -27,7 +27,7 @@ Files: Runtime/terminal_speed.py (new), mission_node.py, tests/test_terminal_spe
 Interface: bounded_speed(previous,target,dt,recovery_acc=.6) and select_continuous_velocity(p,v,a,desired,clear) return a no-faster admissible command. Cache bounded recovery state in Mission, reset per run. Full stop map and peer checks retain authority.
 - [x] Write tests for jittering cap recovery, finite bounds, immediate smaller limit and safe reduced candidate selection; run RED via SSH.
 - [x] Implement shared bounded recovery and evaluate reduced candidates before final stop latching; run GREEN and existing regressions.
-- [ ] Replay recorded stop inputs and record actual reason/limits; do not weaken the stop model to obtain a pass.
+- [x] Inspect recorded stop diagnostics and test the actual stop model with controlled inputs; record the missing V1 map-snapshot limitation below. Do not weaken the stop model.
 
 ### 2. Endpoint formation takeover
 
@@ -35,15 +35,15 @@ Files: Runtime/terminal_star_approach.py (new), point_mission_engine.py, point_m
 Interface: StarApproach builds a five-member synchronized quintic P/V/A plan from fresh references to model.landing_slots; proposal carries token/start/duration/coefficients. Each Mission validates its observed trajectory/landing column and reports token and stamp. Group commits only all-five fresh matching certificates; each controller executes its own reference continuously and reports mode.
 - [x] Write RED cases: all five within 30 m, trajectory max3, boundary continuity, crossing rejection, stale/missing certificate rejection and no return to YOPO after committed ownership.
 - [x] Implement group proposal/commit, own observation admission, endpoint reference execution, safety fault and star-settled landing integration; remove the 15m/.6 step for admitted formation approaches.
-- [ ] Validate no network inference after takeover and same star coordinates for goals and landing.
+- [x] Validate no network inference after takeover and same star coordinates for goals and landing.
 
 ### 3. Evidence and full flight
 
 Files: tests/audit_smooth_terminal.py (new), full audit, validation docs.
-- [ ] Server regression suite and phase-six simulation; inspect all ten results and fix failures with regressions.
-- [ ] Run unmodified official mission from stage one with source manifest and owned cleanup.
-- [ ] Compare route speed variation, sustained speed cycles/stop episodes, latch fractions and duration with full-pipeline-02; require all-ten arrival/star touchdown and zero collision/bounds.
-- [ ] Fresh final review, refresh export hashes, publish tested changes and retain immutable V1 tag.
+- [x] Server regression suite and phase-six simulation, including the final complete mission; inspect all ten results and fix failures with regressions.
+- [x] Run unmodified official mission from stage one with source manifest and owned cleanup.
+- [x] Compare route speed variation, sustained speed cycles/stop episodes, latch fractions and duration with full-pipeline-02; require all-ten arrival/star touchdown and zero collision/bounds.
+- [x] Fresh final review, refresh export hashes, publish tested changes and retain immutable V1 tag.
 
 ## Execution ledger
 
@@ -57,6 +57,8 @@ Pilot `phase6-smooth-star-01` was intentionally stopped for the above review fix
 
 Full attempt `full-smooth-star-03` failed during climb: the two endpoint-bearing rays crossed the assembled lateral order. A RED/GREEN geometry regression now pins parallel climb/cruise corridors; endpoint turns remain after the existing distinct descent altitude lanes. Turn horizon expansion is limited to descent. 117 regressions pass in deployment and independent installation. Static review found no new blocking issue while distinguishing reference geometry from actual full-flight safety.
 
-Full production run `full-smooth-star-04` completed all-ten star touchdown and passed full-flight audit, but failed the new contract because group zero reached FINAL without formation takeover. Route variation improved 61%, slow entries 70%, mean speed decreased 6%. Preserve both audits as intermediate evidence. A recorded stable endpoint boundary reproduces the missing ownership gate; four regressions now require all-five matching committed ownership and elapsed trajectory duration before the original star-settled/dwell condition permits FINAL. 121 regressions pass in both server installations; static review found no P1/P2 in this gate. Full `full-smooth-star-05` is running from stage one with the Runtime frozen; final acceptance remains pending.
+Historical checkpoint: full production run `full-smooth-star-04` completed all-ten star touchdown and passed full-flight audit, but failed the new contract because group zero reached FINAL without formation takeover. Route variation improved 61%, slow entries 70%, mean speed decreased 6%. Preserve both audits as intermediate evidence. A recorded stable endpoint boundary reproduces the missing ownership gate; four regressions now require all-five matching committed ownership and elapsed trajectory duration before the original star-settled/dwell condition permits FINAL. 121 regressions passed in both server installations; static review found no P1/P2 in this gate. Full `full-smooth-star-05` then started from stage one with the Runtime frozen; its completed acceptance is recorded below.
 
 The V1 telemetry contains no complete stopping-map snapshots, so its diagnostic replay is limited to recorded speed/reason data; the reduced-command admission regression instead uses the actual stop-envelope implementation with a controlled wall. No claim of replaying every V1 stop cause is made. Full04 also recorded a genuine unknown cell in member 7's actual stopping envelope, followed by recovery: smoothness does not mean deleting necessary perception/safety stops.
+
+Final full run `full-smooth-star-05` passed both audits with no errors (queue528): all ten committed to formation approach, no further YOPO inference, actual star touchdown/contact/disarm, zero collision/bounds. Duration 1337.399 s. Route speed variation fell 60.1%, near-zero entries fell 77.4%, mean route speed rose 3.3%; total mission time rose about 33 s versus V1, so do not claim whole-mission speedup. All 105 tracked flight inputs match the Git payload at 0a22780; the remaining DLL input matches the unchanged verified bundle. 121 regressions passed in canonical and independent installations (520/524). Both measured plots were generated on the server and visually checked locally. Final review found no P1/P2 and required explicit disclosure that near30-to-touchdown time did not improve (includes group/global waiting); that limitation is now in README and VALIDATION. The V1 tag remains immutable; publication targets the user-requested swarm-uav-combine branch.
